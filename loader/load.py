@@ -2,12 +2,11 @@
 """Loader: build a PostGIS schema from a derived INTERLIS VIEW model via ili2ogc,
 load real cantonal geodata into it, and materialize the VIEW itself as a .xtf.
 
-Runs once per `docker-compose up`. ili2ogc's own `convert-jsonfg` does not yet
-hoist `GeometryCHLV95_V1.MultiSurface` (a STRUCTURE-wrapped BAG OF SurfaceStructure,
-not a native SURFACE/COORD/POLYLINE type) to a JSON-FG top-level "place"/"geometry"
-member - the polygon coordinates stay nested under `properties.Geometrie.Surfaces`,
-still valid embedded GeoJSON. This loader pulls them out with plain `json` + PostGIS's
-own `ST_GeomFromGeoJSON`, independent of that gap.
+Runs once per `docker-compose up`. ili2ogc's `convert-jsonfg` hoists
+`GeometryCHLV95_V1.MultiSurface` to a JSON-FG top-level "place" MultiPolygon
+(fixed after this demo surfaced it as real corpus evidence - see
+data/NOTICE.md) - this loader reads "place" directly and hands each ring
+set to PostGIS via `ST_GeomFromGeoJSON`, one row per Polygon.
 """
 
 import json
@@ -91,12 +90,15 @@ def main() -> None:
             ),
         )
         flaeche_rows += 1
-        for surface in p.get("Geometrie", {}).get("Surfaces", []):
+        place = feat.get("place") or {}
+        polygons = place.get("coordinates", []) if place.get("type") == "MultiPolygon" else []
+        for rings in polygons:
             surface_rows += 1
+            polygon = {"type": "Polygon", "coordinates": rings}
             cur.execute(
                 """INSERT INTO flaeche_geometrie_surfaces (id, flaeche_fk, surface)
                    VALUES (%s, %s, ST_SetSRID(ST_GeomFromGeoJSON(%s), 2056))""",
-                (f"surface-{surface_rows}", feat["id"], json.dumps(surface["Surface"])),
+                (f"surface-{surface_rows}", feat["id"], json.dumps(polygon)),
             )
 
     with open("/loader/post_load.sql") as f:

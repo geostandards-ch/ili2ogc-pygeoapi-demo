@@ -47,13 +47,13 @@ serves the **base** `Flaeche` class (with real geometry, `interlis
 convert-sql` already splits it correctly into a normalized
 `flaeche_geometrie_surfaces` table) - see `loader/load.py`.
 
-Separately: `interlis convert-jsonfg` does not currently hoist
+**Fixed upstream**: `interlis convert-jsonfg` did not hoist
 `GeometryCHLV95_V1.MultiSurface` (a `STRUCTURE`-wrapped `BAG OF
 SurfaceStructure`, not a native `SURFACE`/`COORD`/`POLYLINE` type) to a
 JSON-FG top-level `place`/`geometry` member - a deliberate, documented scope
 decision in `object_to_feature` ("no real corpus evidence" at the time it was
-written). This demo is real corpus evidence: `Flaeche.Geometrie` uses exactly
-this type. The coordinates are still present as valid embedded GeoJSON one
-level down (`properties.Geometrie.Surfaces[].Surface`), which `loader/load.py`
-reads directly with PostGIS's `ST_GeomFromGeoJSON` - worth revisiting in
-`ili2ogc` itself in a dedicated session.
+written). This demo *was* that evidence: `Flaeche.Geometrie` uses exactly this
+type. Fixed in `ili2ogc` (`_is_chbase_multisurface` and friends,
+`convert/jsonfg.py`) - `Flaeche`'s `place` is now a proper `MultiPolygon`, and
+`loader/load.py` reads it directly rather than reaching into
+`properties.Geometrie.Surfaces`.
