@@ -1,0 +1,36 @@
+services:
+  postgis:
+    image: postgis/postgis:16-3.4-alpine
+    environment:
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  loader:
+    build: ./loader
+    volumes:
+      # Sibling checkout of ili2ogc's own source - swap for `pip install ili2ogc`
+      # once the package is published to PyPI (see README).
+      - ../interlis-runtime:/interlis-runtime:ro
+      - ./models:/models:ro
+      - ./data:/data
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@postgis:5432/postgres
+    depends_on:
+      postgis:
+        condition: service_healthy
+
+  pygeoapi:
+    build: ./pygeoapi
+    ports:
+      - "5000:80"
+    depends_on:
+      postgis:
+        condition: service_healthy
+      loader:
+        condition: service_completed_successfully
