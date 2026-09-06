@@ -1,0 +1,23 @@
+INTERLIS 2.3;
+MODEL Waldabstandslinien_V1_2_d (en)
+  AT "mailto:test@example.org"
+  VERSION "2024-01-01" =
+  IMPORTS Waldabstandslinien_V1_2;
+  VIEW TOPIC Geobasisdaten_d EXTENDS Waldabstandslinien_V1_2.Geobasisdaten =
+    VIEW view_waldabstand_linie
+      JOIN OF Waldabstandslinien_V1_2.Geobasisdaten.Waldabstand_Linie, Waldabstandslinien_V1_2.Geobasisdaten.Typ;
+      =
+      ATTRIBUTE
+        geometrie := Waldabstand_Linie -> Geometrie;
+        publiziertab := Waldabstand_Linie -> publiziertAb;
+        publiziertbis := Waldabstand_Linie -> publiziertBis;
+        rechtsstatus := Waldabstand_Linie -> Rechtsstatus;
+        bemerkungen_linie := Waldabstand_Linie -> Bemerkungen;
+        code := Typ -> Code;
+        bezeichnung := Typ -> Bezeichnung;
+        abkuerzung := Typ -> Abkuerzung;
+        verbindlichkeit := Typ -> Verbindlichkeit;
+        bemerkungen_typ := Typ -> Bemerkungen;
+    END view_waldabstand_linie;
+  END Geobasisdaten_d;
+END Waldabstandslinien_V1_2_d.
