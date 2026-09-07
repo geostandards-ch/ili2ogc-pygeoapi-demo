@@ -58,6 +58,19 @@ COMPARISONS = [
             "canton": "canton",
         },
     },
+    {
+        "name": "buildinglines / view_buildingline",
+        "pygeoapi_url": "http://localhost:5000/collections/buildinglines/items?f=jsonfg&limit=100",
+        "reference_file": "data/view_buildingline.jsonfg.json",
+        # view_buildingline attribute alias -> buildingline_geo (base class) column name
+        "field_map": {
+            "approving_authority": "approvingauthority",
+            "status": "status",
+            "approval_date": "approvaldate",
+            "planning_approval_name": "planningapprovalname",
+            "publication_date_from": "publicationdatefrom",
+        },
+    },
 ]
 
 

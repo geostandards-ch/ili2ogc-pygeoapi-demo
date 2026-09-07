@@ -143,3 +143,39 @@ resources:
                   - http://www.opengis.net/def/crs/OGC/1.3/CRS84
         formatters:
             - name: pygeoapi_plugins.formatter.JSONFG
+
+    buildinglines:
+        type: collection
+        title: BuildingLinesForMotorways - BuildingLine
+        description: >-
+            Building restriction lines along Swiss motorways (a 30-object curated sample, 15
+            straight + 15 with a real ARC segment - see data/NOTICE.md), loaded from real ASTRA
+            data via ili2ogc's convert-sql schema for the derived BuildingLinesForMotorways_V2_2_d
+            VIEW. Served through a linearized (ST_CurveToLine) geometry column - GeoJSON has no
+            curve types, so the live map shows an approximation; the true CircularString/
+            CompoundCurve survives in PostGIS itself and in data/view_buildingline.jsonfg.json.
+        keywords:
+            - buildinglines
+            - motorways
+        extents:
+            spatial:
+                bbox: [2485000, 1075000, 2835000, 1295000]
+                crs: http://www.opengis.net/def/crs/EPSG/0/2056
+        providers:
+            - type: feature
+              name: PostgreSQL
+              data:
+                  host: postgis
+                  dbname: postgres
+                  user: postgres
+                  password: postgres
+                  search_path: [public]
+              id_field: id
+              geom_field: geom
+              table: buildingline_geo
+              storage_crs: http://www.opengis.net/def/crs/EPSG/0/2056
+              crs:
+                  - http://www.opengis.net/def/crs/EPSG/0/2056
+                  - http://www.opengis.net/def/crs/OGC/1.3/CRS84
+        formatters:
+            - name: pygeoapi_plugins.formatter.JSONFG

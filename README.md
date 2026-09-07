@@ -45,10 +45,20 @@ baskets from several models).
   `convert-sql` puts a real `geometry(LineStringZ, 2056)` column directly
   on the base table - pygeoapi is pointed at that table with no convenience
   view needed at all.
+- [`BuildingLinesForMotorways_V2_2`](https://models.geo.admin.ch/ASTRA/)
+  (ASTRA) - building-restriction lines along motorways, a curated
+  30-object sample of the real Swiss-wide data (3686 objects - too large
+  to commit whole, see [`data/NOTICE.md`](data/NOTICE.md)). The first
+  model here whose geometry has real `ARC` segments -
+  `view_buildingline`'s `"place"` is `CircularString`/`CompoundCurve`,
+  not just `LineString`. Surfaced 3 real, documented findings around
+  curved geometry (`convert-sql`'s column typing, `ST_GeomFromGeoJSON`
+  vs. WKT, GeoJSON having no curve types at all) - see
+  [`data/NOTICE.md`](data/NOTICE.md).
 
-All 3 already verified end-to-end (SQL and JSON-FG identical) in the main
+All 4 already verified end-to-end (SQL and JSON-FG identical) in the main
 `ili2ogc` repo. See [`data/NOTICE.md`](data/NOTICE.md) for full provenance
-and the one documented gap this demo worked around (now fixed upstream).
+and the documented gaps/findings this demo worked around.
 
 ## Running it
 
@@ -63,14 +73,17 @@ container. Once published, swap that volume mount for a plain
 docker compose up --build
 ```
 
-- `loader` downloads all 3 real source files (2 `.xtf`, 1 `.xtf.zip`),
-  builds the PostGIS schema for each model (`interlis convert-sql`), loads
-  them, and materializes each VIEW as a `.xtf` (`interlis write-xtf`), then
-  exits.
+- `loader` downloads 3 real source files (2 `.xtf`, 1 `.xtf.zip`) and
+  reads the 4th's committed sample directly (`buildingline_sample_source.
+  xtf` - see [`data/NOTICE.md`](data/NOTICE.md) for why), builds the
+  PostGIS schema for each model (`interlis convert-sql`), loads them, and
+  materializes each VIEW as a `.xtf` (`interlis write-xtf
+  --merge-with-source`), then exits.
 - `pygeoapi` starts once `loader` finishes, serving:
   - `http://localhost:5000/collections/flaeche_geo/items?f=jsonfg`
   - `http://localhost:5000/collections/waldabstand_geo/items?f=jsonfg`
   - `http://localhost:5000/collections/mainroads/items?f=jsonfg`
+  - `http://localhost:5000/collections/buildinglines/items?f=jsonfg`
 
 Compare against ili2ogc's own reference output:
 
@@ -78,17 +91,18 @@ Compare against ili2ogc's own reference output:
 curl -s "http://localhost:5000/collections/flaeche_geo/items?f=jsonfg" | python3 -m json.tool
 curl -s "http://localhost:5000/collections/waldabstand_geo/items?f=jsonfg" | python3 -m json.tool
 curl -s "http://localhost:5000/collections/mainroads/items?f=jsonfg" | python3 -m json.tool
-python3 compare.py   # checks shared attribute values match, for all 3 collections
+curl -s "http://localhost:5000/collections/buildinglines/items?f=jsonfg" | python3 -m json.tool
+python3 compare.py   # checks shared attribute values match, for all 4 collections
 ```
 
 (Each pygeoapi collection is a base class - directly for `mainroads`
 (its base table already has everything, `roadsegment`), or via a thin
-`loader/post_load_*.sql` convenience view for the other two, adding
-back the `id`/geometry a bare `VIEW` doesn't carry - rather than the
-auto-generated VIEW verbatim; see [`data/NOTICE.md`](data/NOTICE.md)
-for why per model. The attribute VALUES for the real objects should
-match across both outputs; each `data/*.jsonfg.json` is that model's
-own VIEW projection.)
+`loader/post_load_*.sql` convenience view for the other three, adding
+back the `id`/geometry a bare `VIEW` doesn't carry, or linearizing curved
+geometry for `buildinglines` - rather than the auto-generated VIEW
+verbatim; see [`data/NOTICE.md`](data/NOTICE.md) for why per model. The
+attribute VALUES for the real objects should match across both outputs;
+each `data/*.jsonfg.json` is that model's own VIEW projection.)
 
 ## What's committed vs. downloaded at runtime
 
@@ -96,13 +110,14 @@ own VIEW projection.)
 |---|---|
 | `models/*.ili` (base + derived VIEWs) | yes - this project's own artifacts |
 | `data/*.xtf` + their `.jsonfg.json` (not `*.materialized.xtf`) | yes - reference outputs |
-| Real source files | no - downloaded by `loader`, stable URLs in `data/NOTICE.md` |
+| `data/buildingline_sample_source.xtf` | yes - a curated sample, too large to reproduce by re-downloading a subset (see `data/NOTICE.md`) |
+| Other real source files | no - downloaded by `loader`, stable URLs in `data/NOTICE.md` |
 
 ## Extending
 
-3 models prove the pipeline (2 plain Projections with different geometry
-shapes, and a JOIN OF); more derived models (federal + cantonal, 27
-verified in the main repo) will be added incrementally and the full set
-packaged as a release ZIP asset (not committed to the tree) - see
-`docs/example-repo-pygeoapi-idea.md` in the main `ili2ogc` repo for the
-planned scope.
+4 models prove the pipeline (2 plain Projections with different geometry
+shapes, a JOIN OF, and a Projection with real curved geometry); more
+derived models (federal + cantonal, 27 verified in the main repo) will be
+added incrementally and the full set packaged as a release ZIP asset (not
+committed to the tree) - see `docs/example-repo-pygeoapi-idea.md` in the
+main `ili2ogc` repo for the planned scope.

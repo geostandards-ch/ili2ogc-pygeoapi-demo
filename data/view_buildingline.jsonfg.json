@@ -1,0 +1,401 @@
+{
+  "type": "FeatureCollection",
+  "conformsTo": [
+    "http://www.opengis.net/spec/json-fg-1/1.0/conf/core",
+    "http://www.opengis.net/spec/json-fg-1/1.0/conf/types-schemas",
+    "http://www.opengis.net/spec/json-fg-1/1.0/conf/circular-arcs"
+  ],
+  "features": [
+    {
+      "type": "Feature",
+      "id": "7dd58e6a-2e35-4cdb-923c-338dc8f5f9d9",
+      "featureType": "view_buildingline",
+      "geometry": null,
+      "properties": {
+        "approving_authority": "UVEK",
+        "approval_date": "2018-03-07",
+        "publication_date_from": "2018-10-01",
+        "status": "inForce",
+        "planning_approval_name": "622.2-00231"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "09e12066-53f1-40f5-964e-612319d371e9",
+      "featureType": "view_buildingline",
+      "geometry": null,
+      "properties": {
+        "approving_authority": "UVEK",
+        "approval_date": "2018-03-07",
+        "publication_date_from": "2018-10-01",
+        "status": "inForce",
+        "planning_approval_name": "622.2-00231"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "6fa409b8-bb47-428a-ad5e-ff5128035980",
+      "featureType": "view_buildingline",
+      "geometry": null,
+      "properties": {
+        "approving_authority": "UVEK",
+        "approval_date": "2018-03-07",
+        "publication_date_from": "2018-10-01",
+        "status": "inForce",
+        "planning_approval_name": "622.2-00231"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "6bafb8df-a85d-455d-8719-82f6cc0c8a9d",
+      "featureType": "view_buildingline",
+      "geometry": null,
+      "properties": {
+        "approving_authority": "UVEK",
+        "approval_date": "2018-03-07",
+        "publication_date_from": "2018-10-01",
+        "status": "inForce",
+        "planning_approval_name": "622.2-00231"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "023d1ae0-5926-4f90-9522-accbdd201c43",
+      "featureType": "view_buildingline",
+      "geometry": null,
+      "properties": {
+        "approving_authority": "UVEK",
+        "approval_date": "2018-03-07",
+        "publication_date_from": "2018-10-01",
+        "status": "inForce",
+        "planning_approval_name": "622.2-00231"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "3b815708-7c24-4451-adb6-1aeacaba5579",
+      "featureType": "view_buildingline",
+      "geometry": null,
+      "properties": {
+        "approving_authority": "UVEK",
+        "approval_date": "2018-03-07",
+        "publication_date_from": "2018-10-01",
+        "status": "inForce",
+        "planning_approval_name": "622.2-00231"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "8e3f745f-5b61-430d-8beb-649ed712cf33",
+      "featureType": "view_buildingline",
+      "geometry": null,
+      "properties": {
+        "approving_authority": "UVEK",
+        "approval_date": "2018-03-07",
+        "publication_date_from": "2018-10-01",
+        "status": "inForce",
+        "planning_approval_name": "622.2-00231"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "d61520e8-e3e7-48b6-a129-d7c1f14e98c8",
+      "featureType": "view_buildingline",
+      "geometry": null,
+      "properties": {
+        "approving_authority": "UVEK",
+        "approval_date": "2018-03-07",
+        "publication_date_from": "2018-10-01",
+        "status": "inForce",
+        "planning_approval_name": "622.2-00231"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "0a9aaa3a-9b50-4e5e-baca-f9eda65d2cc3",
+      "featureType": "view_buildingline",
+      "geometry": null,
+      "properties": {
+        "approving_authority": "UVEK",
+        "approval_date": "2018-03-07",
+        "publication_date_from": "2018-10-01",
+        "status": "inForce",
+        "planning_approval_name": "622.2-00231"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "4d685b59-cd43-4b64-b216-6172dd6a633b",
+      "featureType": "view_buildingline",
+      "geometry": null,
+      "properties": {
+        "approving_authority": "UVEK",
+        "approval_date": "2018-03-07",
+        "publication_date_from": "2018-10-01",
+        "status": "inForce",
+        "planning_approval_name": "622.2-00231"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "3e4d27ee-eb8a-4c26-8f75-b6f043d4b702",
+      "featureType": "view_buildingline",
+      "geometry": null,
+      "properties": {
+        "approving_authority": "UVEK",
+        "approval_date": "2017-10-30",
+        "publication_date_from": "2018-07-01",
+        "status": "inForce",
+        "planning_approval_name": "622.2-00230"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "4ba303c3-ffc6-4cfa-8e87-93b17bc38e33",
+      "featureType": "view_buildingline",
+      "geometry": null,
+      "properties": {
+        "approving_authority": "UVEK",
+        "approval_date": "2017-10-30",
+        "publication_date_from": "2018-07-01",
+        "status": "inForce",
+        "planning_approval_name": "622.2-00230"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "c976087a-6342-499e-abfe-5f3178878a48",
+      "featureType": "view_buildingline",
+      "geometry": null,
+      "properties": {
+        "approving_authority": "UVEK",
+        "approval_date": "2018-08-16",
+        "publication_date_from": "2019-01-01",
+        "status": "inForce",
+        "planning_approval_name": "622.2-00267"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "03f211fa-590d-48f5-b9af-dff254cb82c3",
+      "featureType": "view_buildingline",
+      "geometry": null,
+      "properties": {
+        "approving_authority": "UVEK",
+        "approval_date": "2018-08-16",
+        "publication_date_from": "2019-01-01",
+        "status": "inForce",
+        "planning_approval_name": "622.2-00267"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "820fc758-6c6a-4879-ba23-70f5b492db59",
+      "featureType": "view_buildingline",
+      "geometry": null,
+      "properties": {
+        "approving_authority": "UVEK",
+        "approval_date": "2018-08-16",
+        "publication_date_from": "2019-01-01",
+        "status": "inForce",
+        "planning_approval_name": "622.2-00267"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "70b1e920-489b-44b7-9c2a-62768efcc4d4",
+      "featureType": "view_buildingline",
+      "geometry": null,
+      "properties": {
+        "approving_authority": "UVEK",
+        "approval_date": "2018-08-16",
+        "publication_date_from": "2019-02-01",
+        "status": "inForce",
+        "planning_approval_name": "622.2-00229"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "cf1fa7b2-2dd9-4bc8-b496-8252a4ad21a3",
+      "featureType": "view_buildingline",
+      "geometry": null,
+      "properties": {
+        "approving_authority": "UVEK",
+        "approval_date": "2018-08-16",
+        "publication_date_from": "2019-02-01",
+        "status": "inForce",
+        "planning_approval_name": "622.2-00229"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "fd5d9349-5927-428a-8125-2c8e7ae80467",
+      "featureType": "view_buildingline",
+      "geometry": null,
+      "properties": {
+        "approving_authority": "UVEK",
+        "approval_date": "2018-08-16",
+        "publication_date_from": "2019-02-01",
+        "status": "inForce",
+        "planning_approval_name": "622.2-00229"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "f90768ae-d1a2-41ff-88f9-41c0e87cbf17",
+      "featureType": "view_buildingline",
+      "geometry": null,
+      "properties": {
+        "approving_authority": "UVEK",
+        "approval_date": "2018-08-16",
+        "publication_date_from": "2019-02-01",
+        "status": "inForce",
+        "planning_approval_name": "622.2-00229"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "93bd2e6c-69b1-475e-817e-7ed56dea4c79",
+      "featureType": "view_buildingline",
+      "geometry": null,
+      "properties": {
+        "approving_authority": "UVEK",
+        "approval_date": "2016-03-09",
+        "publication_date_from": "2019-09-15",
+        "status": "inForce",
+        "planning_approval_name": "622.2-00102"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "4f3075ad-2b3d-4057-aa31-d79904a25335",
+      "featureType": "view_buildingline",
+      "geometry": null,
+      "properties": {
+        "approving_authority": "UVEK",
+        "approval_date": "2016-03-09",
+        "publication_date_from": "2019-09-15",
+        "status": "inForce",
+        "planning_approval_name": "622.2-00102"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ab01f92e-d5d2-436f-be37-94f271b99f40",
+      "featureType": "view_buildingline",
+      "geometry": null,
+      "properties": {
+        "approving_authority": "UVEK",
+        "approval_date": "2019-10-23",
+        "publication_date_from": "2020-03-15",
+        "status": "inForce",
+        "planning_approval_name": "622.2-00320"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "8a8770ba-afd0-437b-97fe-350704b8cf63",
+      "featureType": "view_buildingline",
+      "geometry": null,
+      "properties": {
+        "approving_authority": "UVEK",
+        "approval_date": "2016-03-09",
+        "publication_date_from": "2019-09-15",
+        "status": "inForce",
+        "planning_approval_name": "622.2-00102"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "86abcd97-a5a0-452e-abea-b13fbd9421de",
+      "featureType": "view_buildingline",
+      "geometry": null,
+      "properties": {
+        "approving_authority": "UVEK",
+        "approval_date": "2016-03-09",
+        "publication_date_from": "2019-09-15",
+        "status": "inForce",
+        "planning_approval_name": "622.2-00102"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "271b35e5-b5f6-4f6b-a1ff-2c1362d0d35e",
+      "featureType": "view_buildingline",
+      "geometry": null,
+      "properties": {
+        "approving_authority": "UVEK",
+        "approval_date": "2018-08-16",
+        "publication_date_from": "2019-02-01",
+        "status": "inForce",
+        "planning_approval_name": "622.2-00229"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "57027412-fb11-4a53-873f-bb915be4a301",
+      "featureType": "view_buildingline",
+      "geometry": null,
+      "properties": {
+        "approving_authority": "UVEK",
+        "approval_date": "2018-08-16",
+        "publication_date_from": "2019-02-01",
+        "status": "inForce",
+        "planning_approval_name": "622.2-00229"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "0e963341-b38e-46a9-a468-3ad2265e4846",
+      "featureType": "view_buildingline",
+      "geometry": null,
+      "properties": {
+        "approving_authority": "UVEK",
+        "approval_date": "2018-08-16",
+        "publication_date_from": "2019-02-01",
+        "status": "inForce",
+        "planning_approval_name": "622.2-00229"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "baf04e57-a9bf-4e38-ae3d-3b8e89d7281c",
+      "featureType": "view_buildingline",
+      "geometry": null,
+      "properties": {
+        "approving_authority": "UVEK",
+        "approval_date": "2018-08-16",
+        "publication_date_from": "2019-02-01",
+        "status": "inForce",
+        "planning_approval_name": "622.2-00229"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "881b167b-53d7-469b-8432-6eeaf7f2c1cd",
+      "featureType": "view_buildingline",
+      "geometry": null,
+      "properties": {
+        "approving_authority": "UVEK",
+        "approval_date": "2018-08-16",
+        "publication_date_from": "2019-02-01",
+        "status": "inForce",
+        "planning_approval_name": "622.2-00229"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "e9aaec7f-af1f-4da4-ba3a-20bbf6b45c75",
+      "featureType": "view_buildingline",
+      "geometry": null,
+      "properties": {
+        "approving_authority": "UVEK",
+        "approval_date": "2018-01-26",
+        "publication_date_from": "2019-06-01",
+        "status": "inForce",
+        "planning_approval_name": "622.2-00234"
+      }
+    }
+  ],
+  "coordRefSys": "http://www.opengis.net/def/crs/EPSG/0/2056"
+}

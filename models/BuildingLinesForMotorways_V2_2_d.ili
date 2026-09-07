@@ -1,0 +1,18 @@
+INTERLIS 2.3;
+MODEL BuildingLinesForMotorways_V2_2_d (en)
+  AT "mailto:test@example.org"
+  VERSION "2024-01-01" =
+  IMPORTS BuildingLinesForMotorways_V2_2;
+  VIEW TOPIC BuildingLines_d EXTENDS BuildingLinesForMotorways_V2_2.BuildingLines =
+    VIEW view_buildingline
+      PROJECTION OF BuildingLinesForMotorways_V2_2.BuildingLines.BuildingLine;
+      =
+      ATTRIBUTE
+        approving_authority := BuildingLine -> ApprovingAuthority;
+        approval_date := BuildingLine -> ApprovalDate;
+        publication_date_from := BuildingLine -> PublicationDateFrom;
+        status := BuildingLine -> Status;
+        planning_approval_name := BuildingLine -> PlanningApprovalName;
+    END view_buildingline;
+  END BuildingLines_d;
+END BuildingLinesForMotorways_V2_2_d.

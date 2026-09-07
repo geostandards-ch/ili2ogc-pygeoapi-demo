@@ -276,6 +276,123 @@ def load_mainroads(cur) -> None:
     print(f"mainroads: loaded {rows} RoadSegment rows.", flush=True)
 
 
+def _place_to_wkt(place: dict) -> str:
+    """A JSON-FG "place" geometry (LineString/CircularString/CompoundCurve, 2D) -> PostGIS WKT.
+
+    `ST_GeomFromGeoJSON` can't take CircularString/CompoundCurve - JSON-FG
+    Part 1 SS7.5 conformance classes ili2ogc's own circular-arcs support
+    already needs, not part of plain GeoJSON/RFC 7946 - so this handles
+    exactly the 3 shapes `convert-jsonfg` produces for a `POLYLINE WITH
+    (STRAIGHTS, ARCS)` attribute, via `ST_GeomFromText` instead.
+    """
+
+    def coords(pts: list[list[float]]) -> str:
+        return ", ".join(f"{x} {y}" for x, y in pts)
+
+    kind = place["type"]
+    if kind == "LineString":
+        return f"LINESTRING({coords(place['coordinates'])})"
+    if kind == "CircularString":
+        return f"CIRCULARSTRING({coords(place['coordinates'])})"
+    if kind == "CompoundCurve":
+        parts = []
+        for g in place["geometries"]:
+            if g["type"] == "CircularString":
+                parts.append(f"CIRCULARSTRING({coords(g['coordinates'])})")
+            else:
+                parts.append(f"({coords(g['coordinates'])})")
+        return f"COMPOUNDCURVE({', '.join(parts)})"
+    raise ValueError(f"unsupported place type for WKT: {kind!r}")
+
+
+def load_buildinglinesformotorways(cur) -> None:
+    """`BuildingLinesForMotorways_V2_2_d` (Projection, real ASTRA data, 1st corpus case with an ARC segment).
+
+    Real source is 3686 objects (9.5 MB `.xtf`, ~50 MB once merged with
+    `write-xtf --merge-with-source`) - too large for this demo repo, so
+    `data/buildingline_sample_source.xtf` is a curated 30-object sample
+    (15 straight `LineString`, 15 with at least one `ARC` segment -
+    `CircularString`/`CompoundCurve` in JSON-FG), committed directly
+    rather than downloaded (see data/NOTICE.md for the sampling method
+    and the full real source URL).
+
+    `convert-sql` types `buildingline.geometry` as `geometry(LineString,
+    2056)` (the attribute's base VERTEX type) - too narrow for the
+    `CircularString`/`CompoundCurve` rows real data actually has, so this
+    loader widens it to a generic `geometry(Geometry, 2056)` after
+    running the generated schema (real finding, not an ili2ogc bug - the
+    column type reflects the attribute's declared INTERLIS type, which
+    doesn't distinguish "may have ARCs" at that granularity).
+
+    `pygeoapi`'s collection is served through `ST_CurveToLine(geometry)`
+    (see `loader/post_load_buildinglinesformotorways.sql`) - GeoJSON
+    (RFC 7946, what pygeoapi ultimately emits, JSON-FG formatter
+    included) has no curve types at all, so the live map necessarily
+    shows a linearized approximation; the true curve survives only in
+    PostGIS itself and in `data/view_buildingline.jsonfg.json`.
+    """
+    model = f"{REPO}/BuildingLinesForMotorways_V2_2_d.ili"
+    xtf = "/data/buildingline_sample_source.xtf"
+    schema_sql = "/tmp/buildingline_schema.sql"
+    data_jsonfg = "/tmp/buildingline_data.jsonfg.json"
+
+    run(["interlis", "validate", xtf, "--model", model, "--repo", REPO])
+    run(["interlis", "convert-sql", model, "--repo", REPO, "--dialect", "postgresql", "-o", schema_sql])
+    run(["interlis", "convert-jsonfg", xtf, "--model", model, "--repo", REPO, "-o", data_jsonfg])
+    run(
+        [
+            "interlis",
+            "write-xtf",
+            model,
+            xtf,
+            "--repo",
+            REPO,
+            "--merge-with-source",
+            "-o",
+            "/data/view_buildingline.materialized.xtf",
+        ]
+    )
+
+    cur.execute(
+        "DROP VIEW IF EXISTS buildingline_geo CASCADE;DROP VIEW IF EXISTS view_buildingline CASCADE;"
+        "DROP TABLE IF EXISTS buildingline CASCADE;"
+    )
+    with open(schema_sql) as f:
+        cur.execute(f.read())
+    cur.execute("ALTER TABLE buildingline ALTER COLUMN geometry TYPE geometry(Geometry, 2056)")
+
+    with open(data_jsonfg) as f:
+        fc = json.load(f)
+
+    rows = 0
+    for feat in fc["features"]:
+        if feat["featureType"] != "BuildingLine":
+            continue
+        p = feat["properties"]
+        cur.execute(
+            """INSERT INTO buildingline (id, geometry, status, approvaldate, approvingauthority,
+                   planningapprovalname, publicationdatefrom, publicationdateto, weblink)
+               VALUES (%s, ST_SetSRID(ST_GeomFromText(%s), 2056), %s, %s, %s, %s, %s, %s, %s)""",
+            (
+                feat["id"],
+                _place_to_wkt(feat["place"]),
+                p.get("Status"),
+                p.get("ApprovalDate"),
+                p.get("ApprovingAuthority"),
+                p.get("PlanningApprovalName"),
+                p.get("PublicationDateFrom"),
+                p.get("PublicationDateTo"),
+                p.get("WebLink"),
+            ),
+        )
+        rows += 1
+
+    with open("/loader/post_load_buildinglinesformotorways.sql") as f:
+        cur.execute(f.read())
+
+    print(f"buildinglinesformotorways: loaded {rows} BuildingLine rows.", flush=True)
+
+
 def main() -> None:
     run(["pip", "install", "--no-cache-dir", "-q", "-e", "/interlis-runtime"])
     import psycopg2  # noqa: PLC0415 (installed above, import after pip install)
@@ -285,6 +402,7 @@ def main() -> None:
     load_richtplanung(cur)
     load_waldabstandslinien(cur)
     load_mainroads(cur)
+    load_buildinglinesformotorways(cur)
     conn.commit()
     cur.close()
     conn.close()
