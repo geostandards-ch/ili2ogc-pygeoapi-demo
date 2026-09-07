@@ -47,6 +47,17 @@ COMPARISONS = [
         # view_waldabstand_linie carries no "id" (see data/NOTICE.md) - match by geometry instead.
         "match_by": "geometry",
     },
+    {
+        "name": "mainroads / view_roadsegment",
+        "pygeoapi_url": "http://localhost:5000/collections/mainroads/items?f=jsonfg&limit=200",
+        "reference_file": "data/view_roadsegment.jsonfg.json",
+        # view_roadsegment reuses the VIEW's own attribute names verbatim (no renaming needed).
+        "field_map": {
+            "roadnumber": "roadnumber",
+            "segmentdescription": "segmentdescription",
+            "canton": "canton",
+        },
+    },
 ]
 
 

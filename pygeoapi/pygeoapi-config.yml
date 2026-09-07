@@ -10,7 +10,7 @@ server:
     pretty_print: true
     limits:
         default_items: 20
-        max_items: 100
+        max_items: 500
 
 logging:
     level: INFO
@@ -103,6 +103,40 @@ resources:
               id_field: id
               geom_field: geom
               table: waldabstand_geo
+              storage_crs: http://www.opengis.net/def/crs/EPSG/0/2056
+              crs:
+                  - http://www.opengis.net/def/crs/EPSG/0/2056
+                  - http://www.opengis.net/def/crs/OGC/1.3/CRS84
+        formatters:
+            - name: pygeoapi_plugins.formatter.JSONFG
+
+    mainroads:
+        type: collection
+        title: MainRoads - RoadSegment
+        description: >-
+            Swiss-wide main road segments, loaded from the real ASTRA hauptstrassennetz .xtf via
+            ili2ogc's convert-sql schema for the derived MainRoads_LV95_V1_1_d VIEW - another plain
+            Projection like flaeche_geo, but served straight from the base table (a native 3D
+            LineType geometry column, no MultiSurface-style child table needed for this one).
+        keywords:
+            - mainroads
+            - transport
+        extents:
+            spatial:
+                bbox: [2485000, 1075000, 2835000, 1295000]
+                crs: http://www.opengis.net/def/crs/EPSG/0/2056
+        providers:
+            - type: feature
+              name: PostgreSQL
+              data:
+                  host: postgis
+                  dbname: postgres
+                  user: postgres
+                  password: postgres
+                  search_path: [public]
+              id_field: id
+              geom_field: geometry
+              table: roadsegment
               storage_crs: http://www.opengis.net/def/crs/EPSG/0/2056
               crs:
                   - http://www.opengis.net/def/crs/EPSG/0/2056

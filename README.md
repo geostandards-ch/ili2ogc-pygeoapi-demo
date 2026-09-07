@@ -24,16 +24,25 @@ It also shows `interlis write-xtf`, materializing a VIEW as a standalone
 
 - [`RichtplanungErneuerbareEnergien_V1`](https://models.geo.admin.ch/BFE/)
   (BFE) - renewable-energy spatial planning, real data for canton
-  Schaffhausen. `view_flaeche` (`RichtplanungErneuerbareEnergien_V1_d_01.ili`)
-  is a plain `PROJECTION OF` a single class.
+  Schaffhausen (3 objects). `view_flaeche`
+  (`RichtplanungErneuerbareEnergien_V1_d_01.ili`) is a plain `PROJECTION OF`
+  a single class.
 - [`Waldabstandslinien_V1_2`](https://models.geo.admin.ch/BAFU/) (BAFU) -
-  forest-distance lines, real data for canton Glarus. `view_waldabstand_linie`
-  (`Waldabstandslinien_V1_2_d.ili`) is a `JOIN OF Waldabstand_Linie, Typ` -
-  unlike the Richtplanung Projection, its own `ATTRIBUTE` block maps the
-  geometry through directly, so `convert-sql`'s `CREATE VIEW` already carries
-  a real geometry column (no base-table workaround needed for this one).
+  forest-distance lines, real data for canton Glarus (5 objects).
+  `view_waldabstand_linie` (`Waldabstandslinien_V1_2_d.ili`) is a `JOIN OF
+  Waldabstand_Linie, Typ` - unlike the Richtplanung Projection, its own
+  `ATTRIBUTE` block maps the geometry through directly, so `convert-sql`'s
+  `CREATE VIEW` already carries a real geometry column (no base-table
+  workaround needed for this one).
+- [`MainRoads_LV95_V1_1`](https://models.geo.admin.ch/ASTRA/) (ASTRA) -
+  Swiss-wide main road segments, real data (135 objects). `view_roadsegment`
+  (`MainRoads_LV95_V1_1_d.ili`) is another plain Projection, but its
+  geometry is a native 3D `LineType` (not a `MultiSurface`), so
+  `convert-sql` puts a real `geometry(LineStringZ, 2056)` column directly
+  on the base table - pygeoapi is pointed at that table with no convenience
+  view needed at all.
 
-Both already verified end-to-end (SQL and JSON-FG identical) in the main
+All 3 already verified end-to-end (SQL and JSON-FG identical) in the main
 `ili2ogc` repo. See [`data/NOTICE.md`](data/NOTICE.md) for full provenance
 and the one documented gap this demo worked around (now fixed upstream).
 
@@ -50,39 +59,44 @@ container. Once published, swap that volume mount for a plain
 docker compose up --build
 ```
 
-- `loader` downloads both real source `.xtf` files, builds the PostGIS
-  schema for each model (`interlis convert-sql`), loads them, and
-  materializes each VIEW as a `.xtf` (`interlis write-xtf`), then exits.
+- `loader` downloads all 3 real source files (2 `.xtf`, 1 `.xtf.zip`),
+  builds the PostGIS schema for each model (`interlis convert-sql`), loads
+  them, and materializes each VIEW as a `.xtf` (`interlis write-xtf`), then
+  exits.
 - `pygeoapi` starts once `loader` finishes, serving:
   - `http://localhost:5000/collections/flaeche_geo/items?f=jsonfg`
   - `http://localhost:5000/collections/waldabstand_geo/items?f=jsonfg`
+  - `http://localhost:5000/collections/mainroads/items?f=jsonfg`
 
 Compare against ili2ogc's own reference output:
 
 ```bash
 curl -s "http://localhost:5000/collections/flaeche_geo/items?f=jsonfg" | python3 -m json.tool
 curl -s "http://localhost:5000/collections/waldabstand_geo/items?f=jsonfg" | python3 -m json.tool
-python3 compare.py   # checks shared attribute values match, for both collections
+curl -s "http://localhost:5000/collections/mainroads/items?f=jsonfg" | python3 -m json.tool
+python3 compare.py   # checks shared attribute values match, for all 3 collections
 ```
 
-(Both collections are hand-written convenience views over the base
-class(es) rather than the auto-generated VIEW verbatim - see
-[`data/NOTICE.md`](data/NOTICE.md) for why. The attribute VALUES for the
-real objects should match across both outputs; `data/view_flaeche.jsonfg.json`/
-`data/view_waldabstand_linie.jsonfg.json` are each VIEW's own projection.)
+(Each pygeoapi collection is a base class - directly, or via a thin
+convenience view adding back the `id`/geometry a bare `VIEW` doesn't
+carry - rather than the auto-generated VIEW verbatim; see
+[`data/NOTICE.md`](data/NOTICE.md) for why per model. The attribute
+VALUES for the real objects should match across both outputs; each
+`data/*.jsonfg.json` is that model's own VIEW projection.)
 
 ## What's committed vs. downloaded at runtime
 
 | Artifact | Committed? |
 |---|---|
 | `models/*.ili` (base + derived VIEWs) | yes - this project's own artifacts |
-| `data/view_flaeche.xtf`, `data/view_waldabstand_linie.xtf` + their `.jsonfg.json` | yes - reference outputs |
-| Real source `.xtf` files | no - downloaded by `loader`, stable URLs in `data/NOTICE.md` |
+| `data/*.xtf` + their `.jsonfg.json` (not `*.materialized.xtf`) | yes - reference outputs |
+| Real source files | no - downloaded by `loader`, stable URLs in `data/NOTICE.md` |
 
 ## Extending
 
-2 models prove the pipeline (a plain Projection and a JOIN OF); more derived
-models (federal + cantonal, 27 verified in the main repo) will be added
-incrementally and the full set packaged as a release ZIP asset (not
-committed to the tree) - see `docs/example-repo-pygeoapi-idea.md` in the
-main `ili2ogc` repo for the planned scope.
+3 models prove the pipeline (2 plain Projections with different geometry
+shapes, and a JOIN OF); more derived models (federal + cantonal, 27
+verified in the main repo) will be added incrementally and the full set
+packaged as a release ZIP asset (not committed to the tree) - see
+`docs/example-repo-pygeoapi-idea.md` in the main `ili2ogc` repo for the
+planned scope.

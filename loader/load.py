@@ -11,6 +11,7 @@ import json
 import os
 import subprocess
 import urllib.request
+import zipfile
 
 REPO = "/models"
 
@@ -195,6 +196,61 @@ def load_waldabstandslinien(cur) -> None:
     print(f"waldabstandslinien: loaded {linie_rows} Waldabstand_Linie rows, {len(typ_ids)} Typ.", flush=True)
 
 
+def load_mainroads(cur) -> None:
+    """`MainRoads_LV95_V1_1_d` (Projection, real Swiss-wide data, 135 objects).
+
+    Same shape as `RichtplanungErneuerbareEnergien_V1_d_01`: `view_roadsegment`
+    doesn't map `RoadSegment.Geometry` (a Projection view, like model 1 -
+    see data/NOTICE.md). Unlike model 1's `MultiSurface` though,
+    `GeometryCHLV95_V1.LineWithAltitude` is a native `LineType` (3D
+    POLYLINE) - `convert-sql` already puts a real `geometry(LineStringZ,
+    2056)` column straight on the `roadsegment` table itself, no
+    child-table split needed - pygeoapi is pointed at that table directly,
+    no convenience view required for this one.
+
+    Source is a ZIP (`data.zip`), unlike the other 2 models' bare `.xtf`.
+    """
+    model = f"{REPO}/MainRoads_LV95_V1_1_d.ili"
+    source_url = "https://data.geo.admin.ch/ch.astra.hauptstrassennetz/hauptstrassennetz/hauptstrassennetz_2056.xtf.zip"
+    zip_path = "/tmp/mainroads_source.zip"
+    xtf = "/tmp/mainroads_source.xtf"
+    schema_sql = "/tmp/mainroads_schema.sql"
+    data_jsonfg = "/tmp/mainroads_data.jsonfg.json"
+
+    print(f"Downloading real source .xtf from {source_url}", flush=True)
+    urllib.request.urlretrieve(source_url, zip_path)
+    with zipfile.ZipFile(zip_path) as zf:
+        (xtf_member,) = [n for n in zf.namelist() if n.endswith(".xtf")]
+        with zf.open(xtf_member) as src, open(xtf, "wb") as dst:
+            dst.write(src.read())
+
+    run(["interlis", "validate", xtf, "--model", model, "--repo", REPO])
+    run(["interlis", "convert-sql", model, "--repo", REPO, "--dialect", "postgresql", "-o", schema_sql])
+    run(["interlis", "convert-jsonfg", xtf, "--model", model, "--repo", REPO, "-o", data_jsonfg])
+    run(["interlis", "write-xtf", model, xtf, "--repo", REPO, "-o", "/data/view_roadsegment.materialized.xtf"])
+
+    cur.execute("DROP VIEW IF EXISTS view_roadsegment CASCADE; DROP TABLE IF EXISTS roadsegment CASCADE;")
+    with open(schema_sql) as f:
+        cur.execute(f.read())
+
+    with open(data_jsonfg) as f:
+        fc = json.load(f)
+
+    rows = 0
+    for feat in fc["features"]:
+        if feat["featureType"] != "RoadSegment":
+            continue
+        p = feat["properties"]
+        cur.execute(
+            """INSERT INTO roadsegment (id, geometry, canton, roadnumber, segmentdescription)
+               VALUES (%s, ST_SetSRID(ST_GeomFromGeoJSON(%s), 2056), %s, %s, %s)""",
+            (feat["id"], json.dumps(feat["place"]), p.get("Canton"), p.get("RoadNumber"), p.get("SegmentDescription")),
+        )
+        rows += 1
+
+    print(f"mainroads: loaded {rows} RoadSegment rows.", flush=True)
+
+
 def main() -> None:
     run(["pip", "install", "--no-cache-dir", "-q", "-e", "/interlis-runtime"])
     import psycopg2  # noqa: PLC0415 (installed above, import after pip install)
@@ -203,6 +259,7 @@ def main() -> None:
     cur = conn.cursor()
     load_richtplanung(cur)
     load_waldabstandslinien(cur)
+    load_mainroads(cur)
     conn.commit()
     cur.close()
     conn.close()

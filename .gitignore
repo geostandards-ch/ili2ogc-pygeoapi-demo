@@ -1,5 +1,3 @@
-data/source.xtf
-data/view_flaeche.materialized.xtf
-data/view_waldabstand_linie.materialized.xtf
+data/*.materialized.xtf
 .venv/
 __pycache__/

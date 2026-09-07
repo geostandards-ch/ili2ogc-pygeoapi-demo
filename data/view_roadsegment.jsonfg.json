@@ -1,0 +1,1495 @@
+{
+  "type": "FeatureCollection",
+  "conformsTo": [
+    "http://www.opengis.net/spec/json-fg-1/1.0/conf/core",
+    "http://www.opengis.net/spec/json-fg-1/1.0/conf/types-schemas"
+  ],
+  "features": [
+    {
+      "type": "Feature",
+      "id": "3602c62d-f091-48f8-9601-4644cbda8f48",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "2",
+        "segmentdescription": "Flüelen (N4) – Altdorf – Erstfeld (N2)",
+        "canton": "UR"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "0a2332ef-2e70-4e22-bcd2-73bcefcdaddb",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "19",
+        "segmentdescription": "(VS) – Realp –Hospental (N2) – (…) – Andermatt-Nord (N2) – (GR)",
+        "canton": "UR"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ffcd8743-c23a-45fc-9bb5-077f6897a8e1",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "19",
+        "segmentdescription": "(VS) – Realp –Hospental (N2) – (…) – Andermatt-Nord (N2) – (GR)",
+        "canton": "UR"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "3212b63d-036b-4b43-be9d-d800a68113a9",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "17",
+        "segmentdescription": "(GL) – Klausenpass – Unterschächen – Altdorf (H2)",
+        "canton": "UR"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "71414d17-f4fa-474f-bf9e-7aa9d606552b",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "11",
+        "segmentdescription": "(BE) – Färnigen – Wassen (N2)",
+        "canton": "UR"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "58ec54fd-a919-4662-b8b1-4bda00dfd640",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "560",
+        "segmentdescription": "(I) – Camedo – Intragna – Tegna – Ascona (N13)",
+        "canton": "TI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "db278cc0-013f-4620-ba5a-722fc0a105e4",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "405",
+        "segmentdescription": "(I) – Dirinella – Gerra – Gambarogno –Bivio di Quartino (N13)",
+        "canton": "TI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "419f0b1c-d89e-48b8-ac5b-826b10ed423f",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "17",
+        "segmentdescription": "Zürich-Wiedikon (N3) – Meilen – Feldbach – (SG)",
+        "canton": "ZH"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "d719462c-0bab-4d14-8ebc-f0dff8a33628",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "13",
+        "segmentdescription": "(SH) – Feuerthalen – (TG)",
+        "canton": "ZH"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "2dd32cd9-f396-4aba-a10b-6128f2c2c331",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "7",
+        "segmentdescription": "(AG) – Weiach – Rorbas – Pfungen –Winterthur-Wülflingen (N1)",
+        "canton": "ZH"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ce233aff-1da4-4134-8405-1a6c17213ad6",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "7",
+        "segmentdescription": "(AG) – Weiach – Rorbas – Pfungen –Winterthur-Wülflingen (N1)",
+        "canton": "ZH"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "d71f16b2-0dc3-4883-9f10-1c1c5ddfc6eb",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "7",
+        "segmentdescription": "(AG) – Weiach – Rorbas – Pfungen –Winterthur-Wülflingen (N1)",
+        "canton": "ZH"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "b5f8ca31-1e6a-43d7-8264-59dd07106ebb",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "7",
+        "segmentdescription": "(AG) – Weiach – Rorbas – Pfungen –Winterthur-Wülflingen (N1)",
+        "canton": "ZH"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ce5de164-48e7-4fc1-8f03-275dfdec69e6",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "388",
+        "segmentdescription": "(SZ) – Samstagern – Richterswil (N3)",
+        "canton": "ZH"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "29f1a04c-dbec-49fc-a2a0-7951fd200fc5",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "4",
+        "segmentdescription": "Baar (N14) – Neufeld – Zug",
+        "canton": "ZG"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "8663c5d5-6a5d-4300-a8b9-bbed2dc0f96f",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "213",
+        "segmentdescription": "Stalden (H212) – Täsch",
+        "canton": "VS"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "430368ba-b8b5-4338-8e21-5ad55f9705c0",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "212",
+        "segmentdescription": "Visp-West (N9) – Stalden – Saas Grund",
+        "canton": "VS"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "01469ed4-c15d-4ad4-a688-e435b95b68a9",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "21",
+        "segmentdescription": "(F) – Bouveret – Les Evouettes (H144) – (...) – Monthey (H201) – (VD) – (...) – Portal du tunnel du Gd-St-Bernhard (N21) – Col du Grand-St-Bernard – (I)",
+        "canton": "VS"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "3a98b43b-a2a1-4538-80b5-835ef21e2686",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "21",
+        "segmentdescription": "(F) – Bouveret – Les Evouettes (H144) – (...) – Monthey (H201) – (VD) – (...) – Portal du tunnel du Gd-St-Bernhard (N21) – Col du Grand-St-Bernard – (I)",
+        "canton": "VS"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "b1d489a6-0a39-41fd-994b-a9c57b156e46",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "21",
+        "segmentdescription": "(F) – Bouveret – Les Evouettes (H144) – (...) – Monthey (H201) – (VD) – (...) – Portal du tunnel du Gd-St-Bernhard (N21) – Col du Grand-St-Bernard – (I)",
+        "canton": "VS"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "4b9671f5-fd3d-4a58-9cf2-a013837dbbcc",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "21",
+        "segmentdescription": "(F) – Bouveret – Les Evouettes (H144) – (...) – Monthey (H201) – (VD) – (...) – Portal du tunnel du Gd-St-Bernhard (N21) – Col du Grand-St-Bernard – (I)",
+        "canton": "VS"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ca757a74-78a1-4e93-ad36-490db4379c85",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "19",
+        "segmentdescription": "Brig-Glis (N9) – Fiesch – Münster – Gletsch – (UR)",
+        "canton": "VS"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "2b96ea5a-309f-49db-9208-5d26762abf7e",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "201",
+        "segmentdescription": "Pas de Morgins (F) – Monthey (H21)",
+        "canton": "VS"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "65c8eba8-c121-41ef-ab84-652ca53277ed",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "203",
+        "segmentdescription": "Martigny-Croix (N21) – La Forclaz – Trient – (F)",
+        "canton": "VS"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "5c4c577f-5bdc-40b9-a1ac-ff68493d4f40",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "144",
+        "segmentdescription": "(VD) – Les Evouettes (H21)",
+        "canton": "VS"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "0b69ea9b-a311-46ab-b93a-978e8d3e949d",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "6",
+        "segmentdescription": "(BE) – Gletsch (H19)",
+        "canton": "VS"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "f45242c0-5d5f-41ed-a1a6-83cac6dce1e2",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "206",
+        "segmentdescription": "Sion Est (N9) – La Muraz",
+        "canton": "VS"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "0ba5bff0-4669-4604-b54b-49a24b088062",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "21",
+        "segmentdescription": "(VS) – St-Triphon (N9)",
+        "canton": "VD"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "c246353a-0429-49c0-9093-2e8e67aff212",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "181",
+        "segmentdescription": "Payerne (H1) – Payerne (N1)",
+        "canton": "VD"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "61a2ef00-e364-45bf-af9b-8db445bca6bd",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "144",
+        "segmentdescription": "Villeneuve (N9) – (VS)",
+        "canton": "VD"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "78c11c2c-3bd9-4477-9031-cad9773c596a",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "123",
+        "segmentdescription": "Nyon (N1) – St-Cergue – La Cure – (F)  Nyon (N1) – St-Cergue – La Cure – (F)",
+        "canton": "VD"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "3c0c21c5-4321-4264-8e31-1a6e67a0ad62",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "1",
+        "segmentdescription": "Lausanne-Vennes (N9) – Payerne (H181)",
+        "canton": "VD"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "cded6664-d726-4e28-a210-9fdbeabaf510",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "190",
+        "segmentdescription": "(FR) – Rossinière – Château-d’Oex (H11)",
+        "canton": "VD"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "92715151-fc59-4e07-8202-61f179ee2c83",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "11",
+        "segmentdescription": "Aigle (N9) – Le Sépey – Col des Mosses –Château-d’Oex – Rougemont – (BE)",
+        "canton": "VD"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "9880e01e-817a-4c7d-a137-b903a3bea5f0",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "18",
+        "segmentdescription": "La Chaux-de-Fonds (N20) – (BE)",
+        "canton": "NE"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bcbf29a2-5601-45aa-a7d6-fe3bcd6588ac",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "10",
+        "segmentdescription": "(F) – Les Verrières – Fleurier – Rochefort – Neuchâtel-Vauseyon (N20)",
+        "canton": "NE"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "e84008c6-ee82-45f1-bf08-d874ac2257fd",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "10",
+        "segmentdescription": "(BE) – Dürrenbach – (BE) – (…) –(BE) – Wiggen – Schüpfheim – Wohlhusen – Werthenstein – Malters – Emmen-Süd (N2)",
+        "canton": "LU"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "b1c4e55b-2bfc-4e4c-a7c9-560faac5562b",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "10",
+        "segmentdescription": "(BE) – Dürrenbach – (BE) – (…) –(BE) – Wiggen – Schüpfheim – Wohlhusen – Werthenstein – Malters – Emmen-Süd (N2)",
+        "canton": "LU"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "3aaef215-e9ed-4f32-bde7-282f0fad8d3e",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "10",
+        "segmentdescription": "(BE) – Dürrenbach – (BE) – (…) –(BE) – Wiggen – Schüpfheim – Wohlhusen – Werthenstein – Malters – Emmen-Süd (N2)",
+        "canton": "LU"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "c201a060-1943-44ab-a211-dccd06fe7cb5",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "4",
+        "segmentdescription": "Luzern-Zentrum (N2) – Luzern-Pilatusplatz (H2)",
+        "canton": "LU"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "22841716-3d95-4385-8ebc-8d78aad477d5",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "398",
+        "segmentdescription": "(I) – Agno (H399)",
+        "canton": "TI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "6d098037-b453-49f2-a42d-e7da78d2507f",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "13",
+        "segmentdescription": "Ascona (N13) – Brissago – (I)",
+        "canton": "TI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "e1630408-04d6-4c11-8ee5-0dcf1e6b730c",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "399",
+        "segmentdescription": "Agno (H398) – Lugano Nord (N2) – (...) – Lugano Nord (N2) – Lugano (Cassarate)",
+        "canton": "TI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "de859891-cb5f-49cc-9625-341f8aa39ab5",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "399",
+        "segmentdescription": "Agno (H398) – Lugano Nord (N2) – (...) – Lugano Nord (N2) – Lugano (Cassarate)",
+        "canton": "TI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "0568bb4e-6af7-4f31-96d2-84c67b1d1d19",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "416",
+        "segmentdescription": "(GR) – Passo del Lucomagno – Olivone – Biasca (N2)",
+        "canton": "TI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "6eb1b1b9-7729-452e-9a23-f3482a6463c1",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "16",
+        "segmentdescription": "(SG) – Rickenbach – (SG)",
+        "canton": "TG"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "b152b45f-5694-46bd-bed5-7bff65776d1c",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "13",
+        "segmentdescription": "(ZH) – Neuparadies – Diessenhofen – Rheinklingen – Wagenhausen – (SH) – (...) – (SH) – Eschenz – Steckborn – Kreuzlingen – Romanshorn – Arbon-West (N23)",
+        "canton": "TG"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "4f3ab06b-e366-44e9-ab67-1fda81f9ba5e",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "13",
+        "segmentdescription": "(ZH) – Neuparadies – Diessenhofen – Rheinklingen – Wagenhausen – (SH) – (...) – (SH) – Eschenz – Steckborn – Kreuzlingen – Romanshorn – Arbon-West (N23)",
+        "canton": "TG"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "7f0d4007-0b6f-4e38-bd90-26bb15d1e9a4",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "13",
+        "segmentdescription": "(ZH) – Neuparadies – Diessenhofen – Rheinklingen – Wagenhausen – (SH) – (...) – (SH) – Eschenz – Steckborn – Kreuzlingen – Romanshorn – Arbon-West (N23)",
+        "canton": "TG"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "e3287be1-e550-4cf7-91f0-63782cdc09f7",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "332",
+        "segmentdescription": "(SH) – Wagenhausen (H13)",
+        "canton": "TG"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "85fba953-d6b2-4b34-b949-f20841c73cdb",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "2",
+        "segmentdescription": "Küssnacht (H2) – (LU) ¬– (…) – (LU) – Gersau – Brunnen-Nord (N4)",
+        "canton": "SZ"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "a0bf04af-4f89-4048-a6d7-06f8d85b2b9e",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "2",
+        "segmentdescription": "Küssnacht (H2) – (LU) ¬– (…) – (LU) – Gersau – Brunnen-Nord (N4)",
+        "canton": "SZ"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "617bd4a8-2dcd-436c-b902-cbb22c14b748",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "2",
+        "segmentdescription": "(LU) – Küssnacht – Küssnacht (N4)",
+        "canton": "SZ"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "98627cf9-beeb-4e78-b9f9-710a12c32ff3",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "8",
+        "segmentdescription": "(SG) – Hurden – Pfäffikon (N3) – (…) – Schindellegi (N3) – Biberbrugg – Rothenthurm – Sattel – Chaltbach – Schwyz (N4)",
+        "canton": "SZ"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "89ee011d-c7d2-43bb-ae07-a23999183558",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "8",
+        "segmentdescription": "(SG) – Hurden – Pfäffikon (N3) – (…) – Schindellegi (N3) – Biberbrugg – Rothenthurm – Sattel – Chaltbach – Schwyz (N4)",
+        "canton": "SZ"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "f93884c3-db46-4ec4-a4a9-f405e63668d0",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "371",
+        "segmentdescription": "Goldau (N4) – Steinerberg – Sattel (H8)",
+        "canton": "SZ"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ab0e6a39-dc82-43cd-b6a8-b83bbfb98ea7",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "388",
+        "segmentdescription": "(ZH) – Schindellegi (H8)",
+        "canton": "SZ"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "8c520300-35b0-4bd7-ad57-7a2b96a76d7f",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "2",
+        "segmentdescription": "Olten (H5) – (AG)",
+        "canton": "SO"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "29a2669d-bdf2-4c06-9503-de6c36dd5852",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "5",
+        "segmentdescription": "Solothurn-West (N5) – Kreisel Bielstrasse",
+        "canton": "SO"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "5fa890b9-e0ca-4eb3-8487-1d697a283951",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "5",
+        "segmentdescription": "Egerkingen (N2) – Hägendorf – Olten (H2) – (…) – Olten (H2) – Schönenwerd – Wöschnau – (AG)",
+        "canton": "SO"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "493af88c-8341-43ef-b86f-a7dd20285489",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "5",
+        "segmentdescription": "Egerkingen (N2) – Hägendorf – Olten (H2) – (…) – Olten (H2) – Schönenwerd – Wöschnau – (AG)",
+        "canton": "SO"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "2bb124bb-2be3-42cc-9149-81266c3d9604",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "4",
+        "segmentdescription": "(D) – Bargen – Merishausen – Schaffhausen-Schweizerbild(N4)",
+        "canton": "SH"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "59ab9414-b787-4449-9562-cf34f043a8d1",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "332",
+        "segmentdescription": "(D) – Ramsen – Hemishofen – (TG)",
+        "canton": "SH"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bb20a018-05a2-4e7d-8363-eb4c6f9610ba",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "13",
+        "segmentdescription": "Schaffhausen-Süd (N4) – (ZH) – (…) – (TG) – Stein a. Rhein – (TG)",
+        "canton": "SH"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "8db36c4e-4986-4ca4-bd32-007b9c98b5fc",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "13",
+        "segmentdescription": "Schaffhausen-Süd (N4) – (ZH) – (…) – (TG) – Stein a. Rhein – (TG)",
+        "canton": "SH"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "184be3da-06b6-4b40-a3e5-82686e348131",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "17",
+        "segmentdescription": "(ZH) – Kempraten – Rapperswil (N15)",
+        "canton": "SG"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "75b55820-d0f3-42d3-8009-6baf4fbdac61",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "8",
+        "segmentdescription": "(AR) – St. Peterzell – Lichtensteig (H16) – (…) – (H16) – Neuhaus – Eschenbach (N15) – (…) – Jona (N15) – Rapperswil – (SZ)",
+        "canton": "SG"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "eed5b408-eb9e-4a2b-bd26-057560a40e15",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "8",
+        "segmentdescription": "(AR) – St. Peterzell – Lichtensteig (H16) – (…) – (H16) – Neuhaus – Eschenbach (N15) – (…) – Jona (N15) – Rapperswil – (SZ)",
+        "canton": "SG"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "111faf83-f253-4134-9359-ce43653eca44",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "8",
+        "segmentdescription": "(AR) – St. Peterzell – Lichtensteig (H16) – (…) – (H16) – Neuhaus – Eschenbach (N15) – (…) – Jona (N15) – Rapperswil – (SZ)",
+        "canton": "SG"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "d55f4d79-79c2-4dd6-982c-752ef773bfb2",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "16",
+        "segmentdescription": "Wil (N1) – (TG) – (…) – (TG) – Bütschwil – Lichtensteig – Neu St. Johann – Wildhaus – Gams – Buchs – Buchs (N13)",
+        "canton": "SG"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "09ee7571-f30a-4341-8046-95e1816ff4a7",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "16",
+        "segmentdescription": "Wil (N1) – (TG) – (…) – (TG) – Bütschwil – Lichtensteig – Neu St. Johann – Wildhaus – Gams – Buchs – Buchs (N13)",
+        "canton": "SG"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "0fedab58-f1c2-44b1-9646-a0f4d1269f2d",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "433",
+        "segmentdescription": "Gams (H16) – Haag (N13) – (FL)",
+        "canton": "SG"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "d7a68666-e0f5-42d6-baab-d04e4ac678d2",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "470",
+        "segmentdescription": "Gossau (N1) – (AR)",
+        "canton": "SG"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "df4f4ea6-6050-482c-b92c-7e77f0b753e6",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "447",
+        "segmentdescription": "St. Gallen-Kreuzbleiche (N1) – (AR)",
+        "canton": "SG"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "3af73c84-8789-4eee-ba76-582602cec31e",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "448",
+        "segmentdescription": "Neu St. Johann (H16) – Rietbad – (AR)",
+        "canton": "SG"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "d90ce860-1cb1-4415-9d4f-8321296d655a",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "374",
+        "segmentdescription": "(NW) – Engelberg",
+        "canton": "OW"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "9ce083bd-1aab-4a04-b251-2f1997fc0d1f",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "374",
+        "segmentdescription": "Stans-Süd (N2) – Wolfenschiessen –  (OW)",
+        "canton": "NW"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "048cf5a3-2cc9-4c0e-84b9-b7e327380855",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "505",
+        "segmentdescription": "Jaun – (BE)",
+        "canton": "FR"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "d0c0b7d0-d7e4-4a2c-bf05-49ffa2be34a2",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "320",
+        "segmentdescription": "Rheinhafen – Neuhausstrasse – Basel-Kleinhüningen (N2)",
+        "canton": "BS"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "c9b17303-564d-4e3a-b7d3-8d3bb425fbca",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "2",
+        "segmentdescription": "Sissach (N2) – Umfahrung Sissach",
+        "canton": "BL"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "0e194b51-21c2-496e-8dd7-d76e65eca761",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "1",
+        "segmentdescription": "Kirchberg (N1) – Langenthal – Aegerten – (AG)",
+        "canton": "BE"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "b5dcb64c-ea5b-4e9c-b780-cca5555a446b",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "11",
+        "segmentdescription": "(VD) – Saanen – Zweisimmen – Boltingen (H219) – Reidenbach – Wimmis (N6) – (…) – Innertkirchen (H6) – Gadmen – Sustenpass – (UR)",
+        "canton": "BE"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "6c1b47c8-e8a7-4cfe-a696-b3d76983a76d",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "11",
+        "segmentdescription": "(VD) – Saanen – Zweisimmen – Boltingen (H219) – Reidenbach – Wimmis (N6) – (…) – Innertkirchen (H6) – Gadmen – Sustenpass – (UR)",
+        "canton": "BE"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "a136f214-b8c9-4ada-9958-7ef53cb1f1e6",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "10",
+        "segmentdescription": "Ins (N20) – Müntschemier – (FR) – (…) – Muri (N6) – Langnau – Trubschachen – (LU) – (…) – (LU) – Kröschenbrunnen – (LU)",
+        "canton": "BE"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "01185458-4ed1-42ce-81b0-ac775d1f4d05",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "10",
+        "segmentdescription": "Ins (N20) – Müntschemier – (FR) – (…) – Muri (N6) – Langnau – Trubschachen – (LU) – (…) – (LU) – Kröschenbrunnen – (LU)",
+        "canton": "BE"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "53a95021-48ca-4d58-81c5-5f23b9005445",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "10",
+        "segmentdescription": "Ins (N20) – Müntschemier – (FR) – (…) – Muri (N6) – Langnau – Trubschachen – (LU) – (…) – (LU) – Kröschenbrunnen – (LU)",
+        "canton": "BE"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "9de4b701-5cd8-4abc-bf19-58254ff6882c",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "10",
+        "segmentdescription": "Ins (N20) – Müntschemier – (FR) – (…) – Muri (N6) – Langnau – Trubschachen – (LU) – (…) – (LU) – Kröschenbrunnen – (LU)",
+        "canton": "BE"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "79783a10-671b-4f9c-90cf-898781c3c5d7",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "10",
+        "segmentdescription": "Ins (N20) – Müntschemier – (FR) – (…) – Muri (N6) – Langnau – Trubschachen – (LU) – (…) – (LU) – Kröschenbrunnen – (LU)",
+        "canton": "BE"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "b6ae9d11-4711-47c2-9755-a1ab9e6835bb",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "470",
+        "segmentdescription": "(SG) – Herisau (H8)",
+        "canton": "AR"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1b904a14-8df7-462d-9fd6-ca95e39b9b7c",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "448",
+        "segmentdescription": "(SG) – Schwägalp – Urnäsch (H462) – (AI) – (…) – (AI) – Gais (H447)",
+        "canton": "AR"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "550ac94b-b995-41b5-a523-8aefdf26faba",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "448",
+        "segmentdescription": "(SG) – Schwägalp – Urnäsch (H462) – (AI) – (…) – (AI) – Gais (H447)",
+        "canton": "AR"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "9c024d3e-b86e-4391-a1c9-cf1daa9fab6c",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "462",
+        "segmentdescription": "Urnäsch (H448) – Waldstatt (H8)",
+        "canton": "AR"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "74030c92-1158-4a7d-b3b8-baaf2be23a5c",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "30",
+        "segmentdescription": "La Cibourg (H18) – St-Imier – Sonceboz –  (N16)",
+        "canton": "BE"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "a648475f-f11c-4318-805a-5dab6d0b7160",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "30",
+        "segmentdescription": "La Cibourg (H18) – St-Imier – Sonceboz –  (N16)",
+        "canton": "BE"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "359c0efe-9a9b-4b15-91fe-7134d7807d8c",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "30",
+        "segmentdescription": "La Cibourg (H18) – St-Imier – Sonceboz –  (N16)",
+        "canton": "BE"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1e5a0a82-bb3d-46a4-b2fa-84faa66eda1a",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "18",
+        "segmentdescription": "(NE) – La Cibourg – (JU)",
+        "canton": "BE"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "665d7634-d00c-4699-b2a7-933f9ea3fb74",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "226",
+        "segmentdescription": "Brünigpass (N8) – Hausen – Meiringen (H6)",
+        "canton": "BE"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "67d576b2-034c-4e1c-abeb-59edda80bf48",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "219",
+        "segmentdescription": "Boltigen (H11) – Jaunpass – (FR)",
+        "canton": "BE"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "134d121d-5893-4a2f-ab65-ff96547daf22",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "6",
+        "segmentdescription": "Unterbach (N8)  – Meiringen (H226) – Innertkirchen (H11) – Handegg – Grimselpass – (VS)",
+        "canton": "BE"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "fcdf7827-80ca-45b1-b7c7-077db5aa23fe",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "2",
+        "segmentdescription": "Luzern-Kriens (N2) – Luzern-Pilatusplatz (H4) – Meggen – (SZ)",
+        "canton": "LU"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "b85c0209-2779-40b6-8afe-4508f6c9b740",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "2",
+        "segmentdescription": "(SZ) – Greppen – Weggis – Vitznau – (SZ)",
+        "canton": "LU"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "2be783e9-6164-4c8b-ae4a-7ee069fdfb8a",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "18",
+        "segmentdescription": "(BE) – Saignelégier – Glovelier (N16)",
+        "canton": "JU"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1e0f53d7-437a-4780-bc49-7f664076ab09",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "28",
+        "segmentdescription": "Klosters – Davos – Flüelapass – Susch (H27) – (…) – Zernez (H27) – Ofenpass – Müstair – (I)",
+        "canton": "GR"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "69394fc7-f455-4016-b8e7-87552dda1edd",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "28",
+        "segmentdescription": "Klosters – Davos – Flüelapass – Susch (H27) – (…) – Zernez (H27) – Ofenpass – Müstair – (I)",
+        "canton": "GR"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "3c699b5c-78c2-4b9a-832f-3e044b2ce370",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "29",
+        "segmentdescription": "Punt Muragl (H27) – Passo del Bernina – Poschiavo – Campocologno – (I)",
+        "canton": "GR"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "9e4a154d-c7e8-4b52-801c-c25f455dadbc",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "3",
+        "segmentdescription": "Chur-Süd (N13) – Lenzerheide – Tiefencastel (N29) – (…) – Silvaplana (H27) – Malojapass – Castasegna – (I)",
+        "canton": "GR"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "f3303cfc-3a67-4bd3-9272-8219c6b142ac",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "3",
+        "segmentdescription": "Chur-Süd (N13) – Lenzerheide – Tiefencastel (N29) – (…) – Silvaplana (H27) – Malojapass – Castasegna – (I)",
+        "canton": "GR"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "d976da83-9b9b-41be-8306-936295ab69ea",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "27",
+        "segmentdescription": "Silvaplana (H3) – Punt Muragl – Samedan –Zernez – Martina – (A)",
+        "canton": "GR"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "83ed6407-3f6e-40c8-a939-2a5bc9daa89f",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "19",
+        "segmentdescription": "(UR) – Disentis – Flims –Reichenau (N13)",
+        "canton": "GR"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "8903a8c4-a9db-406c-91e8-d9f65c5b6aa7",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "416",
+        "segmentdescription": "Disentis (H19) – Lukmanierpass – (TI)",
+        "canton": "GR"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "d851d803-25d7-40be-a7b8-e200bcf61fe5",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "417",
+        "segmentdescription": "Tiefencastel (N29) – Wiesen – Davos (H28)",
+        "canton": "GR"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "48aae486-e6ee-403d-9b74-a5995571c88a",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "17",
+        "segmentdescription": "Glarus (N17) – Linthal – (UR)",
+        "canton": "GL"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "854ada82-762e-48ce-8c55-3a60cf37b499",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "111",
+        "segmentdescription": "La Praille (N1) – Carouge – Pont d’Arve – Florissant – Thônex – (F)",
+        "canton": "GE"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "2d149d1c-28be-480e-804b-ec85a72cebcb",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "111",
+        "segmentdescription": "La Praille (N1) – Carouge – Pont d’Arve – Florissant – Thônex – (F)",
+        "canton": "GE"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "b4d2f3ca-304c-43a2-939f-3fae87a53f4d",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "111",
+        "segmentdescription": "La Praille (N1) – Carouge – Pont d’Arve – Florissant – Thônex – (F)",
+        "canton": "GE"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "891a2d0e-2886-449a-9adf-c5de9850d280",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "105",
+        "segmentdescription": "Genève-Cornavin (H101/106) – Vésenaz– La Pallanterie – Maisons Neuves – (F)",
+        "canton": "GE"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "32133a23-d39d-44ae-8cfb-e54cc70d36a3",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "101",
+        "segmentdescription": "(F) – Meyrin (N1) – (...) – Meyrin (N1) – Genève-Cornavin (H105/106)",
+        "canton": "GE"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "3b1ae5b5-4703-4d10-9748-733970826f48",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "101",
+        "segmentdescription": "(F) – Meyrin (N1) – (...) – Meyrin (N1) – Genève-Cornavin (H105/106)",
+        "canton": "GE"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "d9938b3f-8cdf-4f04-b063-595d631353a6",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "106",
+        "segmentdescription": "Genève-Cornavin (H101/105) – Aéroport (N1) – (...) – Aéroport (N1) – (F)",
+        "canton": "GE"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "e936c54b-2575-4397-a8f0-de408f830b00",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "106",
+        "segmentdescription": "Genève-Cornavin (H101/105) – Aéroport (N1) – (...) – Aéroport (N1) – (F)",
+        "canton": "GE"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "5db2ce6c-77b0-4a5f-8151-1faed85cbc6f",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "182",
+        "segmentdescription": "Rive droite de la Sarine – Pont de la Poya – Fribourg-Nord (N12)",
+        "canton": "FR"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "502b1e4d-b63f-4756-8860-3dc07d20e5dd",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "190",
+        "segmentdescription": "La Tour-de-Trême (H189) – Montbovon – (VD)",
+        "canton": "FR"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1a860ae0-205c-462c-8e33-f348db589603",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "189",
+        "segmentdescription": "Bulle (N12) – Charmey – Jaun",
+        "canton": "FR"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "4c33f0c0-7398-4391-9863-ffe08a779111",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "447",
+        "segmentdescription": "(SG) – Teufen – Gais (H448)",
+        "canton": "AR"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "beea4aea-38f5-46a8-8999-62ac5fb3cfa1",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "8",
+        "segmentdescription": "(N25) – Waldstatt – (SG)",
+        "canton": "AR"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bd500132-43e0-4b08-adb2-7a99d9d0a935",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "448",
+        "segmentdescription": "(AR) – Gonten – Appenzell – (AR)",
+        "canton": "AI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "9ad3f8a5-5c14-4ddc-9c06-4ced8d2e5e5d",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "7",
+        "segmentdescription": "Eiken (N3) – Laufenburg – Koblenz (H5) – (...) – Koblenz (H5) – Zurzach – Kaiserstuhl – (ZH)",
+        "canton": "AG"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "aa74a6c4-c8bf-44ef-8944-b4ed4455e4de",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "7",
+        "segmentdescription": "Eiken (N3) – Laufenburg – Koblenz (H5) – (...) – Koblenz (H5) – Zurzach – Kaiserstuhl – (ZH)",
+        "canton": "AG"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "2688c1a7-8ebc-42fa-abd1-b9f2a5fe1765",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "1",
+        "segmentdescription": "(BE) – Murgenthal – Rothrist (N1)",
+        "canton": "AG"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1b5e4985-2226-4c43-b92f-9e0c13a5b0e0",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "5",
+        "segmentdescription": "(SO) – Aarau – Rohr – (...) – Aarau-Ost (N1)  – Brugg – Untersiggenthal – Döttingen – (D)",
+        "canton": "AG"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "a87793e4-a2ad-4f7b-b69f-65e775d0f050",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "5",
+        "segmentdescription": "(SO) – Aarau – Rohr – (...) – Aarau-Ost (N1)  – Brugg – Untersiggenthal – Döttingen – (D)",
+        "canton": "AG"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "48da7992-f9c5-45e6-bd2b-8c579aa15110",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "24",
+        "segmentdescription": "Aarau-West (N1) – Unterentfelden – Aarau (H5)",
+        "canton": "AG"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "f0e402db-7271-4bb3-8b1d-5d2af94cc262",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "2",
+        "segmentdescription": "(SO) – Aarburg –  Rothrist (N1)",
+        "canton": "AG"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "af781910-f09e-4733-aeb3-4a23ccdba47b",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "295",
+        "segmentdescription": "Station Siggenthal (H5) – Untersig-genthal – Baden – Neuenhof (N1)",
+        "canton": "AG"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "48733109-5651-4d4a-824c-acf0eb1d50b9",
+      "featureType": "view_roadsegment",
+      "geometry": null,
+      "properties": {
+        "roadnumber": "10",
+        "segmentdescription": "(BE) – Kerzers (N1)",
+        "canton": "FR"
+      }
+    }
+  ],
+  "coordRefSys": "http://www.opengis.net/def/crs/EPSG/0/2056"
+}
