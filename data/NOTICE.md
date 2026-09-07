@@ -53,10 +53,15 @@ correctly into a normalized `flaeche_geometrie_surfaces` table) - see
 **Fixed upstream**: `interlis convert-jsonfg` did not hoist
 `GeometryCHLV95_V1.MultiSurface` (a `STRUCTURE`-wrapped `BAG OF
 SurfaceStructure`, not a native `SURFACE`/`COORD`/`POLYLINE` type) to a
-JSON-FG top-level `place`/`geometry` member - a deliberate, documented scope
-decision in `object_to_feature` ("no real corpus evidence" at the time it was
-written). This demo *was* that evidence: `Flaeche.Geometrie` uses exactly this
-type. Fixed in `ili2ogc` (`_is_chbase_multisurface` and friends,
+JSON-FG top-level `place`/`geometry` member. Not actually a case with no
+prior corpus evidence, as first assumed: `ili2ogc`'s own
+`docs/jsonfg-conversion-strategy.md` (Lot 5) already hit this exact type
+in a real transfer (`wohnungsinventar-zweitwohnungsanteil_2019-10_2056.xtf`'s
+`HousingInventory.Geometry`) and used it to deliberately CONFIRM "stays
+unsupported" was correct at the time - that lot was scoped to generic
+STRUCTURE/BAG/LIST encoding, not to extending `place` hoisting, and the
+decision was never revisited until this demo ran into the same case
+again. Fixed in `ili2ogc` (`_is_chbase_multisurface` and friends,
 `convert/jsonfg.py`) - `Flaeche`'s `place` is now a proper `MultiPolygon`, and
 `loader/load.py` reads it directly rather than reaching into
 `properties.Geometrie.Surfaces`.
