@@ -45,7 +45,19 @@ def load_richtplanung(cur) -> None:
     run(["interlis", "validate", xtf, "--model", model, "--repo", REPO])
     run(["interlis", "convert-sql", model, "--repo", REPO, "--dialect", "postgresql", "-o", schema_sql])
     run(["interlis", "convert-jsonfg", xtf, "--model", model, "--repo", REPO, "-o", data_jsonfg])
-    run(["interlis", "write-xtf", model, xtf, "--repo", REPO, "-o", "/data/view_flaeche.materialized.xtf"])
+    run(
+        [
+            "interlis",
+            "write-xtf",
+            model,
+            xtf,
+            "--repo",
+            REPO,
+            "--merge-with-source",
+            "-o",
+            "/data/view_flaeche.materialized.xtf",
+        ]
+    )
 
     cur.execute(
         "DROP VIEW IF EXISTS flaeche_geo CASCADE;"
@@ -139,6 +151,7 @@ def load_waldabstandslinien(cur) -> None:
             xtf,
             "--repo",
             REPO,
+            "--merge-with-source",
             "-o",
             "/data/view_waldabstand_linie.materialized.xtf",
         ]
@@ -227,7 +240,19 @@ def load_mainroads(cur) -> None:
     run(["interlis", "validate", xtf, "--model", model, "--repo", REPO])
     run(["interlis", "convert-sql", model, "--repo", REPO, "--dialect", "postgresql", "-o", schema_sql])
     run(["interlis", "convert-jsonfg", xtf, "--model", model, "--repo", REPO, "-o", data_jsonfg])
-    run(["interlis", "write-xtf", model, xtf, "--repo", REPO, "-o", "/data/view_roadsegment.materialized.xtf"])
+    run(
+        [
+            "interlis",
+            "write-xtf",
+            model,
+            xtf,
+            "--repo",
+            REPO,
+            "--merge-with-source",
+            "-o",
+            "/data/view_roadsegment.materialized.xtf",
+        ]
+    )
 
     cur.execute("DROP VIEW IF EXISTS view_roadsegment CASCADE; DROP TABLE IF EXISTS roadsegment CASCADE;")
     with open(schema_sql) as f:

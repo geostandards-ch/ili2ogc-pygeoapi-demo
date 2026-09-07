@@ -17,8 +17,12 @@ as a 3rd, unrelated implementation reading the SAME PostGIS data - a
 disagreement between the three would point to a real bug or a genuine
 standard-interpretation gap, in either tool.
 
-It also shows `interlis write-xtf`, materializing a VIEW as a standalone
-`.xtf` transfer in its own right.
+It also shows `interlis write-xtf --merge-with-source`: since XTF is XML,
+a derived model's materialized `.xtf` can extend the base transfer rather
+than replace it - each `data/*.xtf` here is the real source data's own
+baskets with the computed VIEW basket appended, one self-describing file
+(refman eCH-0031 V2.1.0 §4.3.5 explicitly allows a transfer to hold
+baskets from several models).
 
 ## Models
 
@@ -77,12 +81,14 @@ curl -s "http://localhost:5000/collections/mainroads/items?f=jsonfg" | python3 -
 python3 compare.py   # checks shared attribute values match, for all 3 collections
 ```
 
-(Each pygeoapi collection is a base class - directly, or via a thin
-convenience view adding back the `id`/geometry a bare `VIEW` doesn't
-carry - rather than the auto-generated VIEW verbatim; see
-[`data/NOTICE.md`](data/NOTICE.md) for why per model. The attribute
-VALUES for the real objects should match across both outputs; each
-`data/*.jsonfg.json` is that model's own VIEW projection.)
+(Each pygeoapi collection is a base class - directly for `mainroads`
+(its base table already has everything, `roadsegment`), or via a thin
+`loader/post_load_*.sql` convenience view for the other two, adding
+back the `id`/geometry a bare `VIEW` doesn't carry - rather than the
+auto-generated VIEW verbatim; see [`data/NOTICE.md`](data/NOTICE.md)
+for why per model. The attribute VALUES for the real objects should
+match across both outputs; each `data/*.jsonfg.json` is that model's
+own VIEW projection.)
 
 ## What's committed vs. downloaded at runtime
 

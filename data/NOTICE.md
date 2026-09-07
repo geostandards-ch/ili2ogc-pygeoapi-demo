@@ -34,8 +34,11 @@ normal for a standalone cantonal delivery).
 - `view_flaeche.jsonfg.json` - `interlis convert-jsonfg` output for the
   `view_flaeche` VIEW only (3 Features), the ground truth this demo's
   comparison script checks pygeoapi's own JSON-FG formatter against.
-- `view_flaeche.xtf` - the VIEW materialized as a standalone INTERLIS
-  transfer via `interlis write-xtf`, round-trips clean through
+- `view_flaeche.xtf` - the VIEW materialized via `interlis write-xtf
+  --merge-with-source`: a self-describing transfer holding the SOURCE
+  .xtf's own baskets (the real `Flaeche`/`Punkt`/`Kanton`/... objects)
+  PLUS the computed `view_flaeche` VIEW basket appended - one file, no
+  separate base file to cross-reference. Round-trips clean through
   `interlis validate` (0 errors).
 
 ### Known gap this model worked around (now fixed upstream)
@@ -109,7 +112,9 @@ reports 0 errors, 0 warnings.
 - `view_waldabstand_linie.jsonfg.json` - `interlis convert-jsonfg` output
   for the `view_waldabstand_linie` VIEW only (5 Features).
 - `view_waldabstand_linie.xtf` - the VIEW materialized via `interlis
-  write-xtf`, round-trips clean through `interlis validate` (0 errors).
+  write-xtf --merge-with-source` (source baskets + the computed VIEW
+  basket, one self-describing file), round-trips clean through
+  `interlis validate` (0 errors).
 
 ### Simplification specific to this loader
 
@@ -162,5 +167,8 @@ errors, 0 warnings (7/7 header models resolve from `models/` alone).
 
 - `view_roadsegment.jsonfg.json` - `interlis convert-jsonfg` output for the
   `view_roadsegment` VIEW only (135 Features).
-- `view_roadsegment.xtf` - the VIEW materialized via `interlis write-xtf`,
-  round-trips clean through `interlis validate` (0 errors).
+- `view_roadsegment.xtf` - the VIEW materialized via `interlis write-xtf
+  --merge-with-source` (source baskets + the computed VIEW basket, one
+  self-describing file - 6.3 MB, the 135 real `RoadSegment` objects
+  dominate the size), round-trips clean through `interlis validate`
+  (0 errors).
