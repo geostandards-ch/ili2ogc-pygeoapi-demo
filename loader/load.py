@@ -9,11 +9,18 @@ shared abstraction over two data points.
 
 import json
 import os
+import shutil
 import subprocess
-import urllib.request
+import xml.etree.ElementTree as ET
 import zipfile
 
 REPO = "/models"
+SOURCE_XTF_DIR = "/data/source-xtf"
+SYMBOLOGY_MODEL = f"{REPO}/DemoSymbology.ili"
+SYMBOLOGY_XTF = "/data/symbology.xtf"
+SUEL_SYMBOLOGY_MODEL = f"{REPO}/SachplanUebertragungsleitungen.ili"
+SUEL_SYMBOLOGY_XTF = "/data/symbology_uebertragungsleitungen.xtf"
+_ILI24_NS = "http://www.interlis.ch/INTERLIS2.3"
 
 
 def run(cmd: list[str]) -> None:
@@ -31,16 +38,12 @@ def load_richtplanung(cur) -> None:
     one row per Polygon.
     """
     model = f"{REPO}/RichtplanungErneuerbareEnergien_V1_d_01.ili"
-    source_url = (
-        "https://geodienste.ch/downloads/interlis/richtplanung_erneuerbare_energien/SH/"
-        "RichtplanungErneuerbareEnergien_V1_SH.xtf"
-    )
+    # Source: https://geodienste.ch/downloads/interlis/richtplanung_erneuerbare_energien/SH/RichtplanungErneuerbareEnergien_V1_SH.xtf
     xtf = "/tmp/richtplanung_source.xtf"
     schema_sql = "/tmp/richtplanung_schema.sql"
     data_jsonfg = "/tmp/richtplanung_data.jsonfg.json"
 
-    print(f"Downloading real source .xtf from {source_url}", flush=True)
-    urllib.request.urlretrieve(source_url, xtf)
+    shutil.copy(f"{SOURCE_XTF_DIR}/RichtplanungErneuerbareEnergien_V1_SH.xtf", xtf)
 
     run(["interlis", "validate", xtf, "--model", model, "--repo", REPO])
     run(["interlis", "convert-sql", model, "--repo", REPO, "--dialect", "postgresql", "-o", schema_sql])
@@ -132,13 +135,12 @@ def load_waldabstandslinien(cur) -> None:
     roles as properties without a `symbol_table` in "embedded roles" mode).
     """
     model = f"{REPO}/Waldabstandslinien_V1_2_d.ili"
-    source_url = "https://www.geodienste.ch/downloads/interlis/npl_waldabstandslinien/GL/ch_np_wal_v1_2.xtf"
+    # Source: https://www.geodienste.ch/downloads/interlis/npl_waldabstandslinien/GL/ch_np_wal_v1_2.xtf
     xtf = "/tmp/waldabstandslinien_source.xtf"
     schema_sql = "/tmp/waldabstandslinien_schema.sql"
     data_jsonfg = "/tmp/waldabstandslinien_data.jsonfg.json"
 
-    print(f"Downloading real source .xtf from {source_url}", flush=True)
-    urllib.request.urlretrieve(source_url, xtf)
+    shutil.copy(f"{SOURCE_XTF_DIR}/ch_np_wal_v1_2.xtf", xtf)
 
     run(["interlis", "validate", xtf, "--model", model, "--repo", REPO])
     run(["interlis", "convert-sql", model, "--repo", REPO, "--dialect", "postgresql", "-o", schema_sql])
@@ -224,14 +226,12 @@ def load_mainroads(cur) -> None:
     Source is a ZIP (`data.zip`), unlike the other 2 models' bare `.xtf`.
     """
     model = f"{REPO}/MainRoads_LV95_V1_1_d.ili"
-    source_url = "https://data.geo.admin.ch/ch.astra.hauptstrassennetz/hauptstrassennetz/hauptstrassennetz_2056.xtf.zip"
-    zip_path = "/tmp/mainroads_source.zip"
+    # Source: https://data.geo.admin.ch/ch.astra.hauptstrassennetz/hauptstrassennetz/hauptstrassennetz_2056.xtf.zip
+    zip_path = f"{SOURCE_XTF_DIR}/hauptstrassennetz_2056.xtf.zip"
     xtf = "/tmp/mainroads_source.xtf"
     schema_sql = "/tmp/mainroads_schema.sql"
     data_jsonfg = "/tmp/mainroads_data.jsonfg.json"
 
-    print(f"Downloading real source .xtf from {source_url}", flush=True)
-    urllib.request.urlretrieve(source_url, zip_path)
     with zipfile.ZipFile(zip_path) as zf:
         (xtf_member,) = [n for n in zf.namelist() if n.endswith(".xtf")]
         with zf.open(xtf_member) as src, open(xtf, "wb") as dst:
@@ -326,10 +326,9 @@ def load_buildinglinesformotorways(cur) -> None:
 
     `pygeoapi`'s collection is served through `ST_CurveToLine(geometry)`
     (see `loader/post_load_buildinglinesformotorways.sql`) - GeoJSON
-    (RFC 7946, what pygeoapi ultimately emits, JSON-FG formatter
-    included) has no curve types at all, so the live map necessarily
-    shows a linearized approximation; the true curve survives only in
-    PostGIS itself and in `data/view_buildingline.jsonfg.json`.
+    (RFC 7946, what pygeoapi ultimately emits) has no curve types at all,
+    so the live map necessarily shows a linearized approximation; the
+    true curve survives only in PostGIS itself.
     """
     model = f"{REPO}/BuildingLinesForMotorways_V2_2_d.ili"
     xtf = "/data/buildingline_sample_source.xtf"
@@ -393,6 +392,154 @@ def load_buildinglinesformotorways(cur) -> None:
     print(f"buildinglinesformotorways: loaded {rows} BuildingLine rows.", flush=True)
 
 
+def _merge_ili24_baskets(main_path: str, extra_paths: list[str], out_path: str) -> None:
+    """Merge extra `.xtf`/catalogue `.xml` transfers into `main_path`'s own `DATASECTION`.
+
+    `REFERENCE TO (EXTERNAL)` only resolves within objects present in the
+    SAME parsed transfer, so the main dataset and its 3 separate catalogue
+    files need combining before `interlis convert-jsonfg`.
+    """
+    ET.register_namespace("", _ILI24_NS)
+    main_tree = ET.parse(main_path)
+    main_data = main_tree.getroot().find(f"{{{_ILI24_NS}}}DATASECTION")
+    main_basket = next(iter(main_data))
+
+    for extra_path in extra_paths:
+        extra_data = ET.parse(extra_path).getroot().find(f"{{{_ILI24_NS}}}DATASECTION")
+        for extra_basket in list(extra_data):
+            if extra_basket.tag == main_basket.tag and extra_basket.get("BID") == main_basket.get("BID"):
+                for child in list(extra_basket):
+                    main_basket.append(child)
+            else:
+                main_data.append(extra_basket)
+
+    main_tree.write(out_path, encoding="UTF-8", xml_declaration=True)
+
+
+def load_sachplan_uebertragungsleitungen(cur) -> None:
+    """`TransmissionLinesSectoralPlan_V1_4` (Sachplan Übertragungsleitungen, real BFE data).
+
+    `Facility`/`PlanningMeasure` live on the shared
+    `BaseModel_SectoralPlans_LV95_V1_4`, not this model's own class.
+    `validate` runs non-fatally: a known ili2ogc validator false-positive
+    on nested `REFERENCE TO (EXTERNAL)` doesn't affect the actual load.
+    Only Polygon/MultiPolygon `PlanningMeasure` rows are kept (the only
+    shape this demo's signature covers).
+    """
+    model = f"{REPO}/TransmissionLinesSectoralPlan_V1_4.ili"
+    zip_path = f"{SOURCE_XTF_DIR}/sachplan-uebertragungsleitungen_kraft_2056.xtf.zip"
+    main_xtf = "/tmp/suel_main.xtf"
+    mt_catalogue = "/tmp/suel_measuretype_catalogue.xml"
+    fk_catalogue = "/tmp/suel_facilitykind_catalogue.xml"
+    shared_catalogue = "/tmp/suel_shared_catalogue.xml"
+    merged_xtf = "/data/sachplan_uebertragungsleitungen.merged.xtf"
+    data_jsonfg = "/tmp/suel_data.jsonfg.json"
+
+    # Source: https://data.geo.admin.ch/ch.bfe.sachplan-uebertragungsleitungen_kraft/
+    # sachplan-uebertragungsleitungen_kraft/sachplan-uebertragungsleitungen_kraft_2056.xtf.zip
+    with zipfile.ZipFile(zip_path) as zf:
+        names = {n.rsplit("/", 1)[-1]: n for n in zf.namelist()}
+        with zf.open(names["TransmissionLinesSectoralPlan.xtf"]) as src, open(main_xtf, "wb") as dst:
+            dst.write(src.read())
+        with zf.open(next(n for n in zf.namelist() if "MeasureTypeCatalogue" in n)) as src, open(
+            mt_catalogue, "wb"
+        ) as dst:
+            dst.write(src.read())
+        with zf.open(next(n for n in zf.namelist() if "FacilityKindCatalogue" in n)) as src, open(
+            fk_catalogue, "wb"
+        ) as dst:
+            dst.write(src.read())
+        with zf.open(names["SectoralPlans_Catalogues_V1_4.xml"]) as src, open(shared_catalogue, "wb") as dst:
+            dst.write(src.read())
+
+    _merge_ili24_baskets(main_xtf, [mt_catalogue, fk_catalogue, shared_catalogue], merged_xtf)
+
+    subprocess.run(
+        ["interlis", "validate", merged_xtf, "--model", model, "--repo", REPO],
+        check=False,
+    )
+    run(["interlis", "convert-jsonfg", merged_xtf, "--model", model, "--repo", REPO, "-o", data_jsonfg])
+
+    cur.execute("DROP TABLE IF EXISTS suel_planningmeasure_surface CASCADE;")
+    cur.execute(
+        """CREATE TABLE suel_planningmeasure_surface (
+               id text PRIMARY KEY,
+               geom geometry(MultiPolygon, 2056),
+               measure_type text NOT NULL,
+               coordination_level integer NOT NULL
+           )"""
+    )
+
+    with open(data_jsonfg) as f:
+        fc = json.load(f)
+
+    # MeasureType's own TypeID always equals its ref TID ("mt2" -> "mt2",
+    # confirmed on the real catalogue), but CoordinationLevel.CoordID is a
+    # real INTEGER domain (1..9999) distinct from its own ref TID
+    # ("cl1" -> 1) - the DrawingRule's WHERE compares the resolved CoordID,
+    # so the ref must be joined against the CoordinationLevel feature's own
+    # property, not stored as its raw TID string.
+    coord_id_by_ref = {
+        feat["id"]: feat["properties"]["CoordID"] for feat in fc["features"] if feat["featureType"] == "CoordinationLevel"
+    }
+
+    rows = 0
+    for feat in fc["features"]:
+        if feat["featureType"] != "PlanningMeasure":
+            continue
+        place = feat.get("place") or {}
+        if place.get("type") not in ("Polygon", "MultiPolygon"):
+            continue
+        p = feat["properties"]
+        cur.execute(
+            """INSERT INTO suel_planningmeasure_surface (id, geom, measure_type, coordination_level)
+               VALUES (%s, ST_SetSRID(ST_Multi(ST_GeomFromGeoJSON(%s)), 2056), %s, %s)""",
+            (
+                feat["id"],
+                json.dumps(place),
+                p.get("MeasureType"),
+                coord_id_by_ref.get(p.get("CoordinationLevel")),
+            ),
+        )
+        rows += 1
+
+    with open("/loader/post_load_sachplan_uebertragungsleitungen.sql") as f:
+        cur.execute(f.read())
+
+    print(f"sachplan_uebertragungsleitungen: loaded {rows} PlanningMeasure surface rows.", flush=True)
+
+
+def build_styles() -> None:
+    """Write one .sld per DemoSymbology GRAPHIC for pygeoapi's OGC API - Maps providers.
+
+    pycartosym's SLD writer is a hard ili2ogc dependency, so no separate
+    install step is needed here beyond the `pip install -e` already run
+    for ili2ogc itself.
+    """
+    os.makedirs("/styles", exist_ok=True)
+    for model, sign_xtf, graphic, filename in [
+        (SYMBOLOGY_MODEL, SYMBOLOGY_XTF, "Waldabstand_Graphics", "waldabstand.sld"),
+        (SYMBOLOGY_MODEL, SYMBOLOGY_XTF, "Roads_Graphics", "roads.sld"),
+        (SYMBOLOGY_MODEL, SYMBOLOGY_XTF, "BuildingLines_Graphics", "buildinglines.sld"),
+        (SUEL_SYMBOLOGY_MODEL, SUEL_SYMBOLOGY_XTF, "PlanningMeasure_Graphics", "sachplan_uebertragungsleitungen.sld"),
+    ]:
+        run(
+            [
+                "interlis",
+                "convert-sld",
+                model,
+                "--repo",
+                REPO,
+                "--sign-xtf",
+                sign_xtf,
+                "--graphic",
+                graphic,
+                "-o",
+                f"/styles/{filename}",
+            ]
+        )
+
+
 def main() -> None:
     run(["pip", "install", "--no-cache-dir", "-q", "-e", "/interlis-runtime"])
     import psycopg2  # noqa: PLC0415 (installed above, import after pip install)
@@ -403,9 +550,11 @@ def main() -> None:
     load_waldabstandslinien(cur)
     load_mainroads(cur)
     load_buildinglinesformotorways(cur)
+    load_sachplan_uebertragungsleitungen(cur)
     conn.commit()
     cur.close()
     conn.close()
+    build_styles()
 
 
 if __name__ == "__main__":

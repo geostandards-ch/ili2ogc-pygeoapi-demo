@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Sign data for models/SachplanUebertragungsleitungen.ili. Colors and
+     dash patterns copied from the real official SLD
+     ("exemples supplémentaires démo pygeoapi/SLD Sachpläne/SP
+     Übertragungsleitungen/suel_sp_uebertragungsleitungen_planningmeasure_surface.sld"):
+     #e2001a (Festsetzung) dasharray 13/6 for Planungskorridor (mt2),
+     #ee7e22 (Zwischenergebnis) dasharray 13/6 for Planungskorridor,
+     #e2001a dasharray 6/6 for Planungsgebiet (mt3). Stroke width 4 in
+     both, no fill (border-only). -->
+
+<ili:transfer xmlns:ili="http://www.interlis.ch/xtf/2.4/INTERLIS"
+  xmlns="http://www.interlis.ch/xtf/2.4/StandardSymbology"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <ili:headersection>
+    <ili:models>
+      <ili:model>SachplanUebertragungsleitungen</ili:model>
+    </ili:models>
+    <ili:sender>ili2ogc-pygeoapi-demo</ili:sender>
+    <ili:comment>Border-only surface signs for Sachplan Übertragungsleitungen PlanningMeasure, sourced from the real SLD</ili:comment>
+  </ili:headersection>
+
+  <ili:datasection>
+    <StandardSigns ili:bid="Signs00000002">
+
+      <Color ili:tid="1">
+        <Name>suel_festsetzung_red</Name>
+        <L>47.3</L>
+        <C>90.3</C>
+        <H>35.67</H>
+        <T>1.0</T>
+      </Color>
+
+      <Color ili:tid="2">
+        <Name>suel_zwischenergebnis_orange</Name>
+        <L>64.3</L>
+        <C>74.1</C>
+        <H>59.52</H>
+        <T>1.0</T>
+      </Color>
+
+      <PolylineAttrs ili:tid="10">
+        <Width>4.0</Width>
+        <Join>round</Join>
+        <Caps>round</Caps>
+      </PolylineAttrs>
+
+      <LineStyle_Dashed ili:tid="20">
+        <Name>DashLong_Red</Name>
+        <Color ili:ref="1"></Color>
+        <LineAttrs ili:ref="10"></LineAttrs>
+        <Dashes>
+          <DashRec>
+            <DLength>13</DLength>
+          </DashRec>
+        </Dashes>
+        <Dashes>
+          <DashRec>
+            <DLength>6</DLength>
+          </DashRec>
+        </Dashes>
+      </LineStyle_Dashed>
+
+      <LineStyle_Dashed ili:tid="21">
+        <Name>DashLong_Orange</Name>
+        <Color ili:ref="2"></Color>
+        <LineAttrs ili:ref="10"></LineAttrs>
+        <Dashes>
+          <DashRec>
+            <DLength>13</DLength>
+          </DashRec>
+        </Dashes>
+        <Dashes>
+          <DashRec>
+            <DLength>6</DLength>
+          </DashRec>
+        </Dashes>
+      </LineStyle_Dashed>
+
+      <LineStyle_Dashed ili:tid="22">
+        <Name>DashShort_Red</Name>
+        <Color ili:ref="1"></Color>
+        <LineAttrs ili:ref="10"></LineAttrs>
+        <Dashes>
+          <DashRec>
+            <DLength>6</DLength>
+          </DashRec>
+        </Dashes>
+        <Dashes>
+          <DashRec>
+            <DLength>6</DLength>
+          </DashRec>
+        </Dashes>
+      </LineStyle_Dashed>
+
+      <PolylineSign ili:tid="30">
+        <ili:Name>BorderCorridorFestsetzung</ili:Name>
+        <Style ili:ref="20">
+          <PolylineSignLineStyleAssoc>
+            <Offset>0.0</Offset>
+          </PolylineSignLineStyleAssoc>
+        </Style>
+      </PolylineSign>
+
+      <PolylineSign ili:tid="31">
+        <ili:Name>BorderKorridorZwischenergebnis</ili:Name>
+        <Style ili:ref="21">
+          <PolylineSignLineStyleAssoc>
+            <Offset>0.0</Offset>
+          </PolylineSignLineStyleAssoc>
+        </Style>
+      </PolylineSign>
+
+      <PolylineSign ili:tid="32">
+        <ili:Name>BorderGebietFestsetzung</ili:Name>
+        <Style ili:ref="22">
+          <PolylineSignLineStyleAssoc>
+            <Offset>0.0</Offset>
+          </PolylineSignLineStyleAssoc>
+        </Style>
+      </PolylineSign>
+
+      <SurfaceSign ili:tid="40">
+        <ili:Name>CorridorFestsetzung</ili:Name>
+        <Border ili:ref="30"></Border>
+      </SurfaceSign>
+
+      <SurfaceSign ili:tid="41">
+        <ili:Name>KorridorZwischenergebnis</ili:Name>
+        <Border ili:ref="31"></Border>
+      </SurfaceSign>
+
+      <SurfaceSign ili:tid="42">
+        <ili:Name>GebietFestsetzung</ili:Name>
+        <Border ili:ref="32"></Border>
+      </SurfaceSign>
+
+    </StandardSigns>
+  </ili:datasection>
+</ili:transfer>

@@ -19,6 +19,7 @@ services:
       - ../interlis-runtime:/interlis-runtime:ro
       - ./models:/models:ro
       - ./data:/data
+      - styles:/styles
     environment:
       DATABASE_URL: postgresql://postgres:postgres@postgis:5432/postgres
     depends_on:
@@ -29,8 +30,13 @@ services:
     build: ./pygeoapi
     ports:
       - "5000:80"
+    volumes:
+      - styles:/styles:ro
     depends_on:
       postgis:
         condition: service_healthy
       loader:
         condition: service_completed_successfully
+
+volumes:
+  styles:

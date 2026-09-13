@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Sign data for models/DemoSymbology.ili. Colors sourced from the real
+     official WMS legend each dataset is actually rendered with - see
+     data/NOTICE.md ("Cartographic symbology") for the exact source per
+     color and the LCh conversion. Not a geocat.ch-published SLD/QML
+     (none was found for any of these datasets): reverse-engineered by
+     sampling the legend swatch pixels of each dataset's own live WMS. -->
+
+<ili:transfer xmlns:ili="http://www.interlis.ch/xtf/2.4/INTERLIS"
+  xmlns="http://www.interlis.ch/xtf/2.4/StandardSymbology"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <ili:headersection>
+    <ili:models>
+      <ili:model>DemoSymbology</ili:model>
+    </ili:models>
+    <ili:sender>ili2ogc-pygeoapi-demo</ili:sender>
+    <ili:comment>Line colors for waldabstand_geo/mainroads/buildinglines, sourced from each dataset's own real WMS legend</ili:comment>
+  </ili:headersection>
+
+  <ili:datasection>
+    <StandardSigns ili:bid="Signs00000001">
+
+      <!-- Kanton Glarus WMS (wms.geo.gl.ch), layer
+           ch.gl.planning.oereb_waldabstandslinien, GetLegendGraphic:
+           dashed #00FF00. -->
+      <Color ili:tid="1">
+        <Name>gl_oereb_waldabstandslinie_green</Name>
+        <L>87.7</L>
+        <C>119.8</C>
+        <H>136.02</H>
+        <T>1.0</T>
+      </Color>
+
+      <!-- geo.admin.ch WMS (wms.geo.admin.ch), layer
+           ch.astra.hauptstrassennetz, legend image: #A2680C. -->
+      <Color ili:tid="2">
+        <Name>astra_hauptstrassennetz_brown</Name>
+        <L>49.0</L>
+        <C>56.3</C>
+        <H>72.72</H>
+        <T>1.0</T>
+      </Color>
+
+      <!-- geo.admin.ch WMS (wms.geo.admin.ch), layer
+           ch.astra.baulinien-nationalstrassen, legend image, "In force"
+           swatch: #00E600 (all 30 real BuildingLine rows in this demo
+           have status=inForce - see data/NOTICE.md). -->
+      <Color ili:tid="3">
+        <Name>astra_baulinien_inforce_green</Name>
+        <L>79.9</L>
+        <C>110.8</C>
+        <H>136.02</H>
+        <T>1.0</T>
+      </Color>
+
+      <PolylineSign ili:tid="101">
+        <ili:Name>WaldGreen</ili:Name>
+        <Color ili:ref="1"></Color>
+      </PolylineSign>
+
+      <PolylineSign ili:tid="102">
+        <ili:Name>RoadsBrown</ili:Name>
+        <Color ili:ref="2"></Color>
+      </PolylineSign>
+
+      <PolylineSign ili:tid="103">
+        <ili:Name>BuildingLinesGreen</ili:Name>
+        <Color ili:ref="3"></Color>
+      </PolylineSign>
+
+    </StandardSigns>
+  </ili:datasection>
+</ili:transfer>

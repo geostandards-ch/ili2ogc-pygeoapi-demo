@@ -1,0 +1,64 @@
+INTERLIS 2.4;
+
+!! Cartographic signatures for this demo's 3 line-geometry collections
+!! (waldabstand_geo, mainroads, buildinglines) - each GRAPHIC's Geometry
+!! path reaches a direct POLYLINE-typed attribute on the real base class
+!! (Waldabstand_Linie.Geometrie, RoadSegment.Geometry, BuildingLine.Geometry),
+!! the same shape ili2ogc's convert-sld already proves against the real
+!! RoadsExgm2ien.ili corpus fixture. flaeche_geo is not covered here: its
+!! Flaeche.Geometrie is a MultiSurface STRUCTURE (a BAG of Surface, not a
+!! bare SURFACE-typed attribute) and reaching it from a GRAPHIC would need
+!! a STRUCTURE/BAG path traversal ili2ogc has not yet proven.
+!!
+!! Placeholder colors (see data/symbology.xtf) pending real representation
+!! values from the maintainer.
+
+MODEL DemoSymbology (en)
+  AT "mailto:test@example.org"
+  VERSION "2026-09-13" =
+
+  IMPORTS StandardSymbology;
+  IMPORTS Waldabstandslinien_V1_2;
+  IMPORTS MainRoads_LV95_V1_1;
+  IMPORTS BuildingLinesForMotorways_V2_2;
+
+  SIGN BASKET Signs ~ StandardSymbology.StandardSigns
+    OBJECTS OF PolylineSign: WaldGreen, RoadsBrown, BuildingLinesGreen;
+
+  TOPIC Graphics =
+    DEPENDS ON Waldabstandslinien_V1_2.Geobasisdaten, MainRoads_LV95_V1_1.MainRoads,
+      BuildingLinesForMotorways_V2_2.BuildingLines;
+
+    GRAPHIC Waldabstand_Graphics
+      BASED ON Waldabstandslinien_V1_2.Geobasisdaten.Waldabstand_Linie =
+
+      WaldabstandRule OF StandardSymbology.StandardSigns.PolylineSign: (
+          Sign := {WaldGreen};
+          Geometry := Geometrie;
+          Priority := 100);
+
+    END Waldabstand_Graphics;
+
+    GRAPHIC Roads_Graphics
+      BASED ON MainRoads_LV95_V1_1.MainRoads.RoadSegment =
+
+      RoadsRule OF StandardSymbology.StandardSigns.PolylineSign: (
+          Sign := {RoadsBrown};
+          Geometry := Geometry;
+          Priority := 100);
+
+    END Roads_Graphics;
+
+    GRAPHIC BuildingLines_Graphics
+      BASED ON BuildingLinesForMotorways_V2_2.BuildingLines.BuildingLine =
+
+      BuildingLinesRule OF StandardSymbology.StandardSigns.PolylineSign: (
+          Sign := {BuildingLinesGreen};
+          Geometry := Geometry;
+          Priority := 100);
+
+    END BuildingLines_Graphics;
+
+  END Graphics;
+
+END DemoSymbology.
