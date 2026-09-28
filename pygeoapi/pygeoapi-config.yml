@@ -48,8 +48,7 @@ resources:
             - energy
         extents:
             spatial:
-                bbox: [2590000, 1210000, 2900000, 1400000]
-                crs: http://www.opengis.net/def/crs/EPSG/0/2056
+                bbox: [8.5314, 47.6998, 8.8726, 47.7806]
         providers:
             - type: feature
               name: PostgreSQL
@@ -78,8 +77,7 @@ resources:
             - forest
         extents:
             spatial:
-                bbox: [2590000, 1210000, 2900000, 1400000]
-                crs: http://www.opengis.net/def/crs/EPSG/0/2056
+                bbox: [9.0544, 47.0937, 9.1785, 47.1164]
         providers:
             - type: feature
               name: PostgreSQL
@@ -119,8 +117,7 @@ resources:
             - transport
         extents:
             spatial:
-                bbox: [2485000, 1075000, 2835000, 1295000]
-                crs: http://www.opengis.net/def/crs/EPSG/0/2056
+                bbox: [6.0501, 45.8688, 10.4873, 47.8020]
         providers:
             - type: feature
               name: PostgreSQL
@@ -160,8 +157,7 @@ resources:
             - motorways
         extents:
             spatial:
-                bbox: [2485000, 1075000, 2835000, 1295000]
-                crs: http://www.opengis.net/def/crs/EPSG/0/2056
+                bbox: [7.3723, 46.7772, 9.1867, 47.4499]
         providers:
             - type: feature
               name: PostgreSQL
@@ -202,8 +198,7 @@ resources:
             - energy
         extents:
             spatial:
-                bbox: [2485000, 1075000, 2835000, 1295000]
-                crs: http://www.opengis.net/def/crs/EPSG/0/2056
+                bbox: [6.9582, 45.8360, 9.6414, 47.6669]
         providers:
             - type: feature
               name: PostgreSQL
