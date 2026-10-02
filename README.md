@@ -15,14 +15,14 @@ docker compose up --build
 
 ## Collections
 
-| Collection | Dataset |
-|---|---|
-| `flaeche_geo` | Renewable energy planning areas (Schaffhausen) |
-| `waldabstand_geo` | Forest-distance lines (Glarus) |
-| `mainroads` | Main road segments |
-| `buildinglines` | Building restriction lines along motorways |
-| `uebertragungsleitungen` | Electricity transmission planning corridors/areas |
-| `asyl` | Federal asylum centres and related facilities |
+| Collection | Dataset ([geocat.ch](https://www.geocat.ch) record) | Data provider |
+|---|---|---|
+| `flaeche_geo` | [Richtplanung erneuerbare Energien](https://www.geocat.ch/geonetwork/srv/eng/catalog.search#/metadata/f5c2c313-00bb-43d6-a3a8-7ccb5a099a96) (canton Schaffhausen) | KGK-CGC / [geodienste.ch](https://geodienste.ch) |
+| `waldabstand_geo` | [Waldabstandslinien](https://www.geocat.ch/geonetwork/srv/eng/catalog.search#/metadata/a81f0dc0-a795-4035-822c-4c3bf36e0916) (canton Glarus) | KGK-CGC / [geodienste.ch](https://geodienste.ch) |
+| `mainroads` | [Main roads network](https://www.geocat.ch/geonetwork/srv/eng/catalog.search#/metadata/c1333de6-fb91-4b0b-be95-8eab89b05358) | FEDRO |
+| `buildinglines` | [Building lines for motorways](https://www.geocat.ch/geonetwork/srv/eng/catalog.search#/metadata/fce3b347-cc58-4b29-bb87-a35eed4487ea) (30-object sample) | FEDRO |
+| `uebertragungsleitungen` | [Electricity Transmission Lines sectoral plan](https://www.geocat.ch/geonetwork/srv/eng/catalog.search#/metadata/e1134feb-55d7-4b44-8e13-125e983b259b) | SFOE |
+| `asyl` | [Sectoral plan for Asylum (SPA)](https://www.geocat.ch/geonetwork/srv/eng/catalog.search#/metadata/23a9027d-37a1-4ba4-b529-54c658540914) | SEM |
 
 ```bash
 curl "http://localhost:5000/collections/flaeche_geo/items?f=jsonfg"
@@ -43,4 +43,5 @@ to get right when requesting one:
 
 ## License
 
-MIT — see `data/NOTICE.md` for data source attribution.
+Code: MIT. Data: © the data providers listed above, open use with
+mandatory source attribution ([opendata.swiss BY](https://opendata.swiss/en/terms-of-use/#terms_by)).

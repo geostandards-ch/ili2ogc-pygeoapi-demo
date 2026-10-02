@@ -35,7 +35,7 @@ def load_richtplanung(cur) -> None:
 
     ili2ogc's `convert-jsonfg` hoists `GeometryCHLV95_V1.MultiSurface` to a
     JSON-FG top-level "place" MultiPolygon (fixed after this demo surfaced
-    it as real corpus evidence - see data/NOTICE.md) - reads "place"
+    it as real corpus evidence) - reads "place"
     directly and hands each ring set to PostGIS via `ST_GeomFromGeoJSON`,
     one row per Polygon.
     """
@@ -73,7 +73,7 @@ def load_richtplanung(cur) -> None:
         cur.execute(f.read())
 
     # This transfer never carries the external Energieform catalogue basket
-    # (see data/NOTICE.md) - the FK/NOT NULL convert-sql derives for it
+    # - the FK/NOT NULL convert-sql derives for it
     # can't be satisfied by this single-file demo.
     cur.execute("ALTER TABLE flaeche DROP CONSTRAINT fk_energieformref_energieform_reference")
     cur.execute("ALTER TABLE flaeche ALTER COLUMN energieform_reference DROP NOT NULL")
@@ -217,8 +217,8 @@ def load_mainroads(cur) -> None:
     """`MainRoads_LV95_V1_1_d` (Projection, real Swiss-wide data, 135 objects).
 
     Same shape as `RichtplanungErneuerbareEnergien_V1_d_01`: `view_roadsegment`
-    doesn't map `RoadSegment.Geometry` (a Projection view, like model 1 -
-    see data/NOTICE.md). Unlike model 1's `MultiSurface` though,
+    doesn't map `RoadSegment.Geometry` (a Projection view, like model 1).
+    Unlike model 1's `MultiSurface` though,
     `GeometryCHLV95_V1.LineWithAltitude` is a native `LineType` (3D
     POLYLINE) - `convert-sql` already puts a real `geometry(LineStringZ,
     2056)` column straight on the `roadsegment` table itself, no
@@ -315,8 +315,8 @@ def load_buildinglinesformotorways(cur) -> None:
     `data/buildingline_sample_source.xtf` is a curated 30-object sample
     (15 straight `LineString`, 15 with at least one `ARC` segment -
     `CircularString`/`CompoundCurve` in JSON-FG), committed directly
-    rather than downloaded (see data/NOTICE.md for the sampling method
-    and the full real source URL).
+    rather than downloaded (full source:
+    https://data.geo.admin.ch/ch.astra.baulinien-nationalstrassen).
 
     `convert-sql` types `buildingline.geometry` as `geometry(LineString,
     2056)` (the attribute's base VERTEX type) - too narrow for the

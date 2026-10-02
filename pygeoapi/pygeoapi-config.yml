@@ -7,6 +7,8 @@ server:
     encoding: utf-8
     languages:
         - en-US
+        - de-CH
+        - fr-CH
     pretty_print: true
     limits:
         default_items: 20
@@ -21,31 +23,92 @@ logging:
 metadata:
     identification:
         title: ili2ogc pygeoapi demo
-        description: Real Swiss geodata served via OGC API Features and Maps.
+        description: >-
+            Swiss official geodata (federal sectoral plans, minimal geodata
+            models) converted from INTERLIS with ili2ogc and served via OGC API
+            Features and Maps.
         keywords:
             - interlis
             - ogc
+            - official geodata
             - switzerland
-        terms_of_service: https://creativecommons.org/licenses/by/4.0/
+        terms_of_service: https://opendata.swiss/en/terms-of-use/#terms_by
         url: https://github.com/maxcollombin/ili2ogc
     license:
         name: MIT
         url: https://github.com/maxcollombin/ili2ogc/blob/main/LICENSE
     provider:
-        name: Maxime Collombin
-        url: https://github.com/maxcollombin/ili2ogc
+        name: GeoStandards.ch
+        url: https://www.geostandards.ch
     contact:
-        name: Maxime Collombin
-        email: maxime.collombin@netplus.ch
+        name: GeoStandards.ch
+        country: Switzerland
+        email: tools@geostandards.ch
+        url: https://www.geostandards.ch
+        role: pointOfContact
 
 resources:
     flaeche_geo:
         type: collection
-        title: Renewable energy planning areas
-        description: Renewable-energy planning areas in canton Schaffhausen.
+        title:
+            de: "Richtplanung erneuerbare Energien"
+            fr: "Plan directeur énergies renouvelables"
+        description:
+            de: >-
+                Das Energiegesetz des Bundes sieht vor, die Nutzung aller erneuerbarer
+                Energien in der Schweiz auszubauen. Die Kantone sind verpflichtet,
+                insbesondere Gebiete zur Nutzung von Wasser- und Windkraft in ihren
+                Richtplänen zu bezeichnen (Art. 10 des Energiegesetzes, Art. 8b des
+                Raumplanungsgesetzes). Die Daten basieren auf dem Modell "Übersicht
+                kantonale Richtplanung betreffend erneuerbare Energien".
+            fr: >-
+                La loi fédérale sur l’énergie prévoit le développement de l’utilisation
+                de toutes les énergies renouvelables en Suisse. Les cantons sont
+                notamment tenus de désigner des zones d’utilisation de l’énergie
+                hydraulique et éolienne dans leurs plans directeurs (art. 10 de la loi
+                sur l’énergie, art. 8b de la loi sur l’aménagement du territoire). Les
+                données se fondent sur le modèle de "Aperçu des plans directeurs
+                cantonaux en lien avec les énergies renouvelables".
         keywords:
-            - richtplanung
-            - energy
+            en:
+                - "biomass energy"
+                - "solar energy"
+                - "wind power"
+                - "energy"
+                - "water power"
+                - "biomass"
+                - "energy type"
+                - "minimum geodata model MGDM"
+                - "canton"
+                - "Switzerland"
+            de:
+                - "Energie aus Biomasse"
+                - "Solarenergie"
+                - "Windenergie"
+                - "Energie"
+                - "Wasserkraft"
+                - "Biomasse"
+                - "Energieart"
+                - "Minimales Geodatenmodel MGDM"
+                - "Kanton"
+                - "Schweiz"
+            fr:
+                - "energie de la biomasse"
+                - "énergie solaire"
+                - "énergie éolienne"
+                - "énergie"
+                - "énergie hydraulique"
+                - "biomasse"
+                - "type d'énergie"
+                - "modèle de géodonnées minimal MGDM"
+                - "canton"
+                - "Suisse"
+        links:
+            - type: text/html
+              rel: describedby
+              title: geocat.ch metadata record
+              href: https://www.geocat.ch/geonetwork/srv/eng/catalog.search#/metadata/f5c2c313-00bb-43d6-a3a8-7ccb5a099a96
+              hreflang: en-US
         extents:
             spatial:
                 bbox: [8.5314, 47.6998, 8.8726, 47.7806]
@@ -81,11 +144,63 @@ resources:
 
     waldabstand_geo:
         type: collection
-        title: Forest-distance lines
-        description: Forest-distance lines in canton Glarus.
+        title:
+            de: "Waldabstandslinien"
+            fr: "Distances par rapport à la forêt"
+        description:
+            de: >-
+                Bauten und Anlagen in Waldesnähe sind nur zulässig, wenn sie die
+                Erhaltung, Pflege und Nutzung des Waldes nicht beeinträchtigen. Die
+                Kantone legen aufgrund rechtskräftiger Waldabstandslinien einen
+                angemessenen Mindestabstand fest, der zwischen den Bauten und Anlagen
+                und dem Waldrand einzuhalten ist. Dieser Abstand wird unter
+                Berücksichtigung der Lage und der voraussichtlichen Höhe der Bestockung
+                ermittelt. Die Daten basieren auf dem MGDM Waldabstandslinien (ID 159.1,
+                Version 1.2).
+            fr: >-
+                Les constructions et les installations proches de la forêt ne sont
+                permises que si elles ne portent atteinte ni à sa conservation, ni à son
+                entretien, ni à son exploitation. Les cantons définissent une distance
+                minimale appropriée (fondée sur des distances par rapport à la forêt
+                déjà en vigueur), à respecter pour l’écart séparant les constructions et
+                les installations de la lisière de la forêt. Cette distance est
+                déterminée en tenant compte de la position du peuplement et de sa
+                hauteur prévisionnelle. Les données se fondent sur le MGDM distances par
+                rapport à la forêt (ID 159.1, version 1.2).
         keywords:
-            - waldabstandslinien
-            - forest
+            en:
+                - "wood"
+                - "federal law"
+                - "forest clearance"
+                - "land use planning"
+                - "canton"
+                - "minimum geodata model MGDM"
+                - "official geodata"
+                - "Switzerland"
+            de:
+                - "Wald"
+                - "Bundesrecht"
+                - "Waldabstand"
+                - "Nutzungsplanung"
+                - "Kanton"
+                - "Minimales Geodatenmodel MGDM"
+                - "Geobasisdaten"
+                - "Schweiz"
+            fr:
+                - "bois"
+                - "loi fédérale (D)"
+                - "déboisement"
+                - "planification de l'utilisation du sol"
+                - "canton"
+                - "modèle de géodonnées minimal MGDM"
+                - "géodonnées de base"
+                - "Suisse"
+        links:
+            - type: text/html
+              rel: describedby
+              title: geocat.ch metadata record
+              href: https://www.geocat.ch/geonetwork/srv/eng/catalog.search#/metadata/a81f0dc0-a795-4035-822c-4c3bf36e0916
+              hreflang: en-US
         extents:
             spatial:
                 bbox: [9.0544, 47.0937, 9.1785, 47.1164]
@@ -121,11 +236,67 @@ resources:
 
     mainroads:
         type: collection
-        title: Main roads
-        description: Swiss-wide main road segments.
+        title:
+            en: "Main roads network"
+            de: "Hauptstrassennetz der Schweiz (MinVV)"
+            fr: "Réseau des routes principales suisses (OUMin)"
+        description:
+            de: >-
+                Dieser Datensatz umfasst das Netz der schweizerischen Hauptstrassen, das
+                in der Verordnung über die Verwendung der zweckgebundenen
+                Mineralölsteuer im Strassenverkehr (MinVV) festgelegt ist. Der Bund, der
+                den Kantonen Beiträge für das Hauptstrassennetz gewährt, definiert
+                eindeutig, welche Infrastruktur zum Hauptstrassennetz gehört. Die Achsen
+                der Hauptstrassen können für die Beschreibung und die Referenzierung von
+                Sachverhalten entlang der Strassen verwendet werden. Im Gegensatz zum
+                schweizerischen Hauptstrassennetz gem. MinVV wird das Hauptstrassennetz
+                gemäss Durchgangsstrassenverordnung auf nationaler Ebene nicht
+                kartografisch dargestellt. Die Durchgangsstrassenverordnung hält
+                lediglich die Strassenverbindungen fest, die dem Durchgangsverkehr
+                offenstehen müssen. Welcher Streckenverlauf resp. welche
+                Strasseninfrastruktur genau betroffen ist, wird hingegen nicht
+                angegeben.
+            fr: >-
+                Ce jeu de données comprend le réseau des routes principales suisses
+                défini dans l’Ordonnance concernant l'utilisation de l'impôt sur les
+                huiles minérales à affectation obligatoire dans le trafic routier
+                (OUMin). La Confédération, qui alloue des contributions financières aux
+                cantons pour le réseau de routes principales suisses, définit de façon
+                univoque quelle infrastructure fait partie du réseau des routes
+                principales suisses. Les axes des routes principales peuvent être
+                utilisés pour la description et le référencement de faits matériels le
+                long des routes. A la différence du réseau de routes principales défini
+                par l’OUMin, le réseau des routes principales défini par l’Ordonnance
+                concernant les routes de grand transit ne fait quant à lui pas l'objet
+                d'une cartographie au niveau national. L’Ordonnance concernant les
+                routes de grand transit définit les itinéraires routiers qui doivent
+                être ouverts au grand transit, sans préciser exactement quel tracé,
+                respectivement quelle infrastructure routière est directement concernée.
         keywords:
-            - mainroads
-            - transport
+            en:
+                - "main road"
+                - "geodata"
+                - "axis"
+                - "official geodata"
+                - "Switzerland"
+            de:
+                - "Hauptstrasse"
+                - "Geodaten"
+                - "Achse"
+                - "Geobasisdaten"
+                - "Schweiz"
+            fr:
+                - "route principale"
+                - "géodonnées"
+                - "axe"
+                - "géodonnées de base"
+                - "Suisse"
+        links:
+            - type: text/html
+              rel: describedby
+              title: geocat.ch metadata record
+              href: https://www.geocat.ch/geonetwork/srv/eng/catalog.search#/metadata/c1333de6-fb91-4b0b-be95-8eab89b05358
+              hreflang: en-US
         extents:
             spatial:
                 bbox: [6.0501, 45.8688, 10.4873, 47.8020]
@@ -161,11 +332,50 @@ resources:
 
     buildinglines:
         type: collection
-        title: Building restriction lines
-        description: Building restriction lines along Swiss motorways.
+        title:
+            en: "Building lines for motorways"
+            de: "Baulinien Nationalstrassen"
+            fr: "Alignements des routes nationales"
+        description:
+            en: >-
+                The dataset of building lines for motorways contains information about
+                the location and authorisation status of building lines along motorways.
+                Building lines meet the needs of road safety and living conditions, and
+                document the requirements of any future extension to the road.
+            de: >-
+                Der Datensatz der Baulinien Nationalstrassen enthält die Informationen
+                über die Lage und den Genehmigungstand der Baulinien entlang den
+                Nationalstrassen. Baulinien tragen den Anforderungen der
+                Verkehrssicherheit und der Wohnhygiene Rechnung und dokumentieren die
+                Bedürfnisse eines allfälligen künftigen Ausbaus der Strasse.
+            fr: >-
+                Ce jeu de données contient les informations relatives à la situation et
+                au degré d'autorisation des alignements le long des routes nationales.
+                Les alignements tiennent compte des exigences de la sécurité du trafic
+                et de celles de l'hygiène des habitations, et documentent la nécessité
+                d'un élargissement éventuel de la route dans l'avenir.
         keywords:
-            - buildinglines
-            - motorways
+            en:
+                - "building line"
+                - "motorway"
+                - "official geodata"
+                - "Switzerland"
+            de:
+                - "Baulinie"
+                - "Nationalstrasse"
+                - "Geobasisdaten"
+                - "Schweiz"
+            fr:
+                - "alignement"
+                - "route nationale"
+                - "géodonnées de base"
+                - "Suisse"
+        links:
+            - type: text/html
+              rel: describedby
+              title: geocat.ch metadata record
+              href: https://www.geocat.ch/geonetwork/srv/eng/catalog.search#/metadata/fce3b347-cc58-4b29-bb87-a35eed4487ea
+              hreflang: en-US
         extents:
             spatial:
                 bbox: [7.3723, 46.7772, 9.1867, 47.4499]
@@ -201,12 +411,49 @@ resources:
 
     uebertragungsleitungen:
         type: collection
-        title: Electricity transmission planning
-        description: Planning corridors and areas for electricity transmission lines.
+        title:
+            en: "Electricity Transmission Lines sectoral plan"
+            de: "Sachplan Übertragungsleitungen (SÜL)"
+            fr: "Plan sectoriel des lignes de transport d'électricité (PSE)"
+        description:
+            en: >-
+                Sectoral planning is the federal government’s overlying planning and
+                coordination tool for implementing its spatial planning duties. Projects
+                concerning the construction and expansion of high-voltage power lines at
+                the 220/380 kV level which have a significant spatial and environmental
+                impact normally have to be specified in the Transmission Lines sectoral
+                plan.
+            de: >-
+                Die Sachplanung ist das übergeordnete Planungs- und
+                Koordinationsinstrument des Bundes für die Umsetzung seiner
+                raumplanerischen Aufgaben. Bauvorhaben für den Aus- und Neubau von
+                Hochspannungsleitungen auf der Spannungsebene 220/380 kV, die sich
+                erheblich auf Raum und Umwelt auswirken, müssen in der Regel im Sachplan
+                Übertragungsleitungen (SÜL) festgesetzt werden.
+            fr: >-
+                La planification sectorielle est le principal instrument de
+                planification et de coordination de la Confédération dans la mise en
+                œuvre de ses tâches relatives à l’aménagement du territoire. Les projets
+                d’extension ou de construction de lignes à haute tension (220/380 kV),
+                qui ont des effets importants sur le territoire et l’environnement,
+                doivent en règle générale figurer dans le plan sectoriel des lignes de
+                transport d’électricité (PSE).
         keywords:
-            - sachplan
-            - uebertragungsleitungen
-            - energy
+            en:
+                - "official geodata"
+                - "Switzerland"
+            de:
+                - "Geobasisdaten"
+                - "Schweiz"
+            fr:
+                - "géodonnées de base"
+                - "Suisse"
+        links:
+            - type: text/html
+              rel: describedby
+              title: geocat.ch metadata record
+              href: https://www.geocat.ch/geonetwork/srv/eng/catalog.search#/metadata/e1134feb-55d7-4b44-8e13-125e983b259b
+              hreflang: en-US
         extents:
             spatial:
                 bbox: [6.9582, 45.8360, 9.6414, 47.6669]
@@ -242,11 +489,59 @@ resources:
 
     asyl:
         type: collection
-        title: Federal asylum facilities
-        description: Federal asylum centres and related facilities of the asylum sectoral plan.
+        title:
+            en: "Sectoral plan for Asylum (SPA)"
+            de: "Sachplan Asyl (SPA)"
+            fr: "Plan sectoriel Asile (PSA)"
+        description:
+            en: >-
+                With the SPA, the Swiss State Secretariat for Migration (SEM) has
+                ensured a rough plan for and basic coordination of federal government
+                asylum centres. The SPA contains an overview of the government asylum
+                centres across Switzerland and some basic principles for coordination
+                with strategic goals and for cooperation between the relevant
+                authorities. A sectoral plan entry forms the basis for planning approval
+                for a project with significant repercussions for space and the
+                environment.
+            de: >-
+                Mit dem SPA stellt das Staatssekretariat für Migration die Grobplanung
+                und -abstimmung von Bundesasylzentren sicher. Der SPA enthält eine
+                schweizweite Übersicht über die Bundesasylzentren sowie Grundsätze zur
+                Abstimmung mit strategischen Zielen und zur Zusammenarbeit zwischen den
+                betroffenen Behörden. Ein Sachplaneintrag bildet jeweils die Grundlage
+                für eine Plangenehmigung eines Projekts mit erheblichen Auswirkungen auf
+                Raum und Umwelt.
+            fr: >-
+                Par l'élaboration du plan sectoriel Asile (PSA), le Secrétariat d'État
+                aux migrations assure, dans les grandes lignes, la planification et la
+                coordination des centres fédéraux pour requérants d'asile. Le PSA
+                contient un aperçu de l'ensemble des centres fédéraux et des principes
+                servant à les coordonner avec les objectifs stratégiques et à faciliter
+                la collaboration entre les autorités concernées. Chaque inscription au
+                plan sectoriel constitue la base d'une approbation des plans d'un projet
+                ayant des effets considérables sur le territoire et l'environnement.
         keywords:
-            - sachplan
-            - asyl
+            en:
+                - "federal authority"
+                - "sectoral plan"
+                - "official geodata"
+                - "Switzerland"
+            de:
+                - "Bundesbehörde"
+                - "Sachplan"
+                - "Geobasisdaten"
+                - "Schweiz"
+            fr:
+                - "autorité fédérale"
+                - "plan sectoriel"
+                - "géodonnées de base"
+                - "Suisse"
+        links:
+            - type: text/html
+              rel: describedby
+              title: geocat.ch metadata record
+              href: https://www.geocat.ch/geonetwork/srv/eng/catalog.search#/metadata/23a9027d-37a1-4ba4-b529-54c658540914
+              hreflang: en-US
         extents:
             spatial:
                 bbox: [6.1272, 45.8314, 9.5608, 47.6542]

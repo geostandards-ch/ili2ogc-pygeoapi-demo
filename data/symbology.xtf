@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!-- Sign data for models/DemoSymbology.ili. Colors sourced from the real
-     official WMS legend each dataset is actually rendered with - see
-     data/NOTICE.md ("Cartographic symbology") for the exact source per
-     color and the LCh conversion. Not a geocat.ch-published SLD/QML
+     official WMS legend each dataset is actually rendered with - the exact
+     source of each color is noted next to it. Not a geocat.ch-published SLD/QML
      (none was found for any of these datasets): reverse-engineered by
      sampling the legend swatch pixels of each dataset's own live WMS. -->
 
@@ -45,7 +44,7 @@
       <!-- geo.admin.ch WMS (wms.geo.admin.ch), layer
            ch.astra.baulinien-nationalstrassen, legend image, "In force"
            swatch: #00E600 (all 30 real BuildingLine rows in this demo
-           have status=inForce - see data/NOTICE.md). -->
+           have status=inForce). -->
       <Color ili:tid="3">
         <Name>astra_baulinien_inforce_green</Name>
         <L>79.9</L>

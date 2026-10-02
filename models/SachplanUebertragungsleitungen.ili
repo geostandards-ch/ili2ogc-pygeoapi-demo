@@ -4,8 +4,8 @@ INTERLIS 2.4;
 !! Geobasisdatensatz 94.1) PlanningMeasure surface theme - the only one of
 !! this Sachplan's 4 SLDs using border-only line symbolizers, no point
 !! marks (unlike Facility/PlanningMeasure point/line, which use se:Mark
-!! constructs pycartosym's SLD writer does not yet support - see
-!! data/NOTICE.md). PlanningMeasure.Surface is a MultiSurface STRUCTURE
+!! constructs pycartosym's SLD writer does not yet support).
+!! PlanningMeasure.Surface is a MultiSurface STRUCTURE
 !! (a BAG of Surface); Geometry := Surface -> Surfaces -> Surface chains
 !! through it via the association-path operator (INTERLIS refman:
 !! ObjectOrAttributePath = PathEl {'->' PathEl}, valid "von der aktuellen
