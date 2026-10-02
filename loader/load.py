@@ -610,6 +610,7 @@ def build_styles() -> None:
         (SYMBOLOGY_MODEL, SYMBOLOGY_XTF, "Waldabstand_Graphics", "waldabstand.sld"),
         (SYMBOLOGY_MODEL, SYMBOLOGY_XTF, "Roads_Graphics", "roads.sld"),
         (SYMBOLOGY_MODEL, SYMBOLOGY_XTF, "BuildingLines_Graphics", "buildinglines.sld"),
+        (SYMBOLOGY_MODEL, SYMBOLOGY_XTF, "Flaeche_Graphics", "flaeche.sld"),
         (SUEL_SYMBOLOGY_MODEL, SUEL_SYMBOLOGY_XTF, "PlanningMeasure_Graphics", "sachplan_uebertragungsleitungen.sld"),
         (SPA_SYMBOLOGY_MODEL, SPA_SYMBOLOGY_XTF, "Facility_Graphics", "sachplan_asyl.sld"),
     ]:

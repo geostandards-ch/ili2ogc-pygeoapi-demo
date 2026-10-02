@@ -54,6 +54,35 @@
         <T>1.0</T>
       </Color>
 
+      <!-- geodienste.ch harmonized WMS (wfs.geodienste.ch/
+           richtplanung_erneuerbare_energien_v1_0_0), layer
+           windenergie_flaechen, real SLD from WMS GetStyles:
+           "Richtplaninhalt" fill #a900e6, "Ausgangslage" fill #ffffff
+           with a #e89eff stroke of width 1. -->
+      <Color ili:tid="4">
+        <Name>rp_windenergie_richtplaninhalt_purple</Name>
+        <L>44.446</L>
+        <C>110.1224</C>
+        <H>318.363</H>
+        <T>1.0</T>
+      </Color>
+
+      <Color ili:tid="5">
+        <Name>rp_windenergie_ausgangslage_white</Name>
+        <L>100.0</L>
+        <C>0.0</C>
+        <H>0.0</H>
+        <T>1.0</T>
+      </Color>
+
+      <Color ili:tid="6">
+        <Name>rp_windenergie_ausgangslage_border</Name>
+        <L>75.3462</L>
+        <C>57.3219</C>
+        <H>319.3479</H>
+        <T>1.0</T>
+      </Color>
+
       <PolylineSign ili:tid="101">
         <ili:Name>WaldGreen</ili:Name>
         <Color ili:ref="1"></Color>
@@ -68,6 +97,22 @@
         <ili:Name>BuildingLinesGreen</ili:Name>
         <Color ili:ref="3"></Color>
       </PolylineSign>
+
+      <PolylineSign ili:tid="104">
+        <ili:Name>RichtplanAusgangslageBorder</ili:Name>
+        <Color ili:ref="6"></Color>
+      </PolylineSign>
+
+      <SurfaceSign ili:tid="110">
+        <ili:Name>RichtplaninhaltPurple</ili:Name>
+        <FillColor ili:ref="4"></FillColor>
+      </SurfaceSign>
+
+      <SurfaceSign ili:tid="111">
+        <ili:Name>AusgangslageWhite</ili:Name>
+        <FillColor ili:ref="5"></FillColor>
+        <Border ili:ref="104"></Border>
+      </SurfaceSign>
 
     </StandardSigns>
   </ili:datasection>

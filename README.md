@@ -30,8 +30,7 @@ curl "http://localhost:5000/collections/waldabstand_geo/map?bbox=9.0544,47.0937,
 curl "http://localhost:5000/collections/waldabstand_geo/map?bbox=2722621,1217159,2732023,1219842&bbox-crs=http://www.opengis.net/def/crs/EPSG/0/2056" -o map.png
 ```
 
-`waldabstand_geo`, `mainroads`, `buildinglines`,
-`uebertragungsleitungen`, and `asyl` also serve OGC API - Maps (`/map`). Two things
+All collections also serve OGC API - Maps (`/map`). Two things
 to get right when requesting one:
 
 - A `bbox` in EPSG:2056 (Swiss metres) must be paired with

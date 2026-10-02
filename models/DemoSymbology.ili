@@ -3,15 +3,16 @@ INTERLIS 2.4;
 !! Cartographic signatures for this demo's 3 line-geometry collections
 !! (waldabstand_geo, mainroads, buildinglines) - each GRAPHIC's Geometry
 !! path reaches a direct POLYLINE-typed attribute on the real base class
-!! (Waldabstand_Linie.Geometrie, RoadSegment.Geometry, BuildingLine.Geometry),
-!! the same shape ili2ogc's convert-sld already proves against the real
-!! RoadsExgm2ien.ili corpus fixture. flaeche_geo is not covered here: its
-!! Flaeche.Geometrie is a MultiSurface STRUCTURE (a BAG of Surface, not a
-!! bare SURFACE-typed attribute) and reaching it from a GRAPHIC would need
-!! a STRUCTURE/BAG path traversal ili2ogc has not yet proven.
+!! (Waldabstand_Linie.Geometrie, RoadSegment.Geometry, BuildingLine.Geometry)
+!! - and for flaeche_geo, whose Flaeche.Geometrie is a MultiSurface
+!! STRUCTURE (a BAG of Surface) reached with Geometrie -> Surfaces -> Surface.
 !!
-!! Placeholder colors (see data/symbology.xtf) pending real representation
-!! values from the maintainer.
+!! Colors come from each dataset's real WMS (see data/symbology.xtf).
+!! Flaeche_Graphics reproduces geodienste.ch's windenergie_flaechen SLD.
+!! Its "Richtplaninhalt" rule carries no filter in that export; it is
+!! rebuilt here as the 4 Richtplaninhalt sub-values. Its 2
+!! "Ausschlussgebiet" rules filter on the Energieform catalogue text, which
+!! this single-file transfer does not carry - not reproduced.
 
 MODEL DemoSymbology (en)
   AT "mailto:test@example.org"
@@ -21,13 +22,15 @@ MODEL DemoSymbology (en)
   IMPORTS Waldabstandslinien_V1_2;
   IMPORTS MainRoads_LV95_V1_1;
   IMPORTS BuildingLinesForMotorways_V2_2;
+  IMPORTS RichtplanungErneuerbareEnergien_V1;
 
   SIGN BASKET Signs ~ StandardSymbology.StandardSigns
     OBJECTS OF PolylineSign: WaldGreen, RoadsBrown, BuildingLinesGreen;
+    OBJECTS OF SurfaceSign: RichtplaninhaltPurple, AusgangslageWhite;
 
   TOPIC Graphics =
     DEPENDS ON Waldabstandslinien_V1_2.Geobasisdaten, MainRoads_LV95_V1_1.MainRoads,
-      BuildingLinesForMotorways_V2_2.BuildingLines;
+      BuildingLinesForMotorways_V2_2.BuildingLines, RichtplanungErneuerbareEnergien_V1.Objekte;
 
     GRAPHIC Waldabstand_Graphics
       BASED ON Waldabstandslinien_V1_2.Geobasisdaten.Waldabstand_Linie =
@@ -58,6 +61,24 @@ MODEL DemoSymbology (en)
           Priority := 100);
 
     END BuildingLines_Graphics;
+
+    GRAPHIC Flaeche_Graphics
+      BASED ON RichtplanungErneuerbareEnergien_V1.Objekte.Flaeche =
+
+      RichtplaninhaltRule OF StandardSymbology.StandardSigns.SurfaceSign:
+        WHERE (Objektart == #Richtplaninhalt.Vororientierung) OR (Objektart == #Richtplaninhalt.Zwischenergebnis)
+          OR (Objektart == #Richtplaninhalt.Festsetzung) OR (Objektart == #Richtplaninhalt.Unbekannt) (
+          Sign := {RichtplaninhaltPurple};
+          Geometry := Geometrie -> Surfaces -> Surface;
+          Priority := 100);
+
+      AusgangslageRule OF StandardSymbology.StandardSigns.SurfaceSign:
+        WHERE Objektart == #Ausgangslage (
+          Sign := {AusgangslageWhite};
+          Geometry := Geometrie -> Surfaces -> Surface;
+          Priority := 101);
+
+    END Flaeche_Graphics;
 
   END Graphics;
 
