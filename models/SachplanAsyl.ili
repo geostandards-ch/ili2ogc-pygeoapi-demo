@@ -1,0 +1,88 @@
+INTERLIS 2.4;
+
+!! Cartographic signature for the "Sachplan Asyl" (Geobasisdatensatz
+!! 198.1) Facility point theme, reproducing the real official SLD
+!! (spa_sp_asyl_facilities_kraft_point.sld): one rule per facility kind
+!! (FacilityKind catalogue, KindID 198-F-01..03) and facility status
+!! (shared FacilityStatus catalogue, StatusID 1..3). Facility.Point is a
+!! MultiPoint STRUCTURE (a BAG of PointStructure), reached with the same
+!! '->' path as SachplanUebertragungsleitungen's MultiSurface. The
+!! official "Infrastruktur zur Bewaeltigung von Schwankungen" rules also
+!! overlay a QGIS-specific `filled_arrowhead` mark (not an SE 1.1.0
+!! well-known name) - not reproduced, only their diamond is.
+
+MODEL SachplanAsyl (en)
+  AT "mailto:test@example.org"
+  VERSION "2026-10-02" =
+
+  IMPORTS StandardSymbology;
+  IMPORTS SectoralPlanForAsylum_LV95_V1_4;
+
+  SIGN BASKET Signs ~ StandardSymbology.StandardSigns
+    OBJECTS OF SymbolSign: DiamondBestehend, DiamondNeu, DiamondAnpassung, TriangleBestehend, TriangleNeu, TriangleAnpassung;
+
+  TOPIC Graphics =
+    DEPENDS ON BaseModel_SectoralPlans_LV95_V1_4.SectoralPlans_WithLatestModification;
+
+    GRAPHIC Facility_Graphics
+      BASED ON BaseModel_SectoralPlans_LV95_V1_4.SectoralPlans_WithLatestModification.Facility =
+
+      BazBestehendRule OF StandardSymbology.StandardSigns.SymbolSign:
+        WHERE (FacilityKind -> Reference -> KindID == "198-F-01") AND (FacilityStatus -> Reference -> StatusID == 1) (
+          Sign := {DiamondBestehend};
+          Geometry := Point -> Points -> Point;
+          Priority := 1);
+
+      BazNeuRule OF StandardSymbology.StandardSigns.SymbolSign:
+        WHERE (FacilityKind -> Reference -> KindID == "198-F-01") AND (FacilityStatus -> Reference -> StatusID == 2) (
+          Sign := {DiamondNeu};
+          Geometry := Point -> Points -> Point;
+          Priority := 2);
+
+      BazAnpassungRule OF StandardSymbology.StandardSigns.SymbolSign:
+        WHERE (FacilityKind -> Reference -> KindID == "198-F-01") AND (FacilityStatus -> Reference -> StatusID == 3) (
+          Sign := {DiamondAnpassung};
+          Geometry := Point -> Points -> Point;
+          Priority := 3);
+
+      BesoZBestehendRule OF StandardSymbology.StandardSigns.SymbolSign:
+        WHERE (FacilityKind -> Reference -> KindID == "198-F-02") AND (FacilityStatus -> Reference -> StatusID == 1) (
+          Sign := {TriangleBestehend};
+          Geometry := Point -> Points -> Point;
+          Priority := 4);
+
+      BesoZNeuRule OF StandardSymbology.StandardSigns.SymbolSign:
+        WHERE (FacilityKind -> Reference -> KindID == "198-F-02") AND (FacilityStatus -> Reference -> StatusID == 2) (
+          Sign := {TriangleNeu};
+          Geometry := Point -> Points -> Point;
+          Priority := 5);
+
+      BesoZAnpassungRule OF StandardSymbology.StandardSigns.SymbolSign:
+        WHERE (FacilityKind -> Reference -> KindID == "198-F-02") AND (FacilityStatus -> Reference -> StatusID == 3) (
+          Sign := {TriangleAnpassung};
+          Geometry := Point -> Points -> Point;
+          Priority := 6);
+
+      IbsBestehendRule OF StandardSymbology.StandardSigns.SymbolSign:
+        WHERE (FacilityKind -> Reference -> KindID == "198-F-03") AND (FacilityStatus -> Reference -> StatusID == 1) (
+          Sign := {DiamondBestehend};
+          Geometry := Point -> Points -> Point;
+          Priority := 7);
+
+      IbsNeuRule OF StandardSymbology.StandardSigns.SymbolSign:
+        WHERE (FacilityKind -> Reference -> KindID == "198-F-03") AND (FacilityStatus -> Reference -> StatusID == 2) (
+          Sign := {DiamondNeu};
+          Geometry := Point -> Points -> Point;
+          Priority := 8);
+
+      IbsAnpassungRule OF StandardSymbology.StandardSigns.SymbolSign:
+        WHERE (FacilityKind -> Reference -> KindID == "198-F-03") AND (FacilityStatus -> Reference -> StatusID == 3) (
+          Sign := {DiamondAnpassung};
+          Geometry := Point -> Points -> Point;
+          Priority := 9);
+
+    END Facility_Graphics;
+
+  END Graphics;
+
+END SachplanAsyl.

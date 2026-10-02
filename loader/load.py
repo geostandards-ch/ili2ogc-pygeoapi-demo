@@ -20,6 +20,8 @@ SYMBOLOGY_MODEL = f"{REPO}/DemoSymbology.ili"
 SYMBOLOGY_XTF = "/data/symbology.xtf"
 SUEL_SYMBOLOGY_MODEL = f"{REPO}/SachplanUebertragungsleitungen.ili"
 SUEL_SYMBOLOGY_XTF = "/data/symbology_uebertragungsleitungen.xtf"
+SPA_SYMBOLOGY_MODEL = f"{REPO}/SachplanAsyl.ili"
+SPA_SYMBOLOGY_XTF = "/data/symbology_asyl.xtf"
 _ILI24_NS = "http://www.interlis.ch/INTERLIS2.3"
 
 
@@ -509,6 +511,93 @@ def load_sachplan_uebertragungsleitungen(cur) -> None:
     print(f"sachplan_uebertragungsleitungen: loaded {rows} PlanningMeasure surface rows.", flush=True)
 
 
+def load_sachplan_asyl(cur) -> None:
+    """`SectoralPlanForAsylum_LV95_V1_4` (Sachplan Asyl, real SEM data).
+
+    Like Übertragungsleitungen, `Facility` lives on the shared
+    `BaseModel_SectoralPlans_LV95_V1_4` - here as bare base-class
+    instances, no subclass. The SEM catalogue (FacilityKind) is vendored
+    next to the data; the cross-Sachplan catalogue (FacilityStatus) is
+    the same file Übertragungsleitungen ships, read from its archive.
+    `validate` runs non-fatally, same known false-positive as there.
+    """
+    model = f"{REPO}/SectoralPlanForAsylum_V1_4.ili"
+    main_xtf = "/tmp/spa_main.xtf"
+    shared_catalogue = "/tmp/spa_shared_catalogue.xml"
+    merged_xtf = "/data/sachplan_asyl.merged.xtf"
+    data_jsonfg = "/tmp/spa_data.jsonfg.json"
+
+    # Source: https://data.geo.admin.ch/ch.sem.sachplan-asyl_kraft/sachplan-asyl_kraft/sachplan-asyl_kraft_2056.zip
+    with zipfile.ZipFile(f"{SOURCE_XTF_DIR}/sachplan-asyl_kraft_2056.zip") as zf:
+        with zf.open(next(n for n in zf.namelist() if n.endswith(".xtf"))) as src, open(main_xtf, "wb") as dst:
+            dst.write(src.read())
+    with zipfile.ZipFile(f"{SOURCE_XTF_DIR}/sachplan-uebertragungsleitungen_kraft_2056.xtf.zip") as zf:
+        with zf.open(next(n for n in zf.namelist() if n.endswith("SectoralPlans_Catalogues_V1_4.xml"))) as src, open(
+            shared_catalogue, "wb"
+        ) as dst:
+            dst.write(src.read())
+
+    # Source: https://models.geo.admin.ch/SEM/SectoralPlanForAsylum_Catalogues_V1_4.xml
+    _merge_ili24_baskets(
+        main_xtf, [f"{SOURCE_XTF_DIR}/SectoralPlanForAsylum_Catalogues_V1_4.xml", shared_catalogue], merged_xtf
+    )
+
+    subprocess.run(["interlis", "validate", merged_xtf, "--model", model, "--repo", REPO], check=False)
+    run(["interlis", "convert-jsonfg", merged_xtf, "--model", model, "--repo", REPO, "-o", data_jsonfg])
+
+    cur.execute("DROP TABLE IF EXISTS spa_facility_point CASCADE;")
+    cur.execute(
+        """CREATE TABLE spa_facility_point (
+               id text PRIMARY KEY,
+               geom geometry(MultiPoint, 2056),
+               name text,
+               facility_kind text NOT NULL,
+               facility_status integer NOT NULL
+           )"""
+    )
+
+    with open(data_jsonfg) as f:
+        fc = json.load(f)
+
+    # The DrawingRules' WHERE compares the catalogue items' own KindID/
+    # StatusID, not the raw REF TIDs ("ch21jw6500006477" -> "198-F-01",
+    # "fs1" -> 1), so each ref is joined against its catalogue feature.
+    kind_id_by_ref = {f["id"]: f["properties"]["KindID"] for f in fc["features"] if f["featureType"] == "FacilityKind"}
+    status_id_by_ref = {
+        f["id"]: f["properties"]["StatusID"] for f in fc["features"] if f["featureType"] == "FacilityStatus"
+    }
+
+    rows = 0
+    for feat in fc["features"]:
+        if feat["featureType"] != "Facility":
+            continue
+        p = feat["properties"]
+        # Facility.Point is the base model's own MultiPoint STRUCTURE, not
+        # a standard geometry type, so it stays in properties, not "place".
+        points = [item["Point"]["coordinates"] for item in ((p.get("Point") or {}).get("Points") or [])]
+        if not points:
+            continue
+        names = (p.get("Name") or {}).get("LocalisedText") or []
+        name = next((t["Text"] for t in names if t.get("Language") == "de"), None)
+        cur.execute(
+            """INSERT INTO spa_facility_point (id, geom, name, facility_kind, facility_status)
+               VALUES (%s, ST_SetSRID(ST_GeomFromGeoJSON(%s), 2056), %s, %s, %s)""",
+            (
+                feat["id"],
+                json.dumps({"type": "MultiPoint", "coordinates": points}),
+                name,
+                kind_id_by_ref[p["FacilityKind"]],
+                status_id_by_ref[p["FacilityStatus"]],
+            ),
+        )
+        rows += 1
+
+    with open("/loader/post_load_sachplan_asyl.sql") as f:
+        cur.execute(f.read())
+
+    print(f"sachplan_asyl: loaded {rows} Facility point rows.", flush=True)
+
+
 def build_styles() -> None:
     """Write one .sld per DemoSymbology GRAPHIC for pygeoapi's OGC API - Maps providers.
 
@@ -522,6 +611,7 @@ def build_styles() -> None:
         (SYMBOLOGY_MODEL, SYMBOLOGY_XTF, "Roads_Graphics", "roads.sld"),
         (SYMBOLOGY_MODEL, SYMBOLOGY_XTF, "BuildingLines_Graphics", "buildinglines.sld"),
         (SUEL_SYMBOLOGY_MODEL, SUEL_SYMBOLOGY_XTF, "PlanningMeasure_Graphics", "sachplan_uebertragungsleitungen.sld"),
+        (SPA_SYMBOLOGY_MODEL, SPA_SYMBOLOGY_XTF, "Facility_Graphics", "sachplan_asyl.sld"),
     ]:
         run(
             [
@@ -551,6 +641,7 @@ def main() -> None:
     load_mainroads(cur)
     load_buildinglinesformotorways(cur)
     load_sachplan_uebertragungsleitungen(cur)
+    load_sachplan_asyl(cur)
     conn.commit()
     cur.close()
     conn.close()

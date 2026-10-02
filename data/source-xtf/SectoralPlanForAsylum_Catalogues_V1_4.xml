@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Version    | Who   | Modification
+=======================================================================================
+2022-12-08 | KOGIS | All BID and TID replaced
+
+File SectoralPlanForAsylum_Catalogues_V1_4.xml VERSION="2022-12-08" (https://models.geo.admin.ch/SEM/)
+-->
+<TRANSFER xmlns="http://www.interlis.ch/INTERLIS2.3">
+  <HEADERSECTION SENDER="ili2fme-7.0.11-SNAPSHOT-ed36362a1f00206720779d48437e6e91bdb72422" VERSION="2.3">
+    <MODELS>
+      <MODEL NAME="InternationalCodes_V1" VERSION="2011-08-30" URI="http://www.geo.admin.ch"></MODEL>
+      <MODEL NAME="Localisation_V1" VERSION="2011-08-30" URI="http://www.geo.admin.ch"></MODEL>
+      <MODEL NAME="LocalisationCH_V1" VERSION="2011-08-30" URI="http://www.geo.admin.ch"></MODEL>
+      <MODEL NAME="Dictionaries_V1" VERSION="2011-08-30" URI="http://www.geo.admin.ch"></MODEL>
+      <MODEL NAME="DictionariesCH_V1" VERSION="2011-08-30" URI="http://www.geo.admin.ch"></MODEL>
+      <MODEL NAME="CatalogueObjects_V1" VERSION="2011-08-30" URI="http://www.geo.admin.ch"></MODEL>
+      <MODEL NAME="CatalogueObjectTrees_V1" VERSION="2011-08-30" URI="http://www.geo.admin.ch"></MODEL>
+      <MODEL NAME="CoordSys" VERSION="2015-11-24" URI="http://www.interlis.ch/models"></MODEL>
+      <MODEL NAME="Units" VERSION="2012-02-20" URI="http://www.interlis.ch/models"></MODEL>
+      <MODEL NAME="WithOneState_V1" VERSION="2011-08-30" URI="http://www.geo.admin.ch"></MODEL>
+      <MODEL NAME="WithLatestModification_V1" VERSION="2018-02-19" URI="http://www.geo.admin.ch"></MODEL>
+      <MODEL NAME="WithModificationObjects_V1" VERSION="2011-08-30" URI="http://www.geo.admin.ch"></MODEL>
+      <MODEL NAME="GeometryCHLV03_V1" VERSION="2017-12-04" URI="http://www.geo.admin.ch"></MODEL>
+      <MODEL NAME="GeometryCHLV95_V1" VERSION="2017-12-04" URI="http://www.geo.admin.ch"></MODEL>
+      <MODEL NAME="BaseModel_SectoralPlans_Catalogues_V1_4" VERSION="2016-11-07" URI="http://models.geo.admin.ch/ARE/"></MODEL>
+      <MODEL NAME="BaseModel_SectoralPlans_LV03_V1_4" VERSION="2016-11-07" URI="http://models.geo.admin.ch/ARE/"></MODEL>
+      <MODEL NAME="BaseModel_SectoralPlans_LV95_V1_4" VERSION="2016-11-07" URI="http://models.geo.admin.ch/ARE/"></MODEL>
+    </MODELS>
+  </HEADERSECTION>
+  <DATASECTION>
+    <BaseModel_SectoralPlans_Catalogues_V1_4.Catalogue_FacilityKind BID="ch201dag00CatFaK">
+      <BaseModel_SectoralPlans_Catalogues_V1_4.Catalogue_FacilityKind.FacilityKind TID="ch21jw6500006477">
+        <KindID>198-F-01</KindID>
+        <Name>
+          <LocalisationCH_V1.MultilingualText>
+            <LocalisedText>
+              <LocalisationCH_V1.LocalisedText>
+                <Language>de</Language>
+                <Text>Bundesasylzentrum (BAZ)</Text>
+              </LocalisationCH_V1.LocalisedText>
+              <LocalisationCH_V1.LocalisedText>
+                <Language>fr</Language>
+                <Text>Centre fédéral pour requérants d‘asile (CF)</Text>
+              </LocalisationCH_V1.LocalisedText>
+              <LocalisationCH_V1.LocalisedText>
+                <Language>it</Language>
+                <Text>Centro federale per richiedenti l’asilo (CF)</Text>
+              </LocalisationCH_V1.LocalisedText>
+            </LocalisedText>
+          </LocalisationCH_V1.MultilingualText>
+        </Name>
+      </BaseModel_SectoralPlans_Catalogues_V1_4.Catalogue_FacilityKind.FacilityKind>
+      <BaseModel_SectoralPlans_Catalogues_V1_4.Catalogue_FacilityKind.FacilityKind TID="ch21jw6500006478">
+        <KindID>198-F-02</KindID>
+        <Name>
+          <LocalisationCH_V1.MultilingualText>
+            <LocalisedText>
+              <LocalisationCH_V1.LocalisedText>
+                <Language>de</Language>
+                <Text>Besonderes Zentrum (BesoZ)</Text>
+              </LocalisationCH_V1.LocalisedText>
+              <LocalisationCH_V1.LocalisedText>
+                <Language>fr</Language>
+                <Text>Centre spécifique (CS)</Text>
+              </LocalisationCH_V1.LocalisedText>
+              <LocalisationCH_V1.LocalisedText>
+                <Language>it</Language>
+                <Text>Centro speciale (CS)</Text>
+              </LocalisationCH_V1.LocalisedText>
+            </LocalisedText>
+          </LocalisationCH_V1.MultilingualText>
+        </Name>
+      </BaseModel_SectoralPlans_Catalogues_V1_4.Catalogue_FacilityKind.FacilityKind>
+      <BaseModel_SectoralPlans_Catalogues_V1_4.Catalogue_FacilityKind.FacilityKind TID="ch21jw6500006479">
+        <KindID>198-F-03</KindID>
+        <Name>
+          <LocalisationCH_V1.MultilingualText>
+            <LocalisedText>
+              <LocalisationCH_V1.LocalisedText>
+                <Language>de</Language>
+                <Text>Infrastruktur zur Bewältigung von Schwankungen (IBS)</Text>
+              </LocalisationCH_V1.LocalisedText>
+              <LocalisationCH_V1.LocalisedText>
+                <Language>fr</Language>
+                <Text>Infrastructures pour la gestion des fluctuations (IGF)</Text>
+              </LocalisationCH_V1.LocalisedText>
+              <LocalisationCH_V1.LocalisedText>
+                <Language>it</Language>
+                <Text>Infrastrutture per la gestione delle fluttuazioni (IGF)</Text>
+              </LocalisationCH_V1.LocalisedText>
+            </LocalisedText>
+          </LocalisationCH_V1.MultilingualText>
+        </Name>
+      </BaseModel_SectoralPlans_Catalogues_V1_4.Catalogue_FacilityKind.FacilityKind>
+    </BaseModel_SectoralPlans_Catalogues_V1_4.Catalogue_FacilityKind>
+    <BaseModel_SectoralPlans_Catalogues_V1_4.Catalogue_MeasureType BID="ch201dag00CatMet">
+      <BaseModel_SectoralPlans_Catalogues_V1_4.Catalogue_MeasureType.MeasureType TID="ch21jw6500006480">
+        <TypeID>198-M-01</TypeID>
+        <Name>
+          <LocalisationCH_V1.MultilingualText>
+            <LocalisedText>
+              <LocalisationCH_V1.LocalisedText>
+                <Language>de</Language>
+                <Text>Standortfestlegung</Text>
+              </LocalisationCH_V1.LocalisedText>
+              <LocalisationCH_V1.LocalisedText>
+                <Language>fr</Language>
+                <Text>Site d'implantation</Text>
+              </LocalisationCH_V1.LocalisedText>
+              <LocalisationCH_V1.LocalisedText>
+                <Language>it</Language>
+                <Text>Ubicazione dell'impianto</Text>
+              </LocalisationCH_V1.LocalisedText>
+            </LocalisedText>
+          </LocalisationCH_V1.MultilingualText>
+        </Name>
+      </BaseModel_SectoralPlans_Catalogues_V1_4.Catalogue_MeasureType.MeasureType>
+      <BaseModel_SectoralPlans_Catalogues_V1_4.Catalogue_MeasureType.MeasureType TID="ch21jw6500006481">
+        <TypeID>198-M-02</TypeID>
+        <Name>
+          <LocalisationCH_V1.MultilingualText>
+            <LocalisedText>
+              <LocalisationCH_V1.LocalisedText>
+                <Language>de</Language>
+                <Text>Anlageperimeter</Text>
+              </LocalisationCH_V1.LocalisedText>
+              <LocalisationCH_V1.LocalisedText>
+                <Language>fr</Language>
+                <Text>Périmètre de l’installation</Text>
+              </LocalisationCH_V1.LocalisedText>
+              <LocalisationCH_V1.LocalisedText>
+                <Language>it</Language>
+                <Text>Perimetro dell’impianto</Text>
+              </LocalisationCH_V1.LocalisedText>
+            </LocalisedText>
+          </LocalisationCH_V1.MultilingualText>
+        </Name>
+      </BaseModel_SectoralPlans_Catalogues_V1_4.Catalogue_MeasureType.MeasureType>
+    </BaseModel_SectoralPlans_Catalogues_V1_4.Catalogue_MeasureType>
+  </DATASECTION>
+</TRANSFER>

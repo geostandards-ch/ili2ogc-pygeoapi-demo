@@ -228,3 +228,43 @@ resources:
                   mimetype: image/png
         formatters:
             - name: pygeoapi_plugins.formatter.JSONFG
+
+    asyl:
+        type: collection
+        title: Federal asylum facilities
+        description: Federal asylum centres and related facilities of the asylum sectoral plan.
+        keywords:
+            - sachplan
+            - asyl
+        extents:
+            spatial:
+                bbox: [6.1272, 45.8314, 9.5608, 47.6542]
+        providers:
+            - type: feature
+              name: PostgreSQL
+              data:
+                  host: postgis
+                  dbname: postgres
+                  user: postgres
+                  password: postgres
+                  search_path: [public]
+              id_field: id
+              geom_field: geom
+              table: spa_facility_point
+              storage_crs: http://www.opengis.net/def/crs/EPSG/0/2056
+              crs:
+                  - http://www.opengis.net/def/crs/EPSG/0/2056
+                  - http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            - type: map
+              name: MapScript
+              data: 'PG:host=postgis dbname=postgres user=postgres password=postgres tables=spa_facility_geo(geom)'
+              options:
+                  type: MS_LAYER_POINT
+                  layer: Facility_Graphics
+                  style: /styles/sachplan_asyl.sld
+                  projection: 2056
+              format:
+                  name: png
+                  mimetype: image/png
+        formatters:
+            - name: pygeoapi_plugins.formatter.JSONFG

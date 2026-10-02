@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Sign data for models/SachplanAsyl.ili. Marks, fills and sizes copied
+     from the real official SLD ("exemples supplémentaires démo
+     pygeoapi/SLD Sachpläne/SP Asyl/spa_sp_asyl_facilities_kraft_point.sld"):
+     diamond (Bundesasylzentrum, Infrastruktur zur Bewältigung von
+     Schwankungen) and triangle (Besonderes Zentrum), size 15, filled
+     #0066cc (Bestehend), #4daf4a (Neu) or #00ffff (Anpassung/Umnutzung).
+     Colors are the exact LCh equivalents (round-tripped back to the same
+     hex). The diamond's vertices span a 1x1 box like the SLD's size-15
+     diamond, so it writes as a square of side 15/sqrt(2) turned 45
+     degrees - SE 1.1.0 has no `diamond` well-known name. -->
+
+<ili:transfer xmlns:ili="http://www.interlis.ch/xtf/2.4/INTERLIS"
+  xmlns="http://www.interlis.ch/xtf/2.4/StandardSymbology"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <ili:headersection>
+    <ili:models>
+      <ili:model>SachplanAsyl</ili:model>
+    </ili:models>
+    <ili:sender>ili2ogc-pygeoapi-demo</ili:sender>
+    <ili:comment>Point marks for Sachplan Asyl Facility, sourced from the real SLD</ili:comment>
+  </ili:headersection>
+
+  <ili:datasection>
+    <StandardSigns ili:bid="Signs00000003">
+
+      <Color ili:tid="1"><!-- #0066cc -->
+        <Name>spa_bestehend_blue</Name>
+        <L>44.0318</L>
+        <C>61.4453</C>
+        <H>284.3898</H>
+        <T>1.0</T>
+      </Color>
+
+      <Color ili:tid="2"><!-- #4daf4a -->
+        <Name>spa_neu_green</Name>
+        <L>63.9421</L>
+        <C>64.9563</C>
+        <H>139.0368</H>
+        <T>1.0</T>
+      </Color>
+
+      <Color ili:tid="3"><!-- #00ffff -->
+        <Name>spa_anpassung_cyan</Name>
+        <L>91.1132</L>
+        <C>50.1209</C>
+        <H>196.3762</H>
+        <T>1.0</T>
+      </Color>
+
+      <Font ili:tid="10">
+        <Name>SachplanAsylMarks</Name>
+        <Internal>true</Internal>
+        <Type>symbol</Type>
+      </Font>
+
+      <FontSymbol ili:tid="20">
+        <Name>Diamond_Bestehend</Name>
+        <Font ili:ref="10"></Font>
+        <Geometry>
+          <FontSymbol_Surface>
+            <FillColor ili:ref="1"></FillColor>
+            <Geometry>
+              <SURFACE>
+                <BOUNDARY>
+                  <POLYLINE>
+                  <COORD><C1>0</C1><C2>0.5</C2></COORD>
+                  <COORD><C1>0.5</C1><C2>0</C2></COORD>
+                  <COORD><C1>0</C1><C2>-0.5</C2></COORD>
+                  <COORD><C1>-0.5</C1><C2>0</C2></COORD>
+                  <COORD><C1>0</C1><C2>0.5</C2></COORD>
+                  </POLYLINE>
+                </BOUNDARY>
+              </SURFACE>
+            </Geometry>
+          </FontSymbol_Surface>
+        </Geometry>
+      </FontSymbol>
+
+      <FontSymbol ili:tid="21">
+        <Name>Diamond_Neu</Name>
+        <Font ili:ref="10"></Font>
+        <Geometry>
+          <FontSymbol_Surface>
+            <FillColor ili:ref="2"></FillColor>
+            <Geometry>
+              <SURFACE>
+                <BOUNDARY>
+                  <POLYLINE>
+                  <COORD><C1>0</C1><C2>0.5</C2></COORD>
+                  <COORD><C1>0.5</C1><C2>0</C2></COORD>
+                  <COORD><C1>0</C1><C2>-0.5</C2></COORD>
+                  <COORD><C1>-0.5</C1><C2>0</C2></COORD>
+                  <COORD><C1>0</C1><C2>0.5</C2></COORD>
+                  </POLYLINE>
+                </BOUNDARY>
+              </SURFACE>
+            </Geometry>
+          </FontSymbol_Surface>
+        </Geometry>
+      </FontSymbol>
+
+      <FontSymbol ili:tid="22">
+        <Name>Diamond_Anpassung</Name>
+        <Font ili:ref="10"></Font>
+        <Geometry>
+          <FontSymbol_Surface>
+            <FillColor ili:ref="3"></FillColor>
+            <Geometry>
+              <SURFACE>
+                <BOUNDARY>
+                  <POLYLINE>
+                  <COORD><C1>0</C1><C2>0.5</C2></COORD>
+                  <COORD><C1>0.5</C1><C2>0</C2></COORD>
+                  <COORD><C1>0</C1><C2>-0.5</C2></COORD>
+                  <COORD><C1>-0.5</C1><C2>0</C2></COORD>
+                  <COORD><C1>0</C1><C2>0.5</C2></COORD>
+                  </POLYLINE>
+                </BOUNDARY>
+              </SURFACE>
+            </Geometry>
+          </FontSymbol_Surface>
+        </Geometry>
+      </FontSymbol>
+
+      <FontSymbol ili:tid="23">
+        <Name>Triangle_Bestehend</Name>
+        <Font ili:ref="10"></Font>
+        <Geometry>
+          <FontSymbol_Surface>
+            <FillColor ili:ref="1"></FillColor>
+            <Geometry>
+              <SURFACE>
+                <BOUNDARY>
+                  <POLYLINE>
+                  <COORD><C1>0</C1><C2>0.5</C2></COORD>
+                  <COORD><C1>-0.5</C1><C2>-0.5</C2></COORD>
+                  <COORD><C1>0.5</C1><C2>-0.5</C2></COORD>
+                  <COORD><C1>0</C1><C2>0.5</C2></COORD>
+                  </POLYLINE>
+                </BOUNDARY>
+              </SURFACE>
+            </Geometry>
+          </FontSymbol_Surface>
+        </Geometry>
+      </FontSymbol>
+
+      <FontSymbol ili:tid="24">
+        <Name>Triangle_Neu</Name>
+        <Font ili:ref="10"></Font>
+        <Geometry>
+          <FontSymbol_Surface>
+            <FillColor ili:ref="2"></FillColor>
+            <Geometry>
+              <SURFACE>
+                <BOUNDARY>
+                  <POLYLINE>
+                  <COORD><C1>0</C1><C2>0.5</C2></COORD>
+                  <COORD><C1>-0.5</C1><C2>-0.5</C2></COORD>
+                  <COORD><C1>0.5</C1><C2>-0.5</C2></COORD>
+                  <COORD><C1>0</C1><C2>0.5</C2></COORD>
+                  </POLYLINE>
+                </BOUNDARY>
+              </SURFACE>
+            </Geometry>
+          </FontSymbol_Surface>
+        </Geometry>
+      </FontSymbol>
+
+      <FontSymbol ili:tid="25">
+        <Name>Triangle_Anpassung</Name>
+        <Font ili:ref="10"></Font>
+        <Geometry>
+          <FontSymbol_Surface>
+            <FillColor ili:ref="3"></FillColor>
+            <Geometry>
+              <SURFACE>
+                <BOUNDARY>
+                  <POLYLINE>
+                  <COORD><C1>0</C1><C2>0.5</C2></COORD>
+                  <COORD><C1>-0.5</C1><C2>-0.5</C2></COORD>
+                  <COORD><C1>0.5</C1><C2>-0.5</C2></COORD>
+                  <COORD><C1>0</C1><C2>0.5</C2></COORD>
+                  </POLYLINE>
+                </BOUNDARY>
+              </SURFACE>
+            </Geometry>
+          </FontSymbol_Surface>
+        </Geometry>
+      </FontSymbol>
+
+      <SymbolSign ili:tid="100">
+        <ili:Name>DiamondBestehend</ili:Name>
+        <Color ili:ref="1"></Color>
+        <Symbol ili:ref="20"></Symbol>
+        <Scale>15</Scale>
+      </SymbolSign>
+
+      <SymbolSign ili:tid="101">
+        <ili:Name>DiamondNeu</ili:Name>
+        <Color ili:ref="2"></Color>
+        <Symbol ili:ref="21"></Symbol>
+        <Scale>15</Scale>
+      </SymbolSign>
+
+      <SymbolSign ili:tid="102">
+        <ili:Name>DiamondAnpassung</ili:Name>
+        <Color ili:ref="3"></Color>
+        <Symbol ili:ref="22"></Symbol>
+        <Scale>15</Scale>
+      </SymbolSign>
+
+      <SymbolSign ili:tid="103">
+        <ili:Name>TriangleBestehend</ili:Name>
+        <Color ili:ref="1"></Color>
+        <Symbol ili:ref="23"></Symbol>
+        <Scale>15</Scale>
+      </SymbolSign>
+
+      <SymbolSign ili:tid="104">
+        <ili:Name>TriangleNeu</ili:Name>
+        <Color ili:ref="2"></Color>
+        <Symbol ili:ref="24"></Symbol>
+        <Scale>15</Scale>
+      </SymbolSign>
+
+      <SymbolSign ili:tid="105">
+        <ili:Name>TriangleAnpassung</ili:Name>
+        <Color ili:ref="3"></Color>
+        <Symbol ili:ref="25"></Symbol>
+        <Scale>15</Scale>
+      </SymbolSign>
+
+    </StandardSigns>
+  </ili:datasection>
+</ili:transfer>
