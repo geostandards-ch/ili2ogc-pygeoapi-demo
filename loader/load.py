@@ -618,9 +618,8 @@ def load_sachplan_asyl(cur) -> None:
 def build_styles() -> None:
     """Write one .sld per DemoSymbology GRAPHIC for pygeoapi's OGC API - Maps providers.
 
-    pycartosym's SLD writer is a hard ili2ogc dependency, so no separate
-    install step is needed here beyond the `pip install -e` already run
-    for ili2ogc itself.
+    pycartosym's SLD writer is a hard ili2ogc dependency, installed with
+    it from PyPI (see the loader Dockerfile).
     """
     os.makedirs("/styles", exist_ok=True)
     for model, sign_xtf, graphic, filename in [
@@ -649,8 +648,7 @@ def build_styles() -> None:
 
 
 def main() -> None:
-    run(["pip", "install", "--no-cache-dir", "-q", "-e", "/interlis-runtime"])
-    import psycopg2  # noqa: PLC0415 (installed above, import after pip install)
+    import psycopg2  # noqa: PLC0415 (only in the loader image, keeps this module importable without it)
 
     conn = psycopg2.connect(os.environ["DATABASE_URL"])
     cur = conn.cursor()

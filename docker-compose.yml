@@ -14,9 +14,6 @@ services:
   loader:
     build: ./loader
     volumes:
-      # Sibling checkout of ili2ogc's own source - swap for `pip install ili2ogc`
-      # once the package is published to PyPI (see README).
-      - ../interlis-runtime:/interlis-runtime:ro
       - ./models:/models:ro
       - ./data:/data
       - styles:/styles

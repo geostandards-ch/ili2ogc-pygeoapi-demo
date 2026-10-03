@@ -6,8 +6,8 @@ pure-Python INTERLIS 2 toolkit.
 
 ## Run
 
-Requires a local checkout of `ili2ogc` as a sibling directory
-(`../interlis-runtime`).
+The loader installs [`ili2ogc`](https://pypi.org/project/ili2ogc/) from
+PyPI; nothing else is needed besides Docker.
 
 ```bash
 docker compose up --build
