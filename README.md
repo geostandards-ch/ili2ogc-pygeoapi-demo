@@ -43,5 +43,5 @@ to get right when requesting one:
 
 ## License
 
-Code: MIT. Data: © the data providers listed above, open use with
+Code: MIT (see `LICENSE`), like pygeoapi itself. Data: © the data providers listed above, open use with
 mandatory source attribution ([opendata.swiss BY](https://opendata.swiss/en/terms-of-use/#terms_by)).
