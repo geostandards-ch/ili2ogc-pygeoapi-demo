@@ -33,6 +33,16 @@ def run(cmd: list[str], accept_degraded: bool = False) -> None:
         raise subprocess.CalledProcessError(returncode, cmd)
 
 
+def convert_sql(model: str, schema_sql: str) -> None:
+    """`interlis convert-sql` to PostgreSQL. Exit 2 (completed, notes only) is expected: e.g. CHBase lines admit
+    arcs the linear columns can't hold (they are stroked on load), or a JOIN view joined along its association.
+    """
+    run(
+        ["interlis", "convert-sql", model, "--repo", REPO, "--dialect", "postgresql", "-o", schema_sql],
+        accept_degraded=True,
+    )
+
+
 def load_richtplanung(cur) -> None:
     """`RichtplanungErneuerbareEnergien_V1_d_01` (Projection, real SH data).
 
@@ -51,7 +61,7 @@ def load_richtplanung(cur) -> None:
     shutil.copy(f"{SOURCE_XTF_DIR}/RichtplanungErneuerbareEnergien_V1_SH.xtf", xtf)
 
     run(["interlis", "validate", xtf, "--model", model, "--repo", REPO])
-    run(["interlis", "convert-sql", model, "--repo", REPO, "--dialect", "postgresql", "-o", schema_sql])
+    convert_sql(model, schema_sql)
     run(["interlis", "convert-jsonfg", xtf, "--model", model, "--repo", REPO, "-o", data_jsonfg])
     run(
         [
@@ -143,7 +153,7 @@ def load_waldabstandslinien(cur) -> None:
     shutil.copy(f"{SOURCE_XTF_DIR}/ch_np_wal_v1_2.xtf", xtf)
 
     run(["interlis", "validate", xtf, "--model", model, "--repo", REPO])
-    run(["interlis", "convert-sql", model, "--repo", REPO, "--dialect", "postgresql", "-o", schema_sql])
+    convert_sql(model, schema_sql)
     run(["interlis", "convert-jsonfg", xtf, "--model", model, "--repo", REPO, "-o", data_jsonfg])
     run(
         [
@@ -238,7 +248,7 @@ def load_mainroads(cur) -> None:
             dst.write(src.read())
 
     run(["interlis", "validate", xtf, "--model", model, "--repo", REPO])
-    run(["interlis", "convert-sql", model, "--repo", REPO, "--dialect", "postgresql", "-o", schema_sql])
+    convert_sql(model, schema_sql)
     run(["interlis", "convert-jsonfg", xtf, "--model", model, "--repo", REPO, "-o", data_jsonfg])
     run(
         [
@@ -336,7 +346,7 @@ def load_buildinglinesformotorways(cur) -> None:
     data_jsonfg = "/tmp/buildingline_data.jsonfg.json"
 
     run(["interlis", "validate", xtf, "--model", model, "--repo", REPO])
-    run(["interlis", "convert-sql", model, "--repo", REPO, "--dialect", "postgresql", "-o", schema_sql])
+    convert_sql(model, schema_sql)
     run(["interlis", "convert-jsonfg", xtf, "--model", model, "--repo", REPO, "-o", data_jsonfg])
     run(
         [
@@ -439,6 +449,24 @@ def _multi_geojson(structure: dict | None, list_key: str, item_key: str, multi_t
     return json.dumps({"type": multi_type, "coordinates": [part["coordinates"] for part in parts]})
 
 
+def _jsonfg_wkt(geometry: dict) -> str:
+    """A JSON-FG geometry, curves included (CircularString, CompoundCurve, CurvePolygon, MultiSurface), as WKT."""
+    kind = geometry["type"]
+
+    def points(coordinates: list) -> str:
+        return "(" + ", ".join(" ".join(str(v) for v in xy) for xy in coordinates) + ")"
+
+    if kind in ("LineString", "CircularString"):
+        return f"{kind.upper()} {points(geometry['coordinates'])}"
+    if kind == "Polygon":
+        return "POLYGON (" + ", ".join(points(ring) for ring in geometry["coordinates"]) + ")"
+    if kind == "MultiPolygon":
+        polygons = ("(" + ", ".join(points(ring) for ring in polygon) + ")" for polygon in geometry["coordinates"])
+        return "MULTIPOLYGON (" + ", ".join(polygons) + ")"
+    parts = ", ".join(_jsonfg_wkt(g) for g in geometry["geometries"])
+    return f"{kind.upper()} ({parts})"
+
+
 def _mod_info(p: dict) -> tuple:
     mod_info = p.get("ModInfo") or {}
     return mod_info.get("ValidFrom"), mod_info.get("ValidUntil"), mod_info.get("LatestModification")
@@ -456,12 +484,7 @@ def _load_sectoral_plan(cur, schema: str, model: str, merged_xtf: str, suffix: s
     schema_sql = f"/tmp/{schema}_schema.sql"
     data_jsonfg = f"/tmp/{schema}_data.jsonfg.json"
     run(["interlis", "validate", merged_xtf, "--model", model, "--repo", REPO])
-    # The base model's `MANDATORY CONSTRAINT DEFINED(Point) OR ...` can't
-    # become a CHECK (Point lives in a child table): a note, exit 2.
-    run(
-        ["interlis", "convert-sql", model, "--repo", REPO, "--dialect", "postgresql", "-o", schema_sql],
-        accept_degraded=True,
-    )
+    convert_sql(model, schema_sql)
     run(["interlis", "convert-jsonfg", merged_xtf, "--model", model, "--repo", REPO, "-o", data_jsonfg])
 
     cur.execute(f"DROP SCHEMA IF EXISTS {schema} CASCADE; CREATE SCHEMA {schema}; SET search_path TO {schema}, public;")
@@ -519,26 +542,22 @@ def _load_sectoral_plan(cur, schema: str, model: str, merged_xtf: str, suffix: s
                     VALUES (%s, %s, %s, %s)""",
                 (f"{feat['id']}-n{n}", feat["id"], text.get("Language"), text["Text"]),
             )
-    skipped = 0
     for feat in by_type.get("PlanningMeasure", []):
         p = feat["properties"]
         # PlanningMeasure.Surface (MultiSurface) is hoisted to "place".
         place = feat.get("place") or {}
         point = _multi_geojson(p.get("Point"), "Points", "Point", "MultiPoint")
         line = _multi_geojson(p.get("Line"), "Lines", "Line", "MultiLineString")
-        surface = json.dumps(place) if place.get("type") in ("Polygon", "MultiPolygon") else None
-        if not (point or line or surface):
-            # A curved (arc) surface has no plain MultiPolygon value; the
-            # model requires a Point, Line or Surface, so the row can't go in.
-            skipped += 1
-            continue
+        # Arc segments are stroked into the linear MultiPolygon column, as
+        # convert-sql's SQL-GEOM-ARCS-STROKED note asks.
+        surface = _jsonfg_wkt(place) if place.get("type") else None
         cur.execute(
             f"""INSERT INTO {measure} (id, measuretype_reference, coordinationlevel_reference,
                    planningstatus_reference, symbolori, modinfo_validfrom, modinfo_validuntil,
                    modinfo_latestmodification, facility, point, line, surface)
                 VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s,
                         ST_SetSRID(ST_GeomFromGeoJSON(%s), 2056), ST_SetSRID(ST_GeomFromGeoJSON(%s), 2056),
-                        ST_SetSRID(ST_Multi(ST_GeomFromGeoJSON(%s)), 2056))""",
+                        ST_Multi(ST_CurveToLine(ST_GeomFromText(%s, 2056))))""",
             (
                 feat["id"],
                 p["MeasureType"],
@@ -552,8 +571,6 @@ def _load_sectoral_plan(cur, schema: str, model: str, merged_xtf: str, suffix: s
                 surface,
             ),
         )
-    if skipped:
-        print(f"{schema}: {skipped} PlanningMeasure with a curved surface not loaded.", flush=True)
 
     cur.execute("SET search_path TO public;")
     return {"schema": schema, "facility": facility, "measure": measure}
