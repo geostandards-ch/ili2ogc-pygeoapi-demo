@@ -133,7 +133,7 @@ def load_waldabstandslinien(cur) -> None:
     (a native LineType, not a STRUCTURE-wrapped MultiSurface) straight
     through - `convert-sql`'s `CREATE VIEW` already exposes a real
     `geometry(LineString, 2056)` column with no child-table split needed
-    (see docs/verified-view-corpus.md and models/Waldabstandslinien_V1_2_d.ili).
+    (see models/Waldabstandslinien_V1_2_d.ili).
     Real data has exactly 1 `Typ` shared by all 5 `Waldabstand_Linie` - the
     single FK target is hardcoded rather than resolved from an embedded
     association role (`object_to_feature` doesn't expose association
