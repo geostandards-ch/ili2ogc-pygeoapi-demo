@@ -25,9 +25,12 @@ SPA_SYMBOLOGY_XTF = "/data/symbology_asyl.xtf"
 _ILI24_NS = "http://www.interlis.ch/INTERLIS2.3"
 
 
-def run(cmd: list[str]) -> None:
+def run(cmd: list[str], accept_degraded: bool = False) -> None:
+    """Run an ili2ogc command; exit 2 (completed, notes/warnings only) passes only if `accept_degraded`."""
     print("+", " ".join(cmd), flush=True)
-    subprocess.run(cmd, check=True)
+    returncode = subprocess.run(cmd).returncode
+    if returncode not in ((0, 2) if accept_degraded else (0,)):
+        raise subprocess.CalledProcessError(returncode, cmd)
 
 
 def load_richtplanung(cur) -> None:
@@ -418,15 +421,129 @@ def _merge_ili24_baskets(main_path: str, extra_paths: list[str], out_path: str) 
     main_tree.write(out_path, encoding="UTF-8", xml_declaration=True)
 
 
+# (feature type, table, catalogue id column, JSON-FG property) - the base
+# model's catalogues, shared by both Sachplan collections.
+_SECTORAL_PLAN_CATALOGUES = [
+    ("FacilityKind", "facilitykind", "kindid", "KindID"),
+    ("FacilityStatus", "facilitystatus", "statusid", "StatusID"),
+    ("MeasureType", "measuretype", "typeid", "TypeID"),
+    ("CoordinationLevel", "coordinationlevel", "coordid", "CoordID"),
+    ("PlanningStatus", "planningstatus", "statusid", "StatusID"),
+]
+
+
+def _lv95_table(cur, schema: str, base: str) -> str:
+    """Return `base` or its `_2` twin, whichever holds LV95 geometry.
+
+    The base model file declares an LV03 and an LV95 variant with the same
+    class names; convert-sql suffixes the second one it meets, so the
+    suffix alone doesn't say which variant a table belongs to.
+    """
+    cur.execute(
+        "SELECT f_table_name FROM geometry_columns WHERE srid = 2056 AND f_table_schema = %s AND f_table_name IN (%s, %s)",
+        (schema, f"{base}_point_points", f"{base}_2_point_points"),
+    )
+    return cur.fetchone()[0].removesuffix("_point_points")
+
+
+def _mod_info(p: dict) -> tuple:
+    mod_info = p.get("ModInfo") or {}
+    return mod_info.get("ValidFrom"), mod_info.get("ValidUntil"), mod_info.get("LatestModification")
+
+
+def _load_sectoral_plan(cur, schema: str, model: str, merged_xtf: str) -> dict[str, str]:
+    """Load a `BaseModel_SectoralPlans_V1_4` transfer into its convert-sql schema, in its own PostgreSQL schema.
+
+    Both Sachplan collections share the base model, so their tables have the
+    same names - one PostgreSQL schema each keeps them apart. Returns the
+    LV95 table names, for the post-load SQL.
+    """
+    schema_sql = f"/tmp/{schema}_schema.sql"
+    data_jsonfg = f"/tmp/{schema}_data.jsonfg.json"
+    run(["interlis", "validate", merged_xtf, "--model", model, "--repo", REPO])
+    # The base model's `MANDATORY CONSTRAINT DEFINED(Point) OR ...` can't
+    # become a CHECK (Point lives in a child table): a note, exit 2.
+    run(
+        ["interlis", "convert-sql", model, "--repo", REPO, "--dialect", "postgresql", "-o", schema_sql],
+        accept_degraded=True,
+    )
+    run(["interlis", "convert-jsonfg", merged_xtf, "--model", model, "--repo", REPO, "-o", data_jsonfg])
+
+    cur.execute(f"DROP SCHEMA IF EXISTS {schema} CASCADE; CREATE SCHEMA {schema}; SET search_path TO {schema}, public;")
+    with open(schema_sql) as f:
+        cur.execute(f.read())
+    facility = _lv95_table(cur, schema, "facility")
+    measure = _lv95_table(cur, schema, "planningmeasure")
+
+    with open(data_jsonfg) as f:
+        features = json.load(f)["features"]
+
+    for feature_type, table, id_column, prop in _SECTORAL_PLAN_CATALOGUES:
+        for feat in features:
+            if feat["featureType"] == feature_type:
+                cur.execute(
+                    f"INSERT INTO {table} (id, {id_column}) VALUES (%s, %s)", (feat["id"], feat["properties"][prop])
+                )
+
+    for feat in features:
+        p = feat["properties"]
+        if feat["featureType"] == "Facility":
+            cur.execute(
+                f"""INSERT INTO {facility} (id, facilitykind_reference, facilitystatus_reference, symbolori,
+                       modinfo_validfrom, modinfo_validuntil, modinfo_latestmodification)
+                    VALUES (%s, %s, %s, %s, %s, %s, %s)""",
+                (feat["id"], p["FacilityKind"], p["FacilityStatus"], p.get("SymbolOri"), *_mod_info(p)),
+            )
+            # Facility.Point is the base model's own MultiPoint STRUCTURE,
+            # not a standard geometry type, so it stays in properties.
+            for n, item in enumerate((p.get("Point") or {}).get("Points") or []):
+                cur.execute(
+                    f"""INSERT INTO {facility}_point_points (id, {facility}_fk, point)
+                        VALUES (%s, %s, ST_SetSRID(ST_GeomFromGeoJSON(%s), 2056))""",
+                    (f"{feat['id']}-p{n}", feat["id"], json.dumps(item["Point"])),
+                )
+            for n, text in enumerate((p.get("Name") or {}).get("LocalisedText") or []):
+                cur.execute(
+                    f"""INSERT INTO {facility}_name_localisedtext (id, {facility}_fk, language, text)
+                        VALUES (%s, %s, %s, %s)""",
+                    (f"{feat['id']}-n{n}", feat["id"], text.get("Language"), text["Text"]),
+                )
+        elif feat["featureType"] == "PlanningMeasure":
+            cur.execute(
+                f"""INSERT INTO {measure} (id, measuretype_reference, coordinationlevel_reference,
+                       planningstatus_reference, symbolori, modinfo_validfrom, modinfo_validuntil,
+                       modinfo_latestmodification)
+                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s)""",
+                (
+                    feat["id"],
+                    p["MeasureType"],
+                    p["CoordinationLevel"],
+                    p["PlanningStatus"],
+                    p.get("SymbolOri"),
+                    *_mod_info(p),
+                ),
+            )
+            place = feat.get("place") or {}
+            polygons = {"Polygon": [place.get("coordinates")], "MultiPolygon": place.get("coordinates")}.get(
+                place.get("type"), []
+            )
+            for n, rings in enumerate(polygons):
+                cur.execute(
+                    f"""INSERT INTO {measure}_surface_surfaces (id, {measure}_fk, surface)
+                        VALUES (%s, %s, ST_SetSRID(ST_GeomFromGeoJSON(%s), 2056))""",
+                    (f"{feat['id']}-s{n}", feat["id"], json.dumps({"type": "Polygon", "coordinates": rings})),
+                )
+
+    cur.execute("SET search_path TO public;")
+    return {"schema": schema, "facility": facility, "measure": measure}
+
+
 def load_sachplan_uebertragungsleitungen(cur) -> None:
     """`TransmissionLinesSectoralPlan_V1_4` (Sachplan Übertragungsleitungen, real BFE data).
 
     `Facility`/`PlanningMeasure` live on the shared
-    `BaseModel_SectoralPlans_LV95_V1_4`, not this model's own class.
-    `validate` runs non-fatally: a known ili2ogc validator false-positive
-    on nested `REFERENCE TO (EXTERNAL)` doesn't affect the actual load.
-    Only Polygon/MultiPolygon `PlanningMeasure` rows are kept (the only
-    shape this demo's signature covers).
+    `BaseModel_SectoralPlans_LV95_V1_4`, folded into convert-sql's schema
+    through the topic extension.
     """
     model = f"{REPO}/TransmissionLinesSectoralPlan_V1_4.ili"
     zip_path = f"{SOURCE_XTF_DIR}/sachplan-uebertragungsleitungen_kraft_2056.xtf.zip"
@@ -435,7 +552,6 @@ def load_sachplan_uebertragungsleitungen(cur) -> None:
     fk_catalogue = "/tmp/suel_facilitykind_catalogue.xml"
     shared_catalogue = "/tmp/suel_shared_catalogue.xml"
     merged_xtf = "/data/sachplan_uebertragungsleitungen.merged.xtf"
-    data_jsonfg = "/tmp/suel_data.jsonfg.json"
 
     # Source: https://data.geo.admin.ch/ch.bfe.sachplan-uebertragungsleitungen_kraft/
     # sachplan-uebertragungsleitungen_kraft/sachplan-uebertragungsleitungen_kraft_2056.xtf.zip
@@ -455,77 +571,27 @@ def load_sachplan_uebertragungsleitungen(cur) -> None:
             dst.write(src.read())
 
     _merge_ili24_baskets(main_xtf, [mt_catalogue, fk_catalogue, shared_catalogue], merged_xtf)
-
-    subprocess.run(
-        ["interlis", "validate", merged_xtf, "--model", model, "--repo", REPO],
-        check=False,
-    )
-    run(["interlis", "convert-jsonfg", merged_xtf, "--model", model, "--repo", REPO, "-o", data_jsonfg])
-
-    cur.execute("DROP TABLE IF EXISTS suel_planningmeasure_surface CASCADE;")
-    cur.execute(
-        """CREATE TABLE suel_planningmeasure_surface (
-               id text PRIMARY KEY,
-               geom geometry(MultiPolygon, 2056),
-               measure_type text NOT NULL,
-               coordination_level integer NOT NULL
-           )"""
-    )
-
-    with open(data_jsonfg) as f:
-        fc = json.load(f)
-
-    # MeasureType's own TypeID always equals its ref TID ("mt2" -> "mt2",
-    # confirmed on the real catalogue), but CoordinationLevel.CoordID is a
-    # real INTEGER domain (1..9999) distinct from its own ref TID
-    # ("cl1" -> 1) - the DrawingRule's WHERE compares the resolved CoordID,
-    # so the ref must be joined against the CoordinationLevel feature's own
-    # property, not stored as its raw TID string.
-    coord_id_by_ref = {
-        feat["id"]: feat["properties"]["CoordID"] for feat in fc["features"] if feat["featureType"] == "CoordinationLevel"
-    }
-
-    rows = 0
-    for feat in fc["features"]:
-        if feat["featureType"] != "PlanningMeasure":
-            continue
-        place = feat.get("place") or {}
-        if place.get("type") not in ("Polygon", "MultiPolygon"):
-            continue
-        p = feat["properties"]
-        cur.execute(
-            """INSERT INTO suel_planningmeasure_surface (id, geom, measure_type, coordination_level)
-               VALUES (%s, ST_SetSRID(ST_Multi(ST_GeomFromGeoJSON(%s)), 2056), %s, %s)""",
-            (
-                feat["id"],
-                json.dumps(place),
-                p.get("MeasureType"),
-                coord_id_by_ref.get(p.get("CoordinationLevel")),
-            ),
-        )
-        rows += 1
+    tables = _load_sectoral_plan(cur, "suel", model, merged_xtf)
 
     with open("/loader/post_load_sachplan_uebertragungsleitungen.sql") as f:
-        cur.execute(f.read())
-
-    print(f"sachplan_uebertragungsleitungen: loaded {rows} PlanningMeasure surface rows.", flush=True)
+        cur.execute(f.read().format(**tables))
+    cur.execute("SELECT count(*) FROM suel_planningmeasure_surface")
+    print(f"sachplan_uebertragungsleitungen: loaded {cur.fetchone()[0]} PlanningMeasure surface rows.", flush=True)
 
 
 def load_sachplan_asyl(cur) -> None:
     """`SectoralPlanForAsylum_LV95_V1_4` (Sachplan Asyl, real SEM data).
 
-    Like Übertragungsleitungen, `Facility` lives on the shared
-    `BaseModel_SectoralPlans_LV95_V1_4` - here as bare base-class
-    instances, no subclass. The SEM catalogue (FacilityKind) is vendored
-    next to the data; the cross-Sachplan catalogue (FacilityStatus) is
-    the same file Übertragungsleitungen ships, read from its archive.
-    `validate` runs non-fatally, same known false-positive as there.
+    The model only extends the base model's topic: every object is a bare
+    base-model `Facility`/`PlanningMeasure`. The SEM catalogue
+    (FacilityKind) is vendored next to the data; the cross-Sachplan
+    catalogue (FacilityStatus) is the same file Übertragungsleitungen
+    ships, read from its archive.
     """
     model = f"{REPO}/SectoralPlanForAsylum_V1_4.ili"
     main_xtf = "/tmp/spa_main.xtf"
     shared_catalogue = "/tmp/spa_shared_catalogue.xml"
     merged_xtf = "/data/sachplan_asyl.merged.xtf"
-    data_jsonfg = "/tmp/spa_data.jsonfg.json"
 
     # Source: https://data.geo.admin.ch/ch.sem.sachplan-asyl_kraft/sachplan-asyl_kraft/sachplan-asyl_kraft_2056.zip
     with zipfile.ZipFile(f"{SOURCE_XTF_DIR}/sachplan-asyl_kraft_2056.zip") as zf:
@@ -541,61 +607,12 @@ def load_sachplan_asyl(cur) -> None:
     _merge_ili24_baskets(
         main_xtf, [f"{SOURCE_XTF_DIR}/SectoralPlanForAsylum_Catalogues_V1_4.xml", shared_catalogue], merged_xtf
     )
-
-    subprocess.run(["interlis", "validate", merged_xtf, "--model", model, "--repo", REPO], check=False)
-    run(["interlis", "convert-jsonfg", merged_xtf, "--model", model, "--repo", REPO, "-o", data_jsonfg])
-
-    cur.execute("DROP TABLE IF EXISTS spa_facility_point CASCADE;")
-    cur.execute(
-        """CREATE TABLE spa_facility_point (
-               id text PRIMARY KEY,
-               geom geometry(MultiPoint, 2056),
-               name text,
-               facility_kind text NOT NULL,
-               facility_status integer NOT NULL
-           )"""
-    )
-
-    with open(data_jsonfg) as f:
-        fc = json.load(f)
-
-    # The DrawingRules' WHERE compares the catalogue items' own KindID/
-    # StatusID, not the raw REF TIDs ("ch21jw6500006477" -> "198-F-01",
-    # "fs1" -> 1), so each ref is joined against its catalogue feature.
-    kind_id_by_ref = {f["id"]: f["properties"]["KindID"] for f in fc["features"] if f["featureType"] == "FacilityKind"}
-    status_id_by_ref = {
-        f["id"]: f["properties"]["StatusID"] for f in fc["features"] if f["featureType"] == "FacilityStatus"
-    }
-
-    rows = 0
-    for feat in fc["features"]:
-        if feat["featureType"] != "Facility":
-            continue
-        p = feat["properties"]
-        # Facility.Point is the base model's own MultiPoint STRUCTURE, not
-        # a standard geometry type, so it stays in properties, not "place".
-        points = [item["Point"]["coordinates"] for item in ((p.get("Point") or {}).get("Points") or [])]
-        if not points:
-            continue
-        names = (p.get("Name") or {}).get("LocalisedText") or []
-        name = next((t["Text"] for t in names if t.get("Language") == "de"), None)
-        cur.execute(
-            """INSERT INTO spa_facility_point (id, geom, name, facility_kind, facility_status)
-               VALUES (%s, ST_SetSRID(ST_GeomFromGeoJSON(%s), 2056), %s, %s, %s)""",
-            (
-                feat["id"],
-                json.dumps({"type": "MultiPoint", "coordinates": points}),
-                name,
-                kind_id_by_ref[p["FacilityKind"]],
-                status_id_by_ref[p["FacilityStatus"]],
-            ),
-        )
-        rows += 1
+    tables = _load_sectoral_plan(cur, "spa", model, merged_xtf)
 
     with open("/loader/post_load_sachplan_asyl.sql") as f:
-        cur.execute(f.read())
-
-    print(f"sachplan_asyl: loaded {rows} Facility point rows.", flush=True)
+        cur.execute(f.read().format(**tables))
+    cur.execute("SELECT count(*) FROM spa_facility_point")
+    print(f"sachplan_asyl: loaded {cur.fetchone()[0]} Facility point rows.", flush=True)
 
 
 def build_styles() -> None:
