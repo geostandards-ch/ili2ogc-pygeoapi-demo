@@ -432,31 +432,19 @@ _SECTORAL_PLAN_CATALOGUES = [
 ]
 
 
-def _lv95_table(cur, schema: str, base: str) -> str:
-    """Return `base` or its `_2` twin, whichever holds LV95 geometry.
-
-    The base model file declares an LV03 and an LV95 variant with the same
-    class names; convert-sql suffixes the second one it meets, so the
-    suffix alone doesn't say which variant a table belongs to.
-    """
-    cur.execute(
-        "SELECT f_table_name FROM geometry_columns WHERE srid = 2056 AND f_table_schema = %s AND f_table_name IN (%s, %s)",
-        (schema, f"{base}_point_points", f"{base}_2_point_points"),
-    )
-    return cur.fetchone()[0].removesuffix("_point_points")
-
-
 def _mod_info(p: dict) -> tuple:
     mod_info = p.get("ModInfo") or {}
     return mod_info.get("ValidFrom"), mod_info.get("ValidUntil"), mod_info.get("LatestModification")
 
 
-def _load_sectoral_plan(cur, schema: str, model: str, merged_xtf: str) -> dict[str, str]:
+def _load_sectoral_plan(cur, schema: str, model: str, merged_xtf: str, suffix: str) -> dict[str, str]:
     """Load a `BaseModel_SectoralPlans_V1_4` transfer into its convert-sql schema, in its own PostgreSQL schema.
 
     Both Sachplan collections share the base model, so their tables have the
-    same names - one PostgreSQL schema each keeps them apart. Returns the
-    LV95 table names, for the post-load SQL.
+    same names - one PostgreSQL schema each keeps them apart. `suffix` is
+    `_lv95` when the conversion also holds the base model's LV03 variant
+    (convert-sql then names each table after its model). Rows go in FK
+    order: catalogues, SectoralPlan, Object, Facility, PlanningMeasure.
     """
     schema_sql = f"/tmp/{schema}_schema.sql"
     data_jsonfg = f"/tmp/{schema}_data.jsonfg.json"
@@ -472,67 +460,81 @@ def _load_sectoral_plan(cur, schema: str, model: str, merged_xtf: str) -> dict[s
     cur.execute(f"DROP SCHEMA IF EXISTS {schema} CASCADE; CREATE SCHEMA {schema}; SET search_path TO {schema}, public;")
     with open(schema_sql) as f:
         cur.execute(f.read())
-    facility = _lv95_table(cur, schema, "facility")
-    measure = _lv95_table(cur, schema, "planningmeasure")
+    plan, obj, facility, measure = (f"{t}{suffix}" for t in ("sectoralplan", "object", "facility", "planningmeasure"))
 
     with open(data_jsonfg) as f:
         features = json.load(f)["features"]
+    by_type: dict[str, list[dict]] = {}
+    for feat in features:
+        by_type.setdefault(feat["featureType"], []).append(feat)
 
     for feature_type, table, id_column, prop in _SECTORAL_PLAN_CATALOGUES:
-        for feat in features:
-            if feat["featureType"] == feature_type:
-                cur.execute(
-                    f"INSERT INTO {table} (id, {id_column}) VALUES (%s, %s)", (feat["id"], feat["properties"][prop])
-                )
+        for feat in by_type.get(feature_type, []):
+            cur.execute(f"INSERT INTO {table} (id, {id_column}) VALUES (%s, %s)", (feat["id"], feat["properties"][prop]))
 
-    for feat in features:
+    for feat in by_type.get("SectoralPlan", []):
         p = feat["properties"]
-        if feat["featureType"] == "Facility":
+        cur.execute(
+            f"""INSERT INTO {plan} (id, geoiv_id, modinfo_validfrom, modinfo_validuntil, modinfo_latestmodification)
+                VALUES (%s, %s, %s, %s, %s)""",
+            (feat["id"], p["GeoIV_ID"], *_mod_info(p)),
+        )
+    for feat in by_type.get("Object", []):
+        p = feat["properties"]
+        cur.execute(
+            f"""INSERT INTO {obj} (id, sectoralplan, modinfo_validfrom, modinfo_validuntil, modinfo_latestmodification)
+                VALUES (%s, %s, %s, %s, %s)""",
+            (feat["id"], p["SectoralPlan"], *_mod_info(p)),
+        )
+    for feat in by_type.get("Facility", []):
+        p = feat["properties"]
+        cur.execute(
+            f"""INSERT INTO {facility} (id, facilitykind_reference, facilitystatus_reference, symbolori,
+                   modinfo_validfrom, modinfo_validuntil, modinfo_latestmodification, object)
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s)""",
+            (feat["id"], p["FacilityKind"], p["FacilityStatus"], p.get("SymbolOri"), *_mod_info(p), p["Object"]),
+        )
+        # Facility.Point is the base model's own MultiPoint STRUCTURE,
+        # not a standard geometry type, so it stays in properties.
+        for n, item in enumerate((p.get("Point") or {}).get("Points") or []):
             cur.execute(
-                f"""INSERT INTO {facility} (id, facilitykind_reference, facilitystatus_reference, symbolori,
-                       modinfo_validfrom, modinfo_validuntil, modinfo_latestmodification)
-                    VALUES (%s, %s, %s, %s, %s, %s, %s)""",
-                (feat["id"], p["FacilityKind"], p["FacilityStatus"], p.get("SymbolOri"), *_mod_info(p)),
+                f"""INSERT INTO {facility}_point_points (id, {facility}_fk, point)
+                    VALUES (%s, %s, ST_SetSRID(ST_GeomFromGeoJSON(%s), 2056))""",
+                (f"{feat['id']}-p{n}", feat["id"], json.dumps(item["Point"])),
             )
-            # Facility.Point is the base model's own MultiPoint STRUCTURE,
-            # not a standard geometry type, so it stays in properties.
-            for n, item in enumerate((p.get("Point") or {}).get("Points") or []):
-                cur.execute(
-                    f"""INSERT INTO {facility}_point_points (id, {facility}_fk, point)
-                        VALUES (%s, %s, ST_SetSRID(ST_GeomFromGeoJSON(%s), 2056))""",
-                    (f"{feat['id']}-p{n}", feat["id"], json.dumps(item["Point"])),
-                )
-            for n, text in enumerate((p.get("Name") or {}).get("LocalisedText") or []):
-                cur.execute(
-                    f"""INSERT INTO {facility}_name_localisedtext (id, {facility}_fk, language, text)
-                        VALUES (%s, %s, %s, %s)""",
-                    (f"{feat['id']}-n{n}", feat["id"], text.get("Language"), text["Text"]),
-                )
-        elif feat["featureType"] == "PlanningMeasure":
+        for n, text in enumerate((p.get("Name") or {}).get("LocalisedText") or []):
             cur.execute(
-                f"""INSERT INTO {measure} (id, measuretype_reference, coordinationlevel_reference,
-                       planningstatus_reference, symbolori, modinfo_validfrom, modinfo_validuntil,
-                       modinfo_latestmodification)
-                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s)""",
-                (
-                    feat["id"],
-                    p["MeasureType"],
-                    p["CoordinationLevel"],
-                    p["PlanningStatus"],
-                    p.get("SymbolOri"),
-                    *_mod_info(p),
-                ),
+                f"""INSERT INTO {facility}_name_localisedtext (id, {facility}_fk, language, text)
+                    VALUES (%s, %s, %s, %s)""",
+                (f"{feat['id']}-n{n}", feat["id"], text.get("Language"), text["Text"]),
             )
-            place = feat.get("place") or {}
-            polygons = {"Polygon": [place.get("coordinates")], "MultiPolygon": place.get("coordinates")}.get(
-                place.get("type"), []
+    for feat in by_type.get("PlanningMeasure", []):
+        p = feat["properties"]
+        cur.execute(
+            f"""INSERT INTO {measure} (id, measuretype_reference, coordinationlevel_reference,
+                   planningstatus_reference, symbolori, modinfo_validfrom, modinfo_validuntil,
+                   modinfo_latestmodification, facility)
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)""",
+            (
+                feat["id"],
+                p["MeasureType"],
+                p["CoordinationLevel"],
+                p["PlanningStatus"],
+                p.get("SymbolOri"),
+                *_mod_info(p),
+                p.get("Facility"),
+            ),
+        )
+        place = feat.get("place") or {}
+        polygons = {"Polygon": [place.get("coordinates")], "MultiPolygon": place.get("coordinates")}.get(
+            place.get("type"), []
+        )
+        for n, rings in enumerate(polygons):
+            cur.execute(
+                f"""INSERT INTO {measure}_surface_surfaces (id, {measure}_fk, surface)
+                    VALUES (%s, %s, ST_SetSRID(ST_GeomFromGeoJSON(%s), 2056))""",
+                (f"{feat['id']}-s{n}", feat["id"], json.dumps({"type": "Polygon", "coordinates": rings})),
             )
-            for n, rings in enumerate(polygons):
-                cur.execute(
-                    f"""INSERT INTO {measure}_surface_surfaces (id, {measure}_fk, surface)
-                        VALUES (%s, %s, ST_SetSRID(ST_GeomFromGeoJSON(%s), 2056))""",
-                    (f"{feat['id']}-s{n}", feat["id"], json.dumps({"type": "Polygon", "coordinates": rings})),
-                )
 
     cur.execute("SET search_path TO public;")
     return {"schema": schema, "facility": facility, "measure": measure}
@@ -571,7 +573,7 @@ def load_sachplan_uebertragungsleitungen(cur) -> None:
             dst.write(src.read())
 
     _merge_ili24_baskets(main_xtf, [mt_catalogue, fk_catalogue, shared_catalogue], merged_xtf)
-    tables = _load_sectoral_plan(cur, "suel", model, merged_xtf)
+    tables = _load_sectoral_plan(cur, "suel", model, merged_xtf, suffix="")
 
     with open("/loader/post_load_sachplan_uebertragungsleitungen.sql") as f:
         cur.execute(f.read().format(**tables))
@@ -607,7 +609,7 @@ def load_sachplan_asyl(cur) -> None:
     _merge_ili24_baskets(
         main_xtf, [f"{SOURCE_XTF_DIR}/SectoralPlanForAsylum_Catalogues_V1_4.xml", shared_catalogue], merged_xtf
     )
-    tables = _load_sectoral_plan(cur, "spa", model, merged_xtf)
+    tables = _load_sectoral_plan(cur, "spa", model, merged_xtf, suffix="_lv95")
 
     with open("/loader/post_load_sachplan_asyl.sql") as f:
         cur.execute(f.read().format(**tables))
