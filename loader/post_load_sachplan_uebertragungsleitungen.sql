@@ -1,6 +1,5 @@
 -- One flat MultiPolygon-per-measure table for OGC API - Features, derived
--- from convert-sql's own tables: the surface child rows collected back
--- into one MultiPolygon, each catalogue reference resolved to the
+-- from convert-sql's own tables, each catalogue reference resolved to the
 -- catalogue item's own TypeID/CoordID (what the DrawingRules' WHERE
 -- compares). Only measures with a surface: the only shape this demo's
 -- signature covers.
@@ -8,14 +7,13 @@ DROP TABLE IF EXISTS suel_planningmeasure_surface CASCADE;
 CREATE TABLE suel_planningmeasure_surface AS
 SELECT
     m.id,
-    ST_Multi(ST_Collect(s.surface))::geometry(MultiPolygon, 2056) AS geom,
+    m.surface::geometry(MultiPolygon, 2056) AS geom,
     t.typeid AS measure_type,
     c.coordid AS coordination_level
 FROM {schema}.{measure} m
-JOIN {schema}.{measure}_surface_surfaces s ON s.{measure}_fk = m.id
 JOIN {schema}.measuretype t ON t.id = m.measuretype_reference
 JOIN {schema}.coordinationlevel c ON c.id = m.coordinationlevel_reference
-GROUP BY m.id, t.typeid, c.coordid;
+WHERE m.surface IS NOT NULL;
 ALTER TABLE suel_planningmeasure_surface ADD PRIMARY KEY (id);
 
 -- OGC API - Maps convenience view: aliases the flat columns to the exact

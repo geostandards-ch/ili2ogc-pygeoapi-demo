@@ -70,7 +70,7 @@ def load_richtplanung(cur) -> None:
     cur.execute(
         "DROP VIEW IF EXISTS flaeche_geo CASCADE;"
         "DROP VIEW IF EXISTS view_flaeche CASCADE;"
-        "DROP TABLE IF EXISTS flaeche_geometrie_surfaces, flaeche, energieform CASCADE;"
+        "DROP TABLE IF EXISTS flaeche, energieform CASCADE;"
     )
     with open(schema_sql) as f:
         cur.execute(f.read())
@@ -90,10 +90,14 @@ def load_richtplanung(cur) -> None:
         if feat["featureType"] != "Flaeche":
             continue
         p = feat["properties"]
+        # Flaeche.Geometrie (a CHBase MultiSurface) is one MultiPolygon column.
+        place = feat["place"]
+        surface_rows += len(place["coordinates"]) if place["type"] == "MultiPolygon" else 1
         cur.execute(
             """INSERT INTO flaeche (id, energieform_reference, objektbezeichnung, beschrieb,
-                   objektart, genehmigungsdatum, beschlussdatumkanton, kanton, weblink, bemerkungen)
-               VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
+                   objektart, genehmigungsdatum, beschlussdatumkanton, kanton, weblink, bemerkungen, geometrie)
+               VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s,
+                       ST_SetSRID(ST_Multi(ST_GeomFromGeoJSON(%s)), 2056))""",
             (
                 feat["id"],
                 p.get("Energieform"),
@@ -105,19 +109,10 @@ def load_richtplanung(cur) -> None:
                 p.get("Kanton"),
                 p.get("Weblink"),
                 p.get("Bemerkungen"),
+                json.dumps(place),
             ),
         )
         flaeche_rows += 1
-        place = feat.get("place") or {}
-        polygons = place.get("coordinates", []) if place.get("type") == "MultiPolygon" else []
-        for rings in polygons:
-            surface_rows += 1
-            polygon = {"type": "Polygon", "coordinates": rings}
-            cur.execute(
-                """INSERT INTO flaeche_geometrie_surfaces (id, flaeche_fk, surface)
-                   VALUES (%s, %s, ST_SetSRID(ST_GeomFromGeoJSON(%s), 2056))""",
-                (f"surface-{surface_rows}", feat["id"], json.dumps(polygon)),
-            )
 
     with open("/loader/post_load_richtplanung.sql") as f:
         cur.execute(f.read())
@@ -432,6 +427,18 @@ _SECTORAL_PLAN_CATALOGUES = [
 ]
 
 
+def _multi_geojson(structure: dict | None, list_key: str, item_key: str, multi_type: str) -> str | None:
+    """A CHBase multi-geometry STRUCTURE value (e.g. `{"Points": [{"Point": {...}}]}`) as one GeoJSON Multi*.
+
+    `None` when absent, or when a part is not the plain single type (an arc segment, say).
+    """
+    parts = [item.get(item_key) or {} for item in (structure or {}).get(list_key) or []]
+    single = multi_type.removeprefix("Multi")
+    if not parts or any(part.get("type") != single for part in parts):
+        return None
+    return json.dumps({"type": multi_type, "coordinates": [part["coordinates"] for part in parts]})
+
+
 def _mod_info(p: dict) -> tuple:
     mod_info = p.get("ModInfo") or {}
     return mod_info.get("ValidFrom"), mod_info.get("ValidUntil"), mod_info.get("LatestModification")
@@ -488,33 +495,50 @@ def _load_sectoral_plan(cur, schema: str, model: str, merged_xtf: str, suffix: s
         )
     for feat in by_type.get("Facility", []):
         p = feat["properties"]
+        # Point/Line are the base model's own multi-geometry STRUCTUREs (left in
+        # properties by convert-jsonfg) - one Multi* column each in the schema.
         cur.execute(
             f"""INSERT INTO {facility} (id, facilitykind_reference, facilitystatus_reference, symbolori,
-                   modinfo_validfrom, modinfo_validuntil, modinfo_latestmodification, object)
-                VALUES (%s, %s, %s, %s, %s, %s, %s, %s)""",
-            (feat["id"], p["FacilityKind"], p["FacilityStatus"], p.get("SymbolOri"), *_mod_info(p), p["Object"]),
+                   modinfo_validfrom, modinfo_validuntil, modinfo_latestmodification, object, point, line)
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s,
+                        ST_SetSRID(ST_GeomFromGeoJSON(%s), 2056), ST_SetSRID(ST_GeomFromGeoJSON(%s), 2056))""",
+            (
+                feat["id"],
+                p["FacilityKind"],
+                p["FacilityStatus"],
+                p.get("SymbolOri"),
+                *_mod_info(p),
+                p["Object"],
+                _multi_geojson(p.get("Point"), "Points", "Point", "MultiPoint"),
+                _multi_geojson(p.get("Line"), "Lines", "Line", "MultiLineString"),
+            ),
         )
-        # Facility.Point is the base model's own MultiPoint STRUCTURE,
-        # not a standard geometry type, so it stays in properties.
-        for n, item in enumerate((p.get("Point") or {}).get("Points") or []):
-            cur.execute(
-                f"""INSERT INTO {facility}_point_points (id, {facility}_fk, point)
-                    VALUES (%s, %s, ST_SetSRID(ST_GeomFromGeoJSON(%s), 2056))""",
-                (f"{feat['id']}-p{n}", feat["id"], json.dumps(item["Point"])),
-            )
         for n, text in enumerate((p.get("Name") or {}).get("LocalisedText") or []):
             cur.execute(
                 f"""INSERT INTO {facility}_name_localisedtext (id, {facility}_fk, language, text)
                     VALUES (%s, %s, %s, %s)""",
                 (f"{feat['id']}-n{n}", feat["id"], text.get("Language"), text["Text"]),
             )
+    skipped = 0
     for feat in by_type.get("PlanningMeasure", []):
         p = feat["properties"]
+        # PlanningMeasure.Surface (MultiSurface) is hoisted to "place".
+        place = feat.get("place") or {}
+        point = _multi_geojson(p.get("Point"), "Points", "Point", "MultiPoint")
+        line = _multi_geojson(p.get("Line"), "Lines", "Line", "MultiLineString")
+        surface = json.dumps(place) if place.get("type") in ("Polygon", "MultiPolygon") else None
+        if not (point or line or surface):
+            # A curved (arc) surface has no plain MultiPolygon value; the
+            # model requires a Point, Line or Surface, so the row can't go in.
+            skipped += 1
+            continue
         cur.execute(
             f"""INSERT INTO {measure} (id, measuretype_reference, coordinationlevel_reference,
                    planningstatus_reference, symbolori, modinfo_validfrom, modinfo_validuntil,
-                   modinfo_latestmodification, facility)
-                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)""",
+                   modinfo_latestmodification, facility, point, line, surface)
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s,
+                        ST_SetSRID(ST_GeomFromGeoJSON(%s), 2056), ST_SetSRID(ST_GeomFromGeoJSON(%s), 2056),
+                        ST_SetSRID(ST_Multi(ST_GeomFromGeoJSON(%s)), 2056))""",
             (
                 feat["id"],
                 p["MeasureType"],
@@ -523,18 +547,13 @@ def _load_sectoral_plan(cur, schema: str, model: str, merged_xtf: str, suffix: s
                 p.get("SymbolOri"),
                 *_mod_info(p),
                 p.get("Facility"),
+                point,
+                line,
+                surface,
             ),
         )
-        place = feat.get("place") or {}
-        polygons = {"Polygon": [place.get("coordinates")], "MultiPolygon": place.get("coordinates")}.get(
-            place.get("type"), []
-        )
-        for n, rings in enumerate(polygons):
-            cur.execute(
-                f"""INSERT INTO {measure}_surface_surfaces (id, {measure}_fk, surface)
-                    VALUES (%s, %s, ST_SetSRID(ST_GeomFromGeoJSON(%s), 2056))""",
-                (f"{feat['id']}-s{n}", feat["id"], json.dumps({"type": "Polygon", "coordinates": rings})),
-            )
+    if skipped:
+        print(f"{schema}: {skipped} PlanningMeasure with a curved surface not loaded.", flush=True)
 
     cur.execute("SET search_path TO public;")
     return {"schema": schema, "facility": facility, "measure": measure}

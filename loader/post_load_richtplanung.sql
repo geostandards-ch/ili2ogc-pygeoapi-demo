@@ -1,21 +1,17 @@
--- Convenience view for pygeoapi: one geometry per Flaeche, aggregated from the
--- normalized flaeche_geometrie_surfaces child table that ili2ogc's convert-sql
--- produces for a BAG OF Surface attribute (real MultiSurface -> MultiPolygon).
+-- Convenience view for pygeoapi: one feature per Flaeche, its MultiSurface
+-- geometry already a single MultiPolygon column in convert-sql's schema.
 CREATE OR REPLACE VIEW flaeche_geo AS
 SELECT
-    f.id,
-    f.objektbezeichnung,
-    f.beschrieb,
-    f.objektart,
-    f.genehmigungsdatum,
-    f.beschlussdatumkanton,
-    f.kanton,
-    f.weblink,
-    ST_Multi(ST_Union(g.surface)) AS geom
-FROM flaeche f
-JOIN flaeche_geometrie_surfaces g ON g.flaeche_fk = f.id
-GROUP BY f.id, f.objektbezeichnung, f.beschrieb, f.objektart, f.genehmigungsdatum,
-         f.beschlussdatumkanton, f.kanton, f.weblink;
+    id,
+    objektbezeichnung,
+    beschrieb,
+    objektart,
+    genehmigungsdatum,
+    beschlussdatumkanton,
+    kanton,
+    weblink,
+    geometrie AS geom
+FROM flaeche;
 
 -- OGC API - Maps view: exposes objektart under the exact property name
 -- interlis convert-sld emits for Flaeche_Graphics' WHERE clauses, so
