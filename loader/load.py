@@ -208,7 +208,7 @@ def _merge_ili23_baskets(main_path: str, extra_paths: list[str], out_path: str) 
 
 
 def load_richtplanung(cur) -> None:
-    """`RichtplanungErneuerbareEnergien_V1` (real SH data) with the BFE Energieform catalogue it references."""
+    """`RichtplanungErneuerbareEnergien_V1` (real SH data: Flaeche and Punkt) with the BFE Energieform catalogue."""
     model = f"{REPO}/RichtplanungErneuerbareEnergien_V1_d_01.ili"
     xtf = "/tmp/richtplanung_source.xtf"
     # Sources: https://geodienste.ch/downloads/interlis/richtplanung_erneuerbare_energien/SH/RichtplanungErneuerbareEnergien_V1_SH.xtf
@@ -237,6 +237,23 @@ def load_richtplanung(cur) -> None:
             weblink=p.get("Weblink"),
             bemerkungen=p.get("Bemerkungen"),
             geometrie=ds.geometry(feat.get("place"), multi=3),
+        )
+    for feat in by_type.get("Punkt", []):
+        p = feat["properties"]
+        ds.insert(
+            "punkt",
+            feat,
+            energieform_reference=ds.ref(p["Energieform"]),
+            objektbezeichnung=p.get("Objektbezeichnung"),
+            beschrieb=p.get("Beschrieb"),
+            objektart=p.get("Objektart"),
+            genehmigungsdatum=p.get("Genehmigungsdatum"),
+            beschlussdatumkanton=p.get("BeschlussdatumKanton"),
+            kanton=p.get("Kanton"),
+            weblink=p.get("Weblink"),
+            bemerkungen=p.get("Bemerkungen"),
+            # Punkt.Geometrie is the CHBase MultiPoint STRUCTURE, left in properties.
+            geometrie=ds.geometry(_parts(p.get("Geometrie"), "Points", "Point"), multi=1),
         )
     ds.done("richtplanung")
 
@@ -470,6 +487,7 @@ def build_styles() -> None:
         (SYMBOLOGY_MODEL, SYMBOLOGY_XTF, "Flaeche_Graphics", "flaeche.sld"),
         (SUEL_SYMBOLOGY_MODEL, SUEL_SYMBOLOGY_XTF, "PlanningMeasure_Graphics", "sachplan_uebertragungsleitungen.sld"),
         (SPA_SYMBOLOGY_MODEL, SPA_SYMBOLOGY_XTF, "Facility_Graphics", "sachplan_asyl.sld"),
+        (SYMBOLOGY_MODEL, SYMBOLOGY_XTF, "Punkt_Graphics", "richtplanung_punkte.sld"),
     ]:
         run(
             [

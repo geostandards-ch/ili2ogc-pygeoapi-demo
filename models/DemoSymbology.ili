@@ -10,9 +10,13 @@ INTERLIS 2.4;
 !! Colors come from each dataset's real WMS (see data/symbology.xtf).
 !! Flaeche_Graphics reproduces geodienste.ch's windenergie_flaechen SLD.
 !! Its "Richtplaninhalt" rule carries no filter in that export; it is
-!! rebuilt here as the 4 Richtplaninhalt sub-values. Its 2
-!! "Ausschlussgebiet" rules filter on the Energieform catalogue text, which
-!! this single-file transfer does not carry - not reproduced.
+!! rebuilt here as the 4 Richtplaninhalt sub-values. Its "Ausgangslage"
+!! rule also tests the Energieform catalogue text (the BFE catalogue is
+!! merged into the transfer). Its 2 "Ausschlussgebiet" rules are not
+!! reproduced: no Ausschlussgebiet object in the SH data.
+!! Punkt_Graphics follows the wasserkraft_punkte layer's legend (all SH
+!! points are Wasserkraft): a filled blue square for Richtplaninhalt, a
+!! cyan outline for Ausgangslage. Punkt.Geometrie is a MultiPoint STRUCTURE.
 
 MODEL DemoSymbology (en)
   AT "mailto:test@example.org"
@@ -27,6 +31,7 @@ MODEL DemoSymbology (en)
   SIGN BASKET Signs ~ StandardSymbology.StandardSigns
     OBJECTS OF PolylineSign: WaldGreen, RoadsBrown, BuildingLinesGreen;
     OBJECTS OF SurfaceSign: RichtplaninhaltPurple, AusgangslageWhite;
+    OBJECTS OF SymbolSign: WasserkraftRichtplaninhaltBlue, WasserkraftAusgangslageCyan;
 
   TOPIC Graphics =
     DEPENDS ON Waldabstandslinien_V1_2.Geobasisdaten, MainRoads_LV95_V1_1.MainRoads,
@@ -73,12 +78,31 @@ MODEL DemoSymbology (en)
           Priority := 100);
 
       AusgangslageRule OF StandardSymbology.StandardSigns.SurfaceSign:
-        WHERE Objektart == #Ausgangslage (
+        WHERE (Objektart == #Ausgangslage) AND (Energieform -> Reference -> Energieform == "Windenergie") (
           Sign := {AusgangslageWhite};
           Geometry := Geometrie -> Surfaces -> Surface;
           Priority := 101);
 
     END Flaeche_Graphics;
+
+    GRAPHIC Punkt_Graphics
+      BASED ON RichtplanungErneuerbareEnergien_V1.Objekte.Punkt =
+
+      WasserkraftRichtplaninhaltRule OF StandardSymbology.StandardSigns.SymbolSign:
+        WHERE ((Objektart == #Richtplaninhalt.Vororientierung) OR (Objektart == #Richtplaninhalt.Zwischenergebnis)
+          OR (Objektart == #Richtplaninhalt.Festsetzung) OR (Objektart == #Richtplaninhalt.Unbekannt))
+          AND (Energieform -> Reference -> Energieform == "Wasserkraft") (
+          Sign := {WasserkraftRichtplaninhaltBlue};
+          Geometry := Geometrie -> Points -> Point;
+          Priority := 100);
+
+      WasserkraftAusgangslageRule OF StandardSymbology.StandardSigns.SymbolSign:
+        WHERE (Objektart == #Ausgangslage) AND (Energieform -> Reference -> Energieform == "Wasserkraft") (
+          Sign := {WasserkraftAusgangslageCyan};
+          Geometry := Geometrie -> Points -> Point;
+          Priority := 101);
+
+    END Punkt_Graphics;
 
   END Graphics;
 

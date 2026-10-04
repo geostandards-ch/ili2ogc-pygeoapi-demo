@@ -33,6 +33,7 @@ and maps from the GRAPHIC views.
 | Collection | Dataset ([geocat.ch](https://www.geocat.ch) record) | Data provider |
 |---|---|---|
 | `richtplanung` | [Richtplanung erneuerbare Energien](https://www.geocat.ch/geonetwork/srv/eng/catalog.search#/metadata/f5c2c313-00bb-43d6-a3a8-7ccb5a099a96) (canton Schaffhausen) | KGK-CGC / [geodienste.ch](https://geodienste.ch) |
+| `richtplanung_punkte` | [Richtplanung erneuerbare Energien](https://www.geocat.ch/geonetwork/srv/eng/catalog.search#/metadata/f5c2c313-00bb-43d6-a3a8-7ccb5a099a96) (canton Schaffhausen), points | KGK-CGC / [geodienste.ch](https://geodienste.ch) |
 | `waldabstandslinien` | [Waldabstandslinien](https://www.geocat.ch/geonetwork/srv/eng/catalog.search#/metadata/a81f0dc0-a795-4035-822c-4c3bf36e0916) (canton Glarus) | KGK-CGC / [geodienste.ch](https://geodienste.ch) |
 | `mainroads` | [Main roads network](https://www.geocat.ch/geonetwork/srv/eng/catalog.search#/metadata/c1333de6-fb91-4b0b-be95-8eab89b05358) | FEDRO |
 | `buildinglines` | [Building lines for motorways](https://www.geocat.ch/geonetwork/srv/eng/catalog.search#/metadata/fce3b347-cc58-4b29-bb87-a35eed4487ea) (30-object sample) | FEDRO |

@@ -82,24 +82,128 @@
         <T>1.0</T>
       </Color>
 
+      <!-- Same service, layer wasserkraft_punkte: its GetStyles export
+           lost the point symbol (empty PointSymbolizer), so taken from
+           GetLegendGraphic: "Richtplaninhalt" a filled #005ce6 square,
+           "Ausgangslage" a #a0e9ff square outline, about 16 px. -->
+      <Color ili:tid="7">
+        <Name>rp_wasserkraft_richtplaninhalt_blue</Name>
+        <L>43.3081</L>
+        <C>82.0424</C>
+        <H>292.9951</H>
+        <T>1.0</T>
+      </Color>
+
+      <Color ili:tid="8">
+        <Name>rp_wasserkraft_ausgangslage_cyan</Name>
+        <L>88.4322</L>
+        <C>24.7924</C>
+        <H>225.8954</H>
+        <T>1.0</T>
+      </Color>
+
+      <Font ili:tid="20">
+        <Name>DemoMarks</Name>
+        <Internal>true</Internal>
+        <Type>symbol</Type>
+      </Font>
+
+      <FontSymbol ili:tid="30">
+        <Name>Square_Filled</Name>
+        <Font ili:ref="20"></Font>
+        <Geometry>
+          <FontSymbol_Surface>
+            <FillColor ili:ref="7"></FillColor>
+            <Geometry>
+              <SURFACE>
+                <BOUNDARY>
+                  <POLYLINE>
+                  <COORD><C1>-0.5</C1><C2>-0.5</C2></COORD>
+                  <COORD><C1>0.5</C1><C2>-0.5</C2></COORD>
+                  <COORD><C1>0.5</C1><C2>0.5</C2></COORD>
+                  <COORD><C1>-0.5</C1><C2>0.5</C2></COORD>
+                  <COORD><C1>-0.5</C1><C2>-0.5</C2></COORD>
+                  </POLYLINE>
+                </BOUNDARY>
+              </SURFACE>
+            </Geometry>
+          </FontSymbol_Surface>
+        </Geometry>
+      </FontSymbol>
+
+      <FontSymbol ili:tid="31">
+        <Name>Square_Outline</Name>
+        <Font ili:ref="20"></Font>
+        <Geometry>
+          <FontSymbol_Polyline>
+            <Color ili:ref="8"></Color>
+            <Geometry>
+              <POLYLINE>
+              <COORD><C1>-0.5</C1><C2>-0.5</C2></COORD>
+              <COORD><C1>0.5</C1><C2>-0.5</C2></COORD>
+              <COORD><C1>0.5</C1><C2>0.5</C2></COORD>
+              <COORD><C1>-0.5</C1><C2>0.5</C2></COORD>
+              <COORD><C1>-0.5</C1><C2>-0.5</C2></COORD>
+              </POLYLINE>
+            </Geometry>
+          </FontSymbol_Polyline>
+        </Geometry>
+      </FontSymbol>
+
+      <LineStyle_Solid ili:tid="41">
+        <Name>WaldGreen_Solid</Name>
+        <Color ili:ref="1"></Color>
+      </LineStyle_Solid>
+
+      <LineStyle_Solid ili:tid="42">
+        <Name>RoadsBrown_Solid</Name>
+        <Color ili:ref="2"></Color>
+      </LineStyle_Solid>
+
+      <LineStyle_Solid ili:tid="43">
+        <Name>BuildingLinesGreen_Solid</Name>
+        <Color ili:ref="3"></Color>
+      </LineStyle_Solid>
+
+      <LineStyle_Solid ili:tid="44">
+        <Name>RichtplanAusgangslageBorder_Solid</Name>
+        <Color ili:ref="6"></Color>
+      </LineStyle_Solid>
+
       <PolylineSign ili:tid="101">
         <ili:Name>WaldGreen</ili:Name>
-        <Color ili:ref="1"></Color>
+        <Style ili:ref="41">
+          <PolylineSignLineStyleAssoc>
+            <Offset>0.0</Offset>
+          </PolylineSignLineStyleAssoc>
+        </Style>
       </PolylineSign>
 
       <PolylineSign ili:tid="102">
         <ili:Name>RoadsBrown</ili:Name>
-        <Color ili:ref="2"></Color>
+        <Style ili:ref="42">
+          <PolylineSignLineStyleAssoc>
+            <Offset>0.0</Offset>
+          </PolylineSignLineStyleAssoc>
+        </Style>
       </PolylineSign>
 
       <PolylineSign ili:tid="103">
         <ili:Name>BuildingLinesGreen</ili:Name>
-        <Color ili:ref="3"></Color>
+        <Style ili:ref="43">
+          <PolylineSignLineStyleAssoc>
+            <Offset>0.0</Offset>
+          </PolylineSignLineStyleAssoc>
+        </Style>
       </PolylineSign>
 
       <PolylineSign ili:tid="104">
         <ili:Name>RichtplanAusgangslageBorder</ili:Name>
-        <Color ili:ref="6"></Color>
+        <Style ili:ref="44">
+          <PolylineSignLineStyleAssoc>
+            <Offset>0.0</Offset>
+          </PolylineSignLineStyleAssoc>
+        </Style>
       </PolylineSign>
 
       <SurfaceSign ili:tid="110">
@@ -112,6 +216,20 @@
         <FillColor ili:ref="5"></FillColor>
         <Border ili:ref="104"></Border>
       </SurfaceSign>
+
+      <SymbolSign ili:tid="120">
+        <ili:Name>WasserkraftRichtplaninhaltBlue</ili:Name>
+        <Color ili:ref="7"></Color>
+        <Symbol ili:ref="30"></Symbol>
+        <Scale>16</Scale>
+      </SymbolSign>
+
+      <SymbolSign ili:tid="121">
+        <ili:Name>WasserkraftAusgangslageCyan</ili:Name>
+        <Color ili:ref="8"></Color>
+        <Symbol ili:ref="31"></Symbol>
+        <Scale>16</Scale>
+      </SymbolSign>
 
     </StandardSigns>
   </ili:datasection>
