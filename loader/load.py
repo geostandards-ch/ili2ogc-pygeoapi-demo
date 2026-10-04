@@ -3,10 +3,12 @@
 
 Runs once per `docker-compose up`. Each model gets its own PostgreSQL schema
 holding exactly what `interlis convert-sql` generates - ili2db's layout
-(`t_id`, `t_basket`, `t_ili_tid`, the `T_ILI2DB_*` tables) plus, through
-`--map-views`, one view per symbology GRAPHIC that the matching SLD's
-filters are evaluated on. No hand-written SQL: pygeoapi serves the tables
-and the generated views as they are.
+(`t_id`, `t_basket`, `t_ili_tid`, the `T_ILI2DB_*` tables), one view per
+symbology GRAPHIC that the matching SLD's filters are evaluated on
+(`--map-views`), and one readable `<table>_features` view per table, with
+catalogue keys and German names in place of raw references
+(`--feature-views de`). No hand-written SQL: pygeoapi serves the generated
+views as they are.
 """
 
 import json
@@ -44,7 +46,11 @@ def prepare(model: str, xtf: str, symbology: str, name: str, materialize: str | 
     schema_sql, data_jsonfg = f"/tmp/{name}_schema.sql", f"/tmp/{name}_data.jsonfg.json"
     run(["interlis", "validate", xtf, "--model", model, "--repo", REPO])
     run(
-        ["interlis", "convert-sql", model, "--repo", REPO, "--map-views", symbology, "-o", schema_sql],
+        # --map-views: one view per GRAPHIC for its SLD; --feature-views: readable views for the features API.
+        [
+            "interlis", "convert-sql", model, "--repo", REPO, "--map-views", symbology, "--feature-views", "de",
+            "-o", schema_sql,
+        ],
         accept_degraded=True,
     )
     run(["interlis", "convert-jsonfg", xtf, "--model", model, "--repo", REPO, "-o", data_jsonfg])

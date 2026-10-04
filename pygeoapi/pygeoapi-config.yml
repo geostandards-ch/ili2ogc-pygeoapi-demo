@@ -123,7 +123,7 @@ resources:
                   search_path: [richtplanung, public]
               id_field: t_id
               geom_field: geometrie
-              table: flaeche
+              table: flaeche_features
               storage_crs: http://www.opengis.net/def/crs/EPSG/0/2056
               crs:
                   - http://www.opengis.net/def/crs/EPSG/0/2056
@@ -215,7 +215,7 @@ resources:
                   search_path: [waldabstandslinien, public]
               id_field: t_id
               geom_field: geometrie
-              table: waldabstand_linie
+              table: waldabstand_linie_features
               storage_crs: http://www.opengis.net/def/crs/EPSG/0/2056
               crs:
                   - http://www.opengis.net/def/crs/EPSG/0/2056
@@ -468,9 +468,9 @@ resources:
                   search_path: [uebertragungsleitungen, public]
               id_field: t_id
               geom_field: surface
-              table: planningmeasure
-              # The other geometry columns (point/line/surface) are left out: one geometry per feature.
-              properties: [t_ili_tid, measuretype_reference, coordinationlevel_reference, planningstatus_reference, facility, modinfo_validfrom, modinfo_validuntil, modinfo_latestmodification]
+              table: planningmeasure_features
+              # Readable columns only; the other geometry columns are left out (one geometry per feature).
+              properties: [t_ili_tid, name, measuretype_reference_typeid, measuretype_reference_name, coordinationlevel_reference_coordid, coordinationlevel_reference_name, planningstatus_reference_name, facility_name, facility_transmissionlinesfacility_name, modinfo_validfrom, modinfo_latestmodification]
               storage_crs: http://www.opengis.net/def/crs/EPSG/0/2056
               crs:
                   - http://www.opengis.net/def/crs/EPSG/0/2056
@@ -558,9 +558,9 @@ resources:
                   search_path: [asyl, public]
               id_field: t_id
               geom_field: point
-              table: facility_lv95
-              # The other geometry columns (point/line/surface) are left out: one geometry per feature.
-              properties: [t_ili_tid, facilitykind_reference, facilitystatus_reference, symbolori, object, modinfo_validfrom, modinfo_validuntil, modinfo_latestmodification]
+              table: facility_lv95_features
+              # Readable columns only; the other geometry columns are left out (one geometry per feature).
+              properties: [t_ili_tid, name, facilitykind_reference_kindid, facilitykind_reference_name, facilitystatus_reference_name, object_name, symbolori, modinfo_validfrom, modinfo_latestmodification]
               storage_crs: http://www.opengis.net/def/crs/EPSG/0/2056
               crs:
                   - http://www.opengis.net/def/crs/EPSG/0/2056
