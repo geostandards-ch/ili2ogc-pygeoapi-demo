@@ -1,0 +1,115 @@
+INTERLIS 2.4;
+
+!! Cartographic signature for the "Sachplan Militaer" (Geobasisdatensatz
+!! 32) PlanningMeasure surface theme, reproducing the real official SLD
+!! (spm_sp_militaer_planningmeasure_kraft.sld): one rule per measure type
+!! (MeasureType catalogue, TypeID 32-M-*) and coordination level (shared
+!! CoordinationLevel catalogue, CoordID 1..3). The point-modelled 32-M-1
+!! measures and the facilities are drawn in the official maps with glyphs
+!! of the WESP TrueType font, not redistributable here - not reproduced.
+
+MODEL SachplanMilitaer (en)
+  AT "mailto:test@example.org"
+  VERSION "2026-10-05" =
+
+  IMPORTS StandardSymbology;
+  IMPORTS SectoralPlanForMilitaryInfrastructure_LV95_V1_4;
+
+  SIGN BASKET Signs ~ StandardSymbology.StandardSigns
+    OBJECTS OF SurfaceSign: StandortfestlegungFestsetzung, AnlageperimeterFestsetzung, AnlageperimeterZwischenergebnis, AnlageperimeterVororientierung, HindernisbegrenzungFestsetzung, HindernisbegrenzungZwischenergebnis, LaermbelastungFestsetzung, KonsultationsbereichFestsetzung, Laerm60Festsetzung, Laerm60Zwischenergebnis, Laerm60Vororientierung, Laerm55Festsetzung, Laerm55Zwischenergebnis, Laerm55Vororientierung;
+
+  TOPIC Graphics =
+    DEPENDS ON BaseModel_SectoralPlans_LV95_V1_4.SectoralPlans_WithLatestModification;
+
+    GRAPHIC PlanningMeasure_Graphics
+      BASED ON BaseModel_SectoralPlans_LV95_V1_4.SectoralPlans_WithLatestModification.PlanningMeasure =
+
+      StandortfestlegungFestsetzungRule OF StandardSymbology.StandardSigns.SurfaceSign:
+        WHERE (MeasureType -> Reference -> TypeID == "32-M-1") AND (CoordinationLevel -> Reference -> CoordID == 1) (
+          Sign := {StandortfestlegungFestsetzung};
+          Geometry := Surface -> Surfaces -> Surface;
+          Priority := 1);
+
+      AnlageperimeterFestsetzungRule OF StandardSymbology.StandardSigns.SurfaceSign:
+        WHERE (MeasureType -> Reference -> TypeID == "32-M-2") AND (CoordinationLevel -> Reference -> CoordID == 1) (
+          Sign := {AnlageperimeterFestsetzung};
+          Geometry := Surface -> Surfaces -> Surface;
+          Priority := 2);
+
+      AnlageperimeterZwischenergebnisRule OF StandardSymbology.StandardSigns.SurfaceSign:
+        WHERE (MeasureType -> Reference -> TypeID == "32-M-2") AND (CoordinationLevel -> Reference -> CoordID == 2) (
+          Sign := {AnlageperimeterZwischenergebnis};
+          Geometry := Surface -> Surfaces -> Surface;
+          Priority := 3);
+
+      AnlageperimeterVororientierungRule OF StandardSymbology.StandardSigns.SurfaceSign:
+        WHERE (MeasureType -> Reference -> TypeID == "32-M-2") AND (CoordinationLevel -> Reference -> CoordID == 3) (
+          Sign := {AnlageperimeterVororientierung};
+          Geometry := Surface -> Surfaces -> Surface;
+          Priority := 4);
+
+      HindernisbegrenzungFestsetzungRule OF StandardSymbology.StandardSigns.SurfaceSign:
+        WHERE (MeasureType -> Reference -> TypeID == "32-M-3") AND (CoordinationLevel -> Reference -> CoordID == 1) (
+          Sign := {HindernisbegrenzungFestsetzung};
+          Geometry := Surface -> Surfaces -> Surface;
+          Priority := 5);
+
+      HindernisbegrenzungZwischenergebnisRule OF StandardSymbology.StandardSigns.SurfaceSign:
+        WHERE (MeasureType -> Reference -> TypeID == "32-M-3") AND (CoordinationLevel -> Reference -> CoordID == 2) (
+          Sign := {HindernisbegrenzungZwischenergebnis};
+          Geometry := Surface -> Surfaces -> Surface;
+          Priority := 6);
+
+      LaermbelastungFestsetzungRule OF StandardSymbology.StandardSigns.SurfaceSign:
+        WHERE (MeasureType -> Reference -> TypeID == "32-M-4") AND (CoordinationLevel -> Reference -> CoordID == 1) (
+          Sign := {LaermbelastungFestsetzung};
+          Geometry := Surface -> Surfaces -> Surface;
+          Priority := 7);
+
+      KonsultationsbereichFestsetzungRule OF StandardSymbology.StandardSigns.SurfaceSign:
+        WHERE (MeasureType -> Reference -> TypeID == "32-M-5") AND (CoordinationLevel -> Reference -> CoordID == 1) (
+          Sign := {KonsultationsbereichFestsetzung};
+          Geometry := Surface -> Surfaces -> Surface;
+          Priority := 8);
+
+      Laerm60FestsetzungRule OF StandardSymbology.StandardSigns.SurfaceSign:
+        WHERE (MeasureType -> Reference -> TypeID == "32-M-41") AND (CoordinationLevel -> Reference -> CoordID == 1) (
+          Sign := {Laerm60Festsetzung};
+          Geometry := Surface -> Surfaces -> Surface;
+          Priority := 9);
+
+      Laerm60ZwischenergebnisRule OF StandardSymbology.StandardSigns.SurfaceSign:
+        WHERE (MeasureType -> Reference -> TypeID == "32-M-41") AND (CoordinationLevel -> Reference -> CoordID == 2) (
+          Sign := {Laerm60Zwischenergebnis};
+          Geometry := Surface -> Surfaces -> Surface;
+          Priority := 10);
+
+      Laerm60VororientierungRule OF StandardSymbology.StandardSigns.SurfaceSign:
+        WHERE (MeasureType -> Reference -> TypeID == "32-M-41") AND (CoordinationLevel -> Reference -> CoordID == 3) (
+          Sign := {Laerm60Vororientierung};
+          Geometry := Surface -> Surfaces -> Surface;
+          Priority := 11);
+
+      Laerm55FestsetzungRule OF StandardSymbology.StandardSigns.SurfaceSign:
+        WHERE (MeasureType -> Reference -> TypeID == "32-M-42") AND (CoordinationLevel -> Reference -> CoordID == 1) (
+          Sign := {Laerm55Festsetzung};
+          Geometry := Surface -> Surfaces -> Surface;
+          Priority := 12);
+
+      Laerm55ZwischenergebnisRule OF StandardSymbology.StandardSigns.SurfaceSign:
+        WHERE (MeasureType -> Reference -> TypeID == "32-M-42") AND (CoordinationLevel -> Reference -> CoordID == 2) (
+          Sign := {Laerm55Zwischenergebnis};
+          Geometry := Surface -> Surfaces -> Surface;
+          Priority := 13);
+
+      Laerm55VororientierungRule OF StandardSymbology.StandardSigns.SurfaceSign:
+        WHERE (MeasureType -> Reference -> TypeID == "32-M-42") AND (CoordinationLevel -> Reference -> CoordID == 3) (
+          Sign := {Laerm55Vororientierung};
+          Geometry := Surface -> Surfaces -> Surface;
+          Priority := 14);
+
+    END PlanningMeasure_Graphics;
+
+  END Graphics;
+
+END SachplanMilitaer.

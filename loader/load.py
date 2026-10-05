@@ -26,6 +26,8 @@ SUEL_SYMBOLOGY_MODEL = f"{REPO}/SachplanUebertragungsleitungen.ili"
 SUEL_SYMBOLOGY_XTF = "/data/symbology_uebertragungsleitungen.xtf"
 SPA_SYMBOLOGY_MODEL = f"{REPO}/SachplanAsyl.ili"
 SPA_SYMBOLOGY_XTF = "/data/symbology_asyl.xtf"
+SPM_SYMBOLOGY_MODEL = f"{REPO}/SachplanMilitaer.ili"
+SPM_SYMBOLOGY_XTF = "/data/symbology_militaer.xtf"
 _ILI23_NS = "http://www.interlis.ch/INTERLIS2.3"
 
 
@@ -135,10 +137,19 @@ class Dataset:
             basket = cur.fetchone()[0]
             self.basket_of.update(dict.fromkeys(tids, basket))
         self.t_id: dict[str, int] = {}
+        self.table_of: dict[str, str] = {}
         self.counts: dict[str, int] = {}
 
     def ref(self, tid: str | None) -> int | None:
         return None if tid is None else self.t_id[tid]
+
+    def link(self, column: str, tid: str | None, base_table: str) -> dict:
+        """A reference whose target may be a subclass: convert-sql gives each other target table its own
+        `<column>_<table>` column."""
+        if tid is None:
+            return {}
+        table = self.table_of[tid]
+        return {column if table == base_table else f"{column}_{table}": self.t_id[tid]}
 
     @staticmethod
     def geometry(value: dict | None, srid: int = 2056, multi: int | None = None) -> tuple[str, str | None]:
@@ -166,6 +177,7 @@ class Dataset:
             f"INSERT INTO {table} ({', '.join(names)}) VALUES ({', '.join(sql_values)}) RETURNING t_id", params
         )
         self.t_id[feat["id"]] = t_id = self.cur.fetchone()[0]
+        self.table_of[feat["id"]] = table
         self.counts[table] = self.counts.get(table, 0) + 1
         return t_id
 
@@ -368,16 +380,28 @@ def _mod_info(p: dict) -> dict:
     }
 
 
-def _load_sectoral_plan(cur, schema: str, model: str, xtf: str, symbology: str, suffix: str) -> None:
+def _load_sectoral_plan(
+    cur, schema: str, model: str, xtf: str, symbology: str, suffix: str, subclasses: dict | None = None
+) -> None:
     """A `BaseModel_SectoralPlans_V1_4` transfer: catalogues, SectoralPlan, Object, Facility, PlanningMeasure.
 
     `suffix` is `_lv95` when the conversion also holds the base model's LV03
-    variant (convert-sql then names each table after its model).
+    variant (convert-sql then names each table after its model). `subclasses`
+    maps a theme's own Object/Facility subclass (feature type) to its table
+    stem and own columns, e.g. Sachplan Militaer's `Facility_SPM`.
     """
     schema_sql, by_type = prepare(model, xtf, symbology, schema)
     ds = Dataset(cur, schema, schema_sql, xtf)
     plan, obj, facility, measure = (f"{t}{suffix}" for t in ("sectoralplan", "object", "facility", "planningmeasure"))
     point, line = (lambda p: _parts(p.get("Point"), "Points", "Point")), (lambda p: _parts(p.get("Line"), "Lines", "Line"))
+
+    def features_of(base_type: str, base_table: str):
+        """The base class's objects, then each subclass's, with their table and own columns."""
+        yield from ((f, base_table, {}) for f in by_type.get(base_type, []))
+        for feature_type, (base, stem, own) in (subclasses or {}).items():
+            if base == base_type:
+                for f in by_type.get(feature_type, []):
+                    yield f, f"{stem}{suffix}", {c: f["properties"].get(prop) for c, prop in own.items()}
 
     for feature_type, table, id_column, prop in _SECTORAL_PLAN_CATALOGUES:
         for feat in by_type.get(feature_type, []):
@@ -387,24 +411,25 @@ def _load_sectoral_plan(cur, schema: str, model: str, xtf: str, symbology: str, 
         p = feat["properties"]
         t_id = ds.insert(plan, feat, geoiv_id=p["GeoIV_ID"], **_mod_info(p))
         ds.localised(plan, "name", t_id, feat, p.get("Name"))
-    for feat in by_type.get("Object", []):
+    for feat, table, own in features_of("Object", obj):
         p = feat["properties"]
-        t_id = ds.insert(obj, feat, sectoralplan=ds.ref(p["SectoralPlan"]), **_mod_info(p))
-        ds.localised(obj, "name", t_id, feat, p.get("Name"))
-    for feat in by_type.get("Facility", []):
+        t_id = ds.insert(table, feat, sectoralplan=ds.ref(p["SectoralPlan"]), **own, **_mod_info(p))
+        ds.localised(table, "name", t_id, feat, p.get("Name"))
+    for feat, table, own in features_of("Facility", facility):
         p = feat["properties"]
         t_id = ds.insert(
-            facility,
+            table,
             feat,
             facilitykind_reference=ds.ref(p["FacilityKind"]),
             facilitystatus_reference=ds.ref(p["FacilityStatus"]),
             symbolori=p.get("SymbolOri"),
-            object=ds.ref(p["Object"]),
+            **ds.link("object", p.get("Object"), obj),
             point=ds.geometry(point(p), multi=1),
             line=ds.geometry(line(p), multi=2),
+            **own,
             **_mod_info(p),
         )
-        ds.localised(facility, "name", t_id, feat, p.get("Name"))
+        ds.localised(table, "name", t_id, feat, p.get("Name"))
     for feat in by_type.get("PlanningMeasure", []):
         p = feat["properties"]
         t_id = ds.insert(
@@ -414,7 +439,7 @@ def _load_sectoral_plan(cur, schema: str, model: str, xtf: str, symbology: str, 
             coordinationlevel_reference=ds.ref(p["CoordinationLevel"]),
             planningstatus_reference=ds.ref(p["PlanningStatus"]),
             symbolori=p.get("SymbolOri"),
-            facility=ds.ref(p.get("Facility")),
+            **ds.link("facility", p.get("Facility"), facility),
             point=ds.geometry(point(p), multi=1),
             line=ds.geometry(line(p), multi=2),
             # PlanningMeasure.Surface is hoisted to "place".
@@ -477,6 +502,51 @@ def load_sachplan_asyl(cur) -> None:
     _load_sectoral_plan(cur, "asyl", model, merged_xtf, SPA_SYMBOLOGY_MODEL, suffix="_lv95")
 
 
+def load_sachplan_militaer(cur) -> None:
+    """`SectoralPlanForMilitaryInfrastructure_LV95_V1_4` (Sachplan Militär, real armasuisse/VBS data).
+
+    The published XTF carries every object but no coordinates (empty Point/
+    Surface structures); `data/source-xtf/SPM_V1_4_In_Kraft_LV95_mit_Geometrie.xtf.zip`
+    is that XTF completed with the geometries of the same dataset's GDB
+    export, matched by TID (`tools/complete_militaer_xtf.py`; ilivalidator:
+    0 errors). Its own `Object_SPM`/`Facility_SPM` subclasses carry an
+    object/facility number.
+    """
+    model = f"{REPO}/SectoralPlanForMilitaryInfrastructure_V1_4.ili"
+    main_xtf = "/tmp/spm_main.xtf"
+    shared_catalogue = "/tmp/spm_shared_catalogue.xml"
+    merged_xtf = "/data/sachplan_militaer.merged.xtf"
+
+    # Sources: https://data.geo.admin.ch/ch.vbs.sachplan-infrastruktur-militaer_kraft/
+    # sachplan-infrastruktur-militaer_kraft/sachplan-infrastruktur-militaer_kraft_2056.{xtf,gdb}.zip
+    with zipfile.ZipFile(f"{SOURCE_XTF_DIR}/SPM_V1_4_In_Kraft_LV95_mit_Geometrie.xtf.zip") as zf:
+        with zf.open(next(n for n in zf.namelist() if n.endswith(".xtf"))) as src, open(main_xtf, "wb") as dst:
+            dst.write(src.read())
+    with zipfile.ZipFile(f"{SOURCE_XTF_DIR}/sachplan-uebertragungsleitungen_kraft_2056.xtf.zip") as zf:
+        member = next(n for n in zf.namelist() if n.endswith("SectoralPlans_Catalogues_V1_4.xml"))
+        with zf.open(member) as src, open(shared_catalogue, "wb") as dst:
+            dst.write(src.read())
+
+    # Source: https://models.geo.admin.ch/VBS/SectoralPlanForMilitaryInfrastructure_Catalogues_V1_4_20250205.xml
+    _merge_ili23_baskets(
+        main_xtf,
+        [f"{SOURCE_XTF_DIR}/SectoralPlanForMilitaryInfrastructure_Catalogues_V1_4_20250205.xml", shared_catalogue],
+        merged_xtf,
+    )
+    _load_sectoral_plan(
+        cur,
+        "militaer",
+        model,
+        merged_xtf,
+        SPM_SYMBOLOGY_MODEL,
+        suffix="_lv95",
+        subclasses={
+            "Object_SPM": ("Object", "object_spm", {"objectnumber_spm": "ObjectNumber_SPM"}),
+            "Facility_SPM": ("Facility", "facility_spm", {"facilitynumber_spm": "FacilityNumber_SPM"}),
+        },
+    )
+
+
 def build_styles() -> None:
     """Write one .sld per symbology GRAPHIC for pygeoapi's OGC API - Maps providers."""
     os.makedirs("/styles", exist_ok=True)
@@ -487,6 +557,7 @@ def build_styles() -> None:
         (SYMBOLOGY_MODEL, SYMBOLOGY_XTF, "Flaeche_Graphics", "flaeche.sld"),
         (SUEL_SYMBOLOGY_MODEL, SUEL_SYMBOLOGY_XTF, "PlanningMeasure_Graphics", "sachplan_uebertragungsleitungen.sld"),
         (SPA_SYMBOLOGY_MODEL, SPA_SYMBOLOGY_XTF, "Facility_Graphics", "sachplan_asyl.sld"),
+        (SPM_SYMBOLOGY_MODEL, SPM_SYMBOLOGY_XTF, "PlanningMeasure_Graphics", "sachplan_militaer.sld"),
         (SYMBOLOGY_MODEL, SYMBOLOGY_XTF, "Punkt_Graphics", "richtplanung_punkte.sld"),
     ]:
         run(
@@ -517,6 +588,7 @@ def main() -> None:
     load_buildinglinesformotorways(cur)
     load_sachplan_uebertragungsleitungen(cur)
     load_sachplan_asyl(cur)
+    load_sachplan_militaer(cur)
     conn.commit()
     cur.close()
     conn.close()

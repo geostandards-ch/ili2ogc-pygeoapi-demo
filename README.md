@@ -39,6 +39,12 @@ and maps from the GRAPHIC views.
 | `buildinglines` | [Building lines for motorways](https://www.geocat.ch/geonetwork/srv/eng/catalog.search#/metadata/fce3b347-cc58-4b29-bb87-a35eed4487ea) (30-object sample) | FEDRO |
 | `uebertragungsleitungen` | [Electricity Transmission Lines sectoral plan](https://www.geocat.ch/geonetwork/srv/eng/catalog.search#/metadata/e1134feb-55d7-4b44-8e13-125e983b259b) | SFOE |
 | `asyl` | [Sectoral plan for Asylum (SPA)](https://www.geocat.ch/geonetwork/srv/eng/catalog.search#/metadata/23a9027d-37a1-4ba4-b529-54c658540914) | SEM |
+| `militaer` | [Sectoral Plan Military (SPM)](https://www.geocat.ch/geonetwork/srv/eng/catalog.search#/metadata/5263bc47-8723-4c02-988a-4ae0d425099c) ¹ | armasuisse / DDPS |
+
+¹ The published INTERLIS transfer of this dataset carries no coordinates (every point and surface is
+empty), while its File Geodatabase export has them. `data/source-xtf/SPM_V1_4_In_Kraft_LV95_mit_Geometrie.xtf.zip`
+is the published transfer completed with those geometries, matched by TID; `tools/complete_militaer_xtf.py`
+reproduces it and ilivalidator accepts it with no error.
 
 ```bash
 curl "http://localhost:5000/collections/richtplanung/items?f=jsonfg"

@@ -1,0 +1,388 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- File SectoralPlanForMilitaryInfrastructure_Catalogues_V1_5_20250205.xml VERSION="2025-02-05" (https://models.geo.admin.ch/VBS/) -->
+<TRANSFER xmlns="http://www.interlis.ch/INTERLIS2.3">
+  <HEADERSECTION SENDER="ili2fme-7.0.13-20210914" VERSION="2.3">
+    <MODELS>
+      <MODEL NAME="WithOneState_V1" VERSION="2011-08-30" URI="http://www.geo.admin.ch"/>
+      <MODEL NAME="WithLatestModification_V1" VERSION="2018-02-19" URI="http://www.geo.admin.ch"/>
+      <MODEL NAME="WithModificationObjects_V1" VERSION="2011-08-30" URI="http://www.geo.admin.ch"/>
+      <MODEL NAME="InternationalCodes_V1" VERSION="2011-08-30" URI="http://www.geo.admin.ch"/>
+      <MODEL NAME="Localisation_V1" VERSION="2011-08-30" URI="http://www.geo.admin.ch"/>
+      <MODEL NAME="LocalisationCH_V1" VERSION="2011-08-30" URI="http://www.geo.admin.ch"/>
+      <MODEL NAME="Dictionaries_V1" VERSION="2011-08-30" URI="http://www.geo.admin.ch"/>
+      <MODEL NAME="DictionariesCH_V1" VERSION="2011-08-30" URI="http://www.geo.admin.ch"/>
+      <MODEL NAME="CoordSys" VERSION="2015-11-24" URI="http://www.interlis.ch/models"/>
+      <MODEL NAME="Units" VERSION="2012-02-20" URI="http://www.interlis.ch/models"/>
+      <MODEL NAME="CatalogueObjects_V1" VERSION="2011-08-30" URI="http://www.geo.admin.ch"/>
+      <MODEL NAME="CatalogueObjectTrees_V1" VERSION="2011-08-30" URI="http://www.geo.admin.ch"/>
+      <MODEL NAME="GeometryCHLV03_V1" VERSION="2017-12-04" URI="http://www.geo.admin.ch"/>
+      <MODEL NAME="GeometryCHLV95_V1" VERSION="2017-12-04" URI="http://www.geo.admin.ch"/>
+      <MODEL NAME="BaseModel_SectoralPlans_Catalogues_V1_4" VERSION="2016-11-07" URI="http://models.geo.admin.ch/ARE/"/>
+      <MODEL NAME="BaseModel_SectoralPlans_LV03_V1_4" VERSION="2016-11-07" URI="http://models.geo.admin.ch/ARE/"/>
+      <MODEL NAME="BaseModel_SectoralPlans_LV95_V1_4" VERSION="2016-11-07" URI="http://models.geo.admin.ch/ARE/"/>
+    </MODELS>
+  </HEADERSECTION>
+  <DATASECTION>
+    <BaseModel_SectoralPlans_Catalogues_V1_4.Catalogue_FacilityKind BID="b01">
+      <BaseModel_SectoralPlans_Catalogues_V1_4.Catalogue_FacilityKind.FacilityKind TID="32-F-1">
+        <KindID>32-F-1</KindID>
+        <Name>
+          <LocalisationCH_V1.MultilingualText>
+            <LocalisedText>
+              <LocalisationCH_V1.LocalisedText>
+                <Language>de</Language>
+                <Text>Waffenplatz</Text>
+              </LocalisationCH_V1.LocalisedText>
+              <LocalisationCH_V1.LocalisedText>
+                <Language>fr</Language>
+                <Text>Place d'armes</Text>
+              </LocalisationCH_V1.LocalisedText>
+              <LocalisationCH_V1.LocalisedText>
+                <Language>it</Language>
+                <Text>Piazza d'armi</Text>
+              </LocalisationCH_V1.LocalisedText>
+            </LocalisedText>
+          </LocalisationCH_V1.MultilingualText>
+        </Name>
+      </BaseModel_SectoralPlans_Catalogues_V1_4.Catalogue_FacilityKind.FacilityKind>
+      <BaseModel_SectoralPlans_Catalogues_V1_4.Catalogue_FacilityKind.FacilityKind TID="32-F-2">
+        <KindID>32-F-2</KindID>
+        <Name>
+          <LocalisationCH_V1.MultilingualText>
+            <LocalisedText>
+              <LocalisationCH_V1.LocalisedText>
+                <Language>de</Language>
+                <Text>Schiessplatz</Text>
+              </LocalisationCH_V1.LocalisedText>
+              <LocalisationCH_V1.LocalisedText>
+                <Language>fr</Language>
+                <Text>Place de tir</Text>
+              </LocalisationCH_V1.LocalisedText>
+              <LocalisationCH_V1.LocalisedText>
+                <Language>it</Language>
+                <Text>Piazza di tiro</Text>
+              </LocalisationCH_V1.LocalisedText>
+            </LocalisedText>
+          </LocalisationCH_V1.MultilingualText>
+        </Name>
+      </BaseModel_SectoralPlans_Catalogues_V1_4.Catalogue_FacilityKind.FacilityKind>
+      <BaseModel_SectoralPlans_Catalogues_V1_4.Catalogue_FacilityKind.FacilityKind TID="32-F-3">
+        <KindID>32-F-3</KindID>
+        <Name>
+          <LocalisationCH_V1.MultilingualText>
+            <LocalisedText>
+              <LocalisationCH_V1.LocalisedText>
+                <Language>de</Language>
+                <Text>Übungsplatz</Text>
+              </LocalisationCH_V1.LocalisedText>
+              <LocalisationCH_V1.LocalisedText>
+                <Language>fr</Language>
+                <Text>Place d'exercice</Text>
+              </LocalisationCH_V1.LocalisedText>
+              <LocalisationCH_V1.LocalisedText>
+                <Language>it</Language>
+                <Text>Piazza d'esercizio</Text>
+              </LocalisationCH_V1.LocalisedText>
+            </LocalisedText>
+          </LocalisationCH_V1.MultilingualText>
+        </Name>
+      </BaseModel_SectoralPlans_Catalogues_V1_4.Catalogue_FacilityKind.FacilityKind>
+      <BaseModel_SectoralPlans_Catalogues_V1_4.Catalogue_FacilityKind.FacilityKind TID="32-F-4">
+        <KindID>32-F-4</KindID>
+        <Name>
+          <LocalisationCH_V1.MultilingualText>
+            <LocalisedText>
+              <LocalisationCH_V1.LocalisedText>
+                <Language>de</Language>
+                <Text>Militärflugplatz</Text>
+              </LocalisationCH_V1.LocalisedText>
+              <LocalisationCH_V1.LocalisedText>
+                <Language>fr</Language>
+                <Text>Aérodrome militaire</Text>
+              </LocalisationCH_V1.LocalisedText>
+              <LocalisationCH_V1.LocalisedText>
+                <Language>it</Language>
+                <Text>Aerodromo militare</Text>
+              </LocalisationCH_V1.LocalisedText>
+            </LocalisedText>
+          </LocalisationCH_V1.MultilingualText>
+        </Name>
+      </BaseModel_SectoralPlans_Catalogues_V1_4.Catalogue_FacilityKind.FacilityKind>
+      <BaseModel_SectoralPlans_Catalogues_V1_4.Catalogue_FacilityKind.FacilityKind TID="32-F-5">
+        <KindID>32-F-5</KindID>
+        <Name>
+          <LocalisationCH_V1.MultilingualText>
+            <LocalisedText>
+              <LocalisationCH_V1.LocalisedText>
+                <Language>de</Language>
+                <Text>Armeelogistikcenter</Text>
+              </LocalisationCH_V1.LocalisedText>
+              <LocalisationCH_V1.LocalisedText>
+                <Language>fr</Language>
+                <Text>Centre logistique militaire</Text>
+              </LocalisationCH_V1.LocalisedText>
+              <LocalisationCH_V1.LocalisedText>
+                <Language>it</Language>
+                <Text>Centro logistico militare</Text>
+              </LocalisationCH_V1.LocalisedText>
+            </LocalisedText>
+          </LocalisationCH_V1.MultilingualText>
+        </Name>
+      </BaseModel_SectoralPlans_Catalogues_V1_4.Catalogue_FacilityKind.FacilityKind>
+      <BaseModel_SectoralPlans_Catalogues_V1_4.Catalogue_FacilityKind.FacilityKind TID="32-F-6">
+        <KindID>32-F-6</KindID>
+        <Name>
+          <LocalisationCH_V1.MultilingualText>
+            <LocalisedText>
+              <LocalisationCH_V1.LocalisedText>
+                <Language>de</Language>
+                <Text>Rekrutierungszentrum</Text>
+              </LocalisationCH_V1.LocalisedText>
+              <LocalisationCH_V1.LocalisedText>
+                <Language>fr</Language>
+                <Text>Centre de recrutement</Text>
+              </LocalisationCH_V1.LocalisedText>
+              <LocalisationCH_V1.LocalisedText>
+                <Language>it</Language>
+                <Text>Centro di reclutamento</Text>
+              </LocalisationCH_V1.LocalisedText>
+            </LocalisedText>
+          </LocalisationCH_V1.MultilingualText>
+        </Name>
+      </BaseModel_SectoralPlans_Catalogues_V1_4.Catalogue_FacilityKind.FacilityKind>
+      <BaseModel_SectoralPlans_Catalogues_V1_4.Catalogue_FacilityKind.FacilityKind TID="32-F-7">
+        <KindID>32-F-7</KindID>
+        <Name>
+          <LocalisationCH_V1.MultilingualText>
+            <LocalisedText>
+              <LocalisationCH_V1.LocalisedText>
+                <Language>de</Language>
+                <Text>Übersetzstelle</Text>
+              </LocalisationCH_V1.LocalisedText>
+              <LocalisationCH_V1.LocalisedText>
+                <Language>fr</Language>
+                <Text>Point de franchissement</Text>
+              </LocalisationCH_V1.LocalisedText>
+              <LocalisationCH_V1.LocalisedText>
+                <Language>it</Language>
+                <Text>Posto di attraversamento</Text>
+              </LocalisationCH_V1.LocalisedText>
+            </LocalisedText>
+          </LocalisationCH_V1.MultilingualText>
+        </Name>
+      </BaseModel_SectoralPlans_Catalogues_V1_4.Catalogue_FacilityKind.FacilityKind>
+      <BaseModel_SectoralPlans_Catalogues_V1_4.Catalogue_FacilityKind.FacilityKind TID="32-F-8">
+        <KindID>32-F-8</KindID>
+        <Name>
+          <LocalisationCH_V1.MultilingualText>
+            <LocalisedText>
+              <LocalisationCH_V1.LocalisedText>
+                <Language>de</Language>
+                <Text>Helikopterlandestelle</Text>
+              </LocalisationCH_V1.LocalisedText>
+              <LocalisationCH_V1.LocalisedText>
+                <Language>fr</Language>
+                <Text>Place d’atterrissage d’hélicoptères</Text>
+              </LocalisationCH_V1.LocalisedText>
+              <LocalisationCH_V1.LocalisedText>
+                <Language>it</Language>
+                <Text>Area d’atterraggio per elicotteri</Text>
+              </LocalisationCH_V1.LocalisedText>
+            </LocalisedText>
+          </LocalisationCH_V1.MultilingualText>
+        </Name>
+      </BaseModel_SectoralPlans_Catalogues_V1_4.Catalogue_FacilityKind.FacilityKind>
+      <BaseModel_SectoralPlans_Catalogues_V1_4.Catalogue_FacilityKind.FacilityKind TID="32-F-9">
+        <KindID>32-F-9</KindID>
+        <Name>
+          <LocalisationCH_V1.MultilingualText>
+            <LocalisedText>
+              <LocalisationCH_V1.LocalisedText>
+                <Language>de</Language>
+                <Text>Besondere Anlage</Text>
+              </LocalisationCH_V1.LocalisedText>
+              <LocalisationCH_V1.LocalisedText>
+                <Language>fr</Language>
+                <Text>Installation particulière</Text>
+              </LocalisationCH_V1.LocalisedText>
+              <LocalisationCH_V1.LocalisedText>
+                <Language>it</Language>
+                <Text>Impianto speciale</Text>
+              </LocalisationCH_V1.LocalisedText>
+            </LocalisedText>
+          </LocalisationCH_V1.MultilingualText>
+        </Name>
+      </BaseModel_SectoralPlans_Catalogues_V1_4.Catalogue_FacilityKind.FacilityKind>
+    </BaseModel_SectoralPlans_Catalogues_V1_4.Catalogue_FacilityKind>
+    <BaseModel_SectoralPlans_Catalogues_V1_4.Catalogue_MeasureType BID="b02">
+      <BaseModel_SectoralPlans_Catalogues_V1_4.Catalogue_MeasureType.MeasureType TID="32-M-1">
+        <TypeID>32-M-1</TypeID>
+        <Name>
+          <LocalisationCH_V1.MultilingualText>
+            <LocalisedText>
+              <LocalisationCH_V1.LocalisedText>
+                <Language>de</Language>
+                <Text>Standortfestlegung</Text>
+              </LocalisationCH_V1.LocalisedText>
+              <LocalisationCH_V1.LocalisedText>
+                <Language>fr</Language>
+                <Text>Site d'implantation</Text>
+              </LocalisationCH_V1.LocalisedText>
+              <LocalisationCH_V1.LocalisedText>
+                <Language>it</Language>
+                <Text>Ubicazione dell'impianto</Text>
+              </LocalisationCH_V1.LocalisedText>
+            </LocalisedText>
+          </LocalisationCH_V1.MultilingualText>
+        </Name>
+      </BaseModel_SectoralPlans_Catalogues_V1_4.Catalogue_MeasureType.MeasureType>
+      <BaseModel_SectoralPlans_Catalogues_V1_4.Catalogue_MeasureType.MeasureType TID="32-M-2">
+        <TypeID>32-M-2</TypeID>
+        <Name>
+          <LocalisationCH_V1.MultilingualText>
+            <LocalisedText>
+              <LocalisationCH_V1.LocalisedText>
+                <Language>de</Language>
+                <Text>Anlageperimeter</Text>
+              </LocalisationCH_V1.LocalisedText>
+              <LocalisationCH_V1.LocalisedText>
+                <Language>fr</Language>
+                <Text>Périmètre d'installation</Text>
+              </LocalisationCH_V1.LocalisedText>
+              <LocalisationCH_V1.LocalisedText>
+                <Language>it</Language>
+                <Text>Perimetro dell'impianto</Text>
+              </LocalisationCH_V1.LocalisedText>
+            </LocalisedText>
+          </LocalisationCH_V1.MultilingualText>
+        </Name>
+      </BaseModel_SectoralPlans_Catalogues_V1_4.Catalogue_MeasureType.MeasureType>
+      <BaseModel_SectoralPlans_Catalogues_V1_4.Catalogue_MeasureType.MeasureType TID="32-M-3">
+        <TypeID>32-M-3</TypeID>
+        <Name>
+          <LocalisationCH_V1.MultilingualText>
+            <LocalisedText>
+              <LocalisationCH_V1.LocalisedText>
+                <Language>de</Language>
+                <Text>Gebiet mit Hindernisbegrenzung</Text>
+              </LocalisationCH_V1.LocalisedText>
+              <LocalisationCH_V1.LocalisedText>
+                <Language>fr</Language>
+                <Text>Aire de limitation d'obstacles</Text>
+              </LocalisationCH_V1.LocalisedText>
+              <LocalisationCH_V1.LocalisedText>
+                <Language>it</Language>
+                <Text>Area con limitazione degli ostacoli</Text>
+              </LocalisationCH_V1.LocalisedText>
+            </LocalisedText>
+          </LocalisationCH_V1.MultilingualText>
+        </Name>
+      </BaseModel_SectoralPlans_Catalogues_V1_4.Catalogue_MeasureType.MeasureType>
+      <BaseModel_SectoralPlans_Catalogues_V1_4.Catalogue_MeasureType.MeasureType TID="32-M-41">
+        <TypeID>32-M-41</TypeID>
+        <Name>
+          <LocalisationCH_V1.MultilingualText>
+            <LocalisedText>
+              <LocalisationCH_V1.LocalisedText>
+                <Language>de</Language>
+                <Text>Gebiet mit Lärmbelastung, >= 60 dB(A)</Text>
+              </LocalisationCH_V1.LocalisedText>
+              <LocalisationCH_V1.LocalisedText>
+                <Language>fr</Language>
+                <Text>Territoire exposé au bruit, >= 60 dB(A)</Text>
+              </LocalisationCH_V1.LocalisedText>
+              <LocalisationCH_V1.LocalisedText>
+                <Language>it</Language>
+                <Text>Area con esposizione al rumore, >= 60 dB(A)</Text>
+              </LocalisationCH_V1.LocalisedText>
+            </LocalisedText>
+          </LocalisationCH_V1.MultilingualText>
+        </Name>
+      </BaseModel_SectoralPlans_Catalogues_V1_4.Catalogue_MeasureType.MeasureType>
+      <BaseModel_SectoralPlans_Catalogues_V1_4.Catalogue_MeasureType.MeasureType TID="32-M-42">
+        <TypeID>32-M-42</TypeID>
+        <Name>
+          <LocalisationCH_V1.MultilingualText>
+            <LocalisedText>
+              <LocalisationCH_V1.LocalisedText>
+                <Language>de</Language>
+                <Text>Gebiet mit Lärmbelastung, >= 55 dB(A)</Text>
+              </LocalisationCH_V1.LocalisedText>
+              <LocalisationCH_V1.LocalisedText>
+                <Language>fr</Language>
+                <Text>Territoire exposé au bruit, >= 55 dB(A)</Text>
+              </LocalisationCH_V1.LocalisedText>
+              <LocalisationCH_V1.LocalisedText>
+                <Language>it</Language>
+                <Text>Area con esposizione al rumore, >= 55 dB(A)</Text>
+              </LocalisationCH_V1.LocalisedText>
+            </LocalisedText>
+          </LocalisationCH_V1.MultilingualText>
+        </Name>
+      </BaseModel_SectoralPlans_Catalogues_V1_4.Catalogue_MeasureType.MeasureType>
+      <BaseModel_SectoralPlans_Catalogues_V1_4.Catalogue_MeasureType.MeasureType TID="32-M-43">
+        <TypeID>32-M-43</TypeID>
+        <Name>
+          <LocalisationCH_V1.MultilingualText>
+            <LocalisedText>
+              <LocalisationCH_V1.LocalisedText>
+                <Language>de</Language>
+                <Text>Gebiet mit Lärmbelastung, >= 75 dB(A)</Text>
+              </LocalisationCH_V1.LocalisedText>
+              <LocalisationCH_V1.LocalisedText>
+                <Language>fr</Language>
+                <Text>Territoire exposé au bruit, >= 75 dB(A)</Text>
+              </LocalisationCH_V1.LocalisedText>
+              <LocalisationCH_V1.LocalisedText>
+                <Language>it</Language>
+                <Text>Area con esposizione al rumore, >= 75 dB(A)</Text>
+              </LocalisationCH_V1.LocalisedText>
+            </LocalisedText>
+          </LocalisationCH_V1.MultilingualText>
+        </Name>
+      </BaseModel_SectoralPlans_Catalogues_V1_4.Catalogue_MeasureType.MeasureType>
+      <BaseModel_SectoralPlans_Catalogues_V1_4.Catalogue_MeasureType.MeasureType TID="32-M-5">
+        <TypeID>32-M-5</TypeID>
+        <Name>
+          <LocalisationCH_V1.MultilingualText>
+            <LocalisedText>
+              <LocalisationCH_V1.LocalisedText>
+                <Language>de</Language>
+                <Text>Konsultationsbereich</Text>
+              </LocalisationCH_V1.LocalisedText>
+              <LocalisationCH_V1.LocalisedText>
+                <Language>fr</Language>
+                <Text>Périmètre de consultation</Text>
+              </LocalisationCH_V1.LocalisedText>
+              <LocalisationCH_V1.LocalisedText>
+                <Language>it</Language>
+                <Text>Area di coordinamento</Text>
+              </LocalisationCH_V1.LocalisedText>
+            </LocalisedText>
+          </LocalisationCH_V1.MultilingualText>
+        </Name>
+      </BaseModel_SectoralPlans_Catalogues_V1_4.Catalogue_MeasureType.MeasureType>
+	  <BaseModel_SectoralPlans_Catalogues_V1_4.Catalogue_MeasureType.MeasureType TID="32-M-6">
+        <TypeID>32-M-6</TypeID>
+        <Name>
+          <LocalisationCH_V1.MultilingualText>
+            <LocalisedText>
+              <LocalisationCH_V1.LocalisedText>
+                <Language>de</Language>
+                <Text>Militärische Bau- und Entwicklungsfläche (MilBEF)</Text>
+              </LocalisationCH_V1.LocalisedText>
+              <LocalisationCH_V1.LocalisedText>
+                <Language>fr</Language>
+                <Text>Surface de construction et développement militaire (SCDmil)</Text>
+              </LocalisationCH_V1.LocalisedText>
+              <LocalisationCH_V1.LocalisedText>
+                <Language>it</Language>
+                <Text>Area di costruzione e sviluppo militare (ACSmil)</Text>
+              </LocalisationCH_V1.LocalisedText>
+            </LocalisedText>
+          </LocalisationCH_V1.MultilingualText>
+        </Name>
+      </BaseModel_SectoralPlans_Catalogues_V1_4.Catalogue_MeasureType.MeasureType>	  
+    </BaseModel_SectoralPlans_Catalogues_V1_4.Catalogue_MeasureType>
+  </DATASECTION>
+</TRANSFER>

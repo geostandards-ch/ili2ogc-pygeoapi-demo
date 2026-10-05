@@ -1,0 +1,379 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Sign data for models/SachplanMilitaer.ili, from the real official SLD
+     ("exemples supplémentaires démo pygeoapi/SLD Sachpläne/SP Militär/
+     spm_sp_militaer_planningmeasure_kraft.sld"): fills, border colours,
+     widths and the 9/4 dash of each MeasureType/CoordinationLevel rule.
+     The Konsultationsbereich rule of the official SLD is a 45-degree
+     `horline` hatch; it is drawn here as its red outline only: MapServer
+     (this demo's map renderer) has no SLD hatch - it knows only the
+     square/circle/triangle/star/cross/x marks and rejects inline images -
+     although convert-sld writes a valid SE hatch from a SurfaceSign
+     HatchSymb. Colours are the LCh equivalents of the SLD's hex. -->
+
+<ili:transfer xmlns:ili="http://www.interlis.ch/xtf/2.4/INTERLIS"
+  xmlns="http://www.interlis.ch/xtf/2.4/StandardSymbology"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <ili:headersection>
+    <ili:models>
+      <ili:model>SachplanMilitaer</ili:model>
+    </ili:models>
+    <ili:sender>ili2ogc-pygeoapi-demo</ili:sender>
+    <ili:comment>PlanningMeasure surfaces of Sachplan Militaer, sourced from the real SLD</ili:comment>
+  </ili:headersection>
+
+  <ili:datasection>
+    <StandardSigns ili:bid="Signs00000004">
+
+      <Color ili:tid="1"><!-- #e39fa7 -->
+        <Name>spm_e39fa7</Name>
+        <L>72.1751</L>
+        <C>27.0596</C>
+        <H>12.9104</H>
+        <T>1.0</T>
+      </Color>
+      <Color ili:tid="2"><!-- #e2001a -->
+        <Name>spm_e2001a</Name>
+        <L>47.2993</L>
+        <C>90.3128</C>
+        <H>35.6661</H>
+        <T>1.0</T>
+      </Color>
+      <Color ili:tid="3"><!-- #edc6a6 -->
+        <Name>spm_edc6a6</Name>
+        <L>82.4584</L>
+        <C>23.1453</C>
+        <H>66.446</H>
+        <T>1.0</T>
+      </Color>
+      <Color ili:tid="4"><!-- #ee7e22 -->
+        <Name>spm_ee7e22</Name>
+        <L>64.3383</L>
+        <C>74.1139</C>
+        <H>59.5213</H>
+        <T>1.0</T>
+      </Color>
+      <Color ili:tid="5"><!-- #fffab2 -->
+        <Name>spm_fffab2</Name>
+        <L>97.1655</L>
+        <C>36.3484</C>
+        <H>104.3084</H>
+        <T>1.0</T>
+      </Color>
+      <Color ili:tid="6"><!-- #ffed00 -->
+        <Name>spm_ffed00</Name>
+        <L>92.5005</L>
+        <C>92.0133</C>
+        <H>98.0465</H>
+        <T>1.0</T>
+      </Color>
+      <Color ili:tid="7"><!-- #f1808d -->
+        <Name>spm_f1808d</Name>
+        <L>66.571</L>
+        <C>46.2889</C>
+        <H>16.0841</H>
+        <T>1.0</T>
+      </Color>
+      <Color ili:tid="8"><!-- #f7bf91 -->
+        <Name>spm_f7bf91</Name>
+        <L>81.3376</L>
+        <C>34.0795</C>
+        <H>65.1715</H>
+        <T>1.0</T>
+      </Color>
+      <Color ili:tid="9"><!-- #fff680 -->
+        <Name>spm_fff680</Name>
+        <L>95.4685</L>
+        <C>58.5387</C>
+        <H>101.9904</H>
+        <T>1.0</T>
+      </Color>
+      <Color ili:tid="10"><!-- #f8bfc6 -->
+        <Name>spm_f8bfc6</Name>
+        <L>82.5388</L>
+        <C>21.8824</C>
+        <H>11.6031</H>
+        <T>1.0</T>
+      </Color>
+      <Color ili:tid="11"><!-- #fad8bd -->
+        <Name>spm_fad8bd</Name>
+        <L>88.5012</L>
+        <C>19.3296</C>
+        <H>66.1865</H>
+        <T>1.0</T>
+      </Color>
+      <Color ili:tid="12"><!-- #fffab3 -->
+        <Name>spm_fffab3</Name>
+        <L>97.1819</L>
+        <C>35.8545</C>
+        <H>104.3084</H>
+        <T>1.0</T>
+      </Color>
+      <PolylineAttrs ili:tid="100">
+        <Width>2.0</Width>
+        <Join>bevel</Join>
+      </PolylineAttrs>
+      <PolylineAttrs ili:tid="101">
+        <Width>4.0</Width>
+        <Join>bevel</Join>
+      </PolylineAttrs>
+      <PolylineAttrs ili:tid="102">
+        <Width>1.0</Width>
+        <Join>bevel</Join>
+      </PolylineAttrs>
+      <PolylineAttrs ili:tid="103">
+        <Width>5.0</Width>
+        <Join>bevel</Join>
+      </PolylineAttrs>
+      <LineStyle_Solid ili:tid="200">
+        <Name>spm_e2001a_w2</Name>
+        <Color ili:ref="2"></Color>
+        <LineAttrs ili:ref="100"></LineAttrs>
+      </LineStyle_Solid>
+      <LineStyle_Solid ili:tid="201">
+        <Name>spm_ee7e22_w2</Name>
+        <Color ili:ref="4"></Color>
+        <LineAttrs ili:ref="100"></LineAttrs>
+      </LineStyle_Solid>
+      <LineStyle_Solid ili:tid="202">
+        <Name>spm_ffed00_w2</Name>
+        <Color ili:ref="6"></Color>
+        <LineAttrs ili:ref="100"></LineAttrs>
+      </LineStyle_Solid>
+      <LineStyle_Dashed ili:tid="203">
+        <Name>spm_e2001a_w2_dashed</Name>
+        <Color ili:ref="2"></Color>
+        <LineAttrs ili:ref="100"></LineAttrs>
+        <Dashes>
+          <DashRec>
+            <DLength>9</DLength>
+          </DashRec>
+        </Dashes>
+        <Dashes>
+          <DashRec>
+            <DLength>4</DLength>
+          </DashRec>
+        </Dashes>
+      </LineStyle_Dashed>
+      <LineStyle_Dashed ili:tid="204">
+        <Name>spm_ee7e22_w2_dashed</Name>
+        <Color ili:ref="4"></Color>
+        <LineAttrs ili:ref="100"></LineAttrs>
+        <Dashes>
+          <DashRec>
+            <DLength>9</DLength>
+          </DashRec>
+        </Dashes>
+        <Dashes>
+          <DashRec>
+            <DLength>4</DLength>
+          </DashRec>
+        </Dashes>
+      </LineStyle_Dashed>
+      <LineStyle_Solid ili:tid="205">
+        <Name>spm_e2001a_w4</Name>
+        <Color ili:ref="2"></Color>
+        <LineAttrs ili:ref="101"></LineAttrs>
+      </LineStyle_Solid>
+      <LineStyle_Solid ili:tid="206">
+        <Name>spm_e2001a_w1</Name>
+        <Color ili:ref="2"></Color>
+        <LineAttrs ili:ref="102"></LineAttrs>
+      </LineStyle_Solid>
+      <LineStyle_Solid ili:tid="207">
+        <Name>spm_f1808d_w5</Name>
+        <Color ili:ref="7"></Color>
+        <LineAttrs ili:ref="103"></LineAttrs>
+      </LineStyle_Solid>
+      <LineStyle_Solid ili:tid="208">
+        <Name>spm_f7bf91_w5</Name>
+        <Color ili:ref="8"></Color>
+        <LineAttrs ili:ref="103"></LineAttrs>
+      </LineStyle_Solid>
+      <LineStyle_Solid ili:tid="209">
+        <Name>spm_fff680_w5</Name>
+        <Color ili:ref="9"></Color>
+        <LineAttrs ili:ref="103"></LineAttrs>
+      </LineStyle_Solid>
+      <LineStyle_Solid ili:tid="210">
+        <Name>spm_f8bfc6_w5</Name>
+        <Color ili:ref="10"></Color>
+        <LineAttrs ili:ref="103"></LineAttrs>
+      </LineStyle_Solid>
+      <LineStyle_Solid ili:tid="211">
+        <Name>spm_fad8bd_w5</Name>
+        <Color ili:ref="11"></Color>
+        <LineAttrs ili:ref="103"></LineAttrs>
+      </LineStyle_Solid>
+      <LineStyle_Solid ili:tid="212">
+        <Name>spm_fffab3_w5</Name>
+        <Color ili:ref="12"></Color>
+        <LineAttrs ili:ref="103"></LineAttrs>
+      </LineStyle_Solid>
+      <PolylineSign ili:tid="300">
+        <ili:Name>Line300</ili:Name>
+        <Style ili:ref="200">
+          <PolylineSignLineStyleAssoc>
+            <Offset>0.0</Offset>
+          </PolylineSignLineStyleAssoc>
+        </Style>
+      </PolylineSign>
+      <PolylineSign ili:tid="301">
+        <ili:Name>Line301</ili:Name>
+        <Style ili:ref="201">
+          <PolylineSignLineStyleAssoc>
+            <Offset>0.0</Offset>
+          </PolylineSignLineStyleAssoc>
+        </Style>
+      </PolylineSign>
+      <PolylineSign ili:tid="302">
+        <ili:Name>Line302</ili:Name>
+        <Style ili:ref="202">
+          <PolylineSignLineStyleAssoc>
+            <Offset>0.0</Offset>
+          </PolylineSignLineStyleAssoc>
+        </Style>
+      </PolylineSign>
+      <PolylineSign ili:tid="303">
+        <ili:Name>Line303</ili:Name>
+        <Style ili:ref="203">
+          <PolylineSignLineStyleAssoc>
+            <Offset>0.0</Offset>
+          </PolylineSignLineStyleAssoc>
+        </Style>
+      </PolylineSign>
+      <PolylineSign ili:tid="304">
+        <ili:Name>Line304</ili:Name>
+        <Style ili:ref="204">
+          <PolylineSignLineStyleAssoc>
+            <Offset>0.0</Offset>
+          </PolylineSignLineStyleAssoc>
+        </Style>
+      </PolylineSign>
+      <PolylineSign ili:tid="305">
+        <ili:Name>Line305</ili:Name>
+        <Style ili:ref="205">
+          <PolylineSignLineStyleAssoc>
+            <Offset>0.0</Offset>
+          </PolylineSignLineStyleAssoc>
+        </Style>
+      </PolylineSign>
+      <PolylineSign ili:tid="306">
+        <ili:Name>Line306</ili:Name>
+        <Style ili:ref="206">
+          <PolylineSignLineStyleAssoc>
+            <Offset>0.0</Offset>
+          </PolylineSignLineStyleAssoc>
+        </Style>
+      </PolylineSign>
+      <PolylineSign ili:tid="307">
+        <ili:Name>Line307</ili:Name>
+        <Style ili:ref="207">
+          <PolylineSignLineStyleAssoc>
+            <Offset>0.0</Offset>
+          </PolylineSignLineStyleAssoc>
+        </Style>
+      </PolylineSign>
+      <PolylineSign ili:tid="308">
+        <ili:Name>Line308</ili:Name>
+        <Style ili:ref="208">
+          <PolylineSignLineStyleAssoc>
+            <Offset>0.0</Offset>
+          </PolylineSignLineStyleAssoc>
+        </Style>
+      </PolylineSign>
+      <PolylineSign ili:tid="309">
+        <ili:Name>Line309</ili:Name>
+        <Style ili:ref="209">
+          <PolylineSignLineStyleAssoc>
+            <Offset>0.0</Offset>
+          </PolylineSignLineStyleAssoc>
+        </Style>
+      </PolylineSign>
+      <PolylineSign ili:tid="310">
+        <ili:Name>Line310</ili:Name>
+        <Style ili:ref="210">
+          <PolylineSignLineStyleAssoc>
+            <Offset>0.0</Offset>
+          </PolylineSignLineStyleAssoc>
+        </Style>
+      </PolylineSign>
+      <PolylineSign ili:tid="311">
+        <ili:Name>Line311</ili:Name>
+        <Style ili:ref="211">
+          <PolylineSignLineStyleAssoc>
+            <Offset>0.0</Offset>
+          </PolylineSignLineStyleAssoc>
+        </Style>
+      </PolylineSign>
+      <PolylineSign ili:tid="312">
+        <ili:Name>Line312</ili:Name>
+        <Style ili:ref="212">
+          <PolylineSignLineStyleAssoc>
+            <Offset>0.0</Offset>
+          </PolylineSignLineStyleAssoc>
+        </Style>
+      </PolylineSign>
+      <SurfaceSign ili:tid="400">
+        <ili:Name>StandortfestlegungFestsetzung</ili:Name>
+        <FillColor ili:ref="1"></FillColor>
+      </SurfaceSign>
+      <SurfaceSign ili:tid="401">
+        <ili:Name>AnlageperimeterFestsetzung</ili:Name>
+        <FillColor ili:ref="1"></FillColor>
+        <Border ili:ref="300"></Border>
+      </SurfaceSign>
+      <SurfaceSign ili:tid="402">
+        <ili:Name>AnlageperimeterZwischenergebnis</ili:Name>
+        <FillColor ili:ref="3"></FillColor>
+        <Border ili:ref="301"></Border>
+      </SurfaceSign>
+      <SurfaceSign ili:tid="403">
+        <ili:Name>AnlageperimeterVororientierung</ili:Name>
+        <FillColor ili:ref="5"></FillColor>
+        <Border ili:ref="302"></Border>
+      </SurfaceSign>
+      <SurfaceSign ili:tid="404">
+        <ili:Name>HindernisbegrenzungFestsetzung</ili:Name>
+        <Border ili:ref="303"></Border>
+      </SurfaceSign>
+      <SurfaceSign ili:tid="405">
+        <ili:Name>HindernisbegrenzungZwischenergebnis</ili:Name>
+        <Border ili:ref="304"></Border>
+      </SurfaceSign>
+      <SurfaceSign ili:tid="406">
+        <ili:Name>LaermbelastungFestsetzung</ili:Name>
+        <Border ili:ref="305"></Border>
+      </SurfaceSign>
+      <SurfaceSign ili:tid="407">
+        <ili:Name>KonsultationsbereichFestsetzung</ili:Name>
+        <Border ili:ref="306"></Border>
+      </SurfaceSign>
+      <SurfaceSign ili:tid="408">
+        <ili:Name>Laerm60Festsetzung</ili:Name>
+        <Border ili:ref="307"></Border>
+      </SurfaceSign>
+      <SurfaceSign ili:tid="409">
+        <ili:Name>Laerm60Zwischenergebnis</ili:Name>
+        <Border ili:ref="308"></Border>
+      </SurfaceSign>
+      <SurfaceSign ili:tid="410">
+        <ili:Name>Laerm60Vororientierung</ili:Name>
+        <Border ili:ref="309"></Border>
+      </SurfaceSign>
+      <SurfaceSign ili:tid="411">
+        <ili:Name>Laerm55Festsetzung</ili:Name>
+        <Border ili:ref="310"></Border>
+      </SurfaceSign>
+      <SurfaceSign ili:tid="412">
+        <ili:Name>Laerm55Zwischenergebnis</ili:Name>
+        <Border ili:ref="311"></Border>
+      </SurfaceSign>
+      <SurfaceSign ili:tid="413">
+        <ili:Name>Laerm55Vororientierung</ili:Name>
+        <Border ili:ref="312"></Border>
+      </SurfaceSign>
+
+    </StandardSigns>
+  </ili:datasection>
+</ili:transfer>
