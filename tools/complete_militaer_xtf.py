@@ -2,6 +2,14 @@
 
 The XTF (SPM_V1_4_In_Kraft_LV95.xtf) carries every object and attribute but empty Point/Surface structures;
 the GDB carries the geometries, keyed by the same TID (XTF_ID). Only geometry is added; nothing else changes.
+
+Usage (GDAL's ogr2ogr exports the two geometry layers with their curve WKT):
+
+    ogr2ogr -f CSV SPM_FACILITY.csv SPM_V1_4_In_Kraft_LV95.gdb SPM_FACILITY -lco GEOMETRY=AS_WKT
+    ogr2ogr -f CSV SPM_PLANNINGMEASURE.csv SPM_V1_4_In_Kraft_LV95.gdb SPM_PLANNINGMEASURE -lco GEOMETRY=AS_WKT
+    python3 complete_militaer_xtf.py SPM_V1_4_In_Kraft_LV95.xtf SPM_FACILITY.csv SPM_PLANNINGMEASURE.csv out.xtf
+
+Sources: https://data.geo.admin.ch/ch.vbs.sachplan-infrastruktur-militaer_kraft/ (`_2056.xtf.zip`, `_2056.gdb.zip`).
 """
 
 import csv
