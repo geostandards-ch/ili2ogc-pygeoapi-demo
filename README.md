@@ -62,8 +62,3 @@ to get right when requesting one:
   `extent.spatial.bbox` (`/collections/{id}`). These datasets are small
   — `waldabstandslinien` covers about 9 km — so a Switzerland-wide `bbox`
   renders their lines below one pixel and the image comes back blank.
-
-## License
-
-Code: MIT (see `LICENSE`), like pygeoapi itself. Data: © the data providers listed above, open use with
-mandatory source attribution ([opendata.swiss BY](https://opendata.swiss/en/terms-of-use/#terms_by)).
