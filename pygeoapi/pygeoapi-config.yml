@@ -131,7 +131,7 @@ resources:
                   - http://www.opengis.net/def/crs/OGC/1.3/CRS84
             - type: map
               name: MapScript
-              data: 'PG:host=postgis dbname=postgres user=postgres password=postgres tables=richtplanung.flaeche_map(geometrie)'
+              data: 'PG:host=postgis dbname=postgres user=postgres password=postgres tables=richtplanung.flaeche_graphics(geometrie)'
               options:
                   type: MS_LAYER_POLYGON
                   layer: Flaeche_Graphics
@@ -473,14 +473,14 @@ resources:
               id_field: t_ili_tid
               geom_field: surface
               table: planningmeasure_flaechen
-              properties: [name, description, type_id, type_name, coord_id, coord_name, status_id, status_name, symbolori, modinfo_validfrom, modinfo_validuntil, modinfo_latestmodification, facility_name]
+              properties: [name, name_de, name_en, name_fr, name_it, name_rm, description, description_de, description_en, description_fr, description_it, description_rm, type_id, type_name, type_name_de, type_name_en, type_name_fr, type_name_it, type_name_rm, coord_id, coord_name, coord_name_de, coord_name_en, coord_name_fr, coord_name_it, coord_name_rm, status_id, status_name, status_name_de, status_name_en, status_name_fr, status_name_it, status_name_rm, symbolori, modinfo_validfrom, modinfo_validuntil, modinfo_latestmodification, facility_name, facility_name_de, facility_name_en, facility_name_fr, facility_name_it, facility_name_rm]
               storage_crs: http://www.opengis.net/def/crs/EPSG/0/2056
               crs:
                   - http://www.opengis.net/def/crs/EPSG/0/2056
                   - http://www.opengis.net/def/crs/OGC/1.3/CRS84
             - type: map
               name: MapScript
-              data: 'PG:host=postgis dbname=postgres user=postgres password=postgres tables=uebertragungsleitungen.planningmeasure_flaechen(surface)'
+              data: 'PG:host=postgis dbname=postgres user=postgres password=postgres tables=uebertragungsleitungen.planningmeasure_graphics(surface)'
               options:
                   type: MS_LAYER_POLYGON
                   layer: PlanningMeasure_Graphics
@@ -552,7 +552,7 @@ resources:
               id_field: t_ili_tid
               geom_field: line
               table: planningmeasure_linien
-              properties: [name, description, type_id, type_name, coord_id, coord_name, status_id, status_name, symbolori, modinfo_validfrom, modinfo_validuntil, modinfo_latestmodification, facility_name]
+              properties: [name, name_de, name_en, name_fr, name_it, name_rm, description, description_de, description_en, description_fr, description_it, description_rm, type_id, type_name, type_name_de, type_name_en, type_name_fr, type_name_it, type_name_rm, coord_id, coord_name, coord_name_de, coord_name_en, coord_name_fr, coord_name_it, coord_name_rm, status_id, status_name, status_name_de, status_name_en, status_name_fr, status_name_it, status_name_rm, symbolori, modinfo_validfrom, modinfo_validuntil, modinfo_latestmodification, facility_name, facility_name_de, facility_name_en, facility_name_fr, facility_name_it, facility_name_rm]
               storage_crs: http://www.opengis.net/def/crs/EPSG/0/2056
               crs:
                   - http://www.opengis.net/def/crs/EPSG/0/2056
@@ -631,7 +631,7 @@ resources:
               id_field: t_ili_tid
               geom_field: point
               table: planningmeasure_punkte
-              properties: [name, description, type_id, type_name, coord_id, coord_name, status_id, status_name, symbolori, modinfo_validfrom, modinfo_validuntil, modinfo_latestmodification, facility_name]
+              properties: [name, name_de, name_en, name_fr, name_it, name_rm, description, description_de, description_en, description_fr, description_it, description_rm, type_id, type_name, type_name_de, type_name_en, type_name_fr, type_name_it, type_name_rm, coord_id, coord_name, coord_name_de, coord_name_en, coord_name_fr, coord_name_it, coord_name_rm, status_id, status_name, status_name_de, status_name_en, status_name_fr, status_name_it, status_name_rm, symbolori, modinfo_validfrom, modinfo_validuntil, modinfo_latestmodification, facility_name, facility_name_de, facility_name_en, facility_name_fr, facility_name_it, facility_name_rm]
               storage_crs: http://www.opengis.net/def/crs/EPSG/0/2056
               crs:
                   - http://www.opengis.net/def/crs/EPSG/0/2056
@@ -728,7 +728,7 @@ resources:
                   - http://www.opengis.net/def/crs/OGC/1.3/CRS84
             - type: map
               name: MapScript
-              data: 'PG:host=postgis dbname=postgres user=postgres password=postgres tables=asyl.facility_map(point)'
+              data: 'PG:host=postgis dbname=postgres user=postgres password=postgres tables=asyl.facility_graphics(point)'
               options:
                   type: MS_LAYER_POINT
                   layer: Facility_Graphics
@@ -823,7 +823,7 @@ resources:
                   - http://www.opengis.net/def/crs/OGC/1.3/CRS84
             - type: map
               name: MapScript
-              data: 'PG:host=postgis dbname=postgres user=postgres password=postgres tables=richtplanung.punkt_map(geometrie)'
+              data: 'PG:host=postgis dbname=postgres user=postgres password=postgres tables=richtplanung.punkt_graphics(geometrie)'
               options:
                   type: MS_LAYER_POINT
                   layer: Punkt_Graphics
@@ -902,14 +902,14 @@ resources:
               id_field: t_ili_tid
               geom_field: surface
               table: planningmeasure_flaechen
-              properties: [name, description, type_id, type_name, coord_id, coord_name, status_id, status_name, symbolori, modinfo_validfrom, modinfo_validuntil, modinfo_latestmodification]
+              properties: [name, name_de, name_en, name_fr, name_it, name_rm, description, description_de, description_en, description_fr, description_it, description_rm, type_id, type_name, type_name_de, type_name_en, type_name_fr, type_name_it, type_name_rm, coord_id, coord_name, coord_name_de, coord_name_en, coord_name_fr, coord_name_it, coord_name_rm, status_id, status_name, status_name_de, status_name_en, status_name_fr, status_name_it, status_name_rm, symbolori, modinfo_validfrom, modinfo_validuntil, modinfo_latestmodification, facility_name, facility_name_de, facility_name_en, facility_name_fr, facility_name_it, facility_name_rm]
               storage_crs: http://www.opengis.net/def/crs/EPSG/0/2056
               crs:
                   - http://www.opengis.net/def/crs/EPSG/0/2056
                   - http://www.opengis.net/def/crs/OGC/1.3/CRS84
             - type: map
               name: MapScript
-              data: 'PG:host=postgis dbname=postgres user=postgres password=postgres tables=militaer.planningmeasure_flaechen(surface)'
+              data: 'PG:host=postgis dbname=postgres user=postgres password=postgres tables=militaer.planningmeasure_graphics(surface)'
               options:
                   type: MS_LAYER_POLYGON
                   layer: PlanningMeasure_Graphics
@@ -987,14 +987,14 @@ resources:
               id_field: t_ili_tid
               geom_field: point
               table: planningmeasure_punkte
-              properties: [name, description, type_id, type_name, coord_id, coord_name, status_id, status_name, symbolori, modinfo_validfrom, modinfo_validuntil, modinfo_latestmodification]
+              properties: [name, name_de, name_en, name_fr, name_it, name_rm, description, description_de, description_en, description_fr, description_it, description_rm, type_id, type_name, type_name_de, type_name_en, type_name_fr, type_name_it, type_name_rm, coord_id, coord_name, coord_name_de, coord_name_en, coord_name_fr, coord_name_it, coord_name_rm, status_id, status_name, status_name_de, status_name_en, status_name_fr, status_name_it, status_name_rm, symbolori, modinfo_validfrom, modinfo_validuntil, modinfo_latestmodification, facility_name, facility_name_de, facility_name_en, facility_name_fr, facility_name_it, facility_name_rm]
               storage_crs: http://www.opengis.net/def/crs/EPSG/0/2056
               crs:
                   - http://www.opengis.net/def/crs/EPSG/0/2056
                   - http://www.opengis.net/def/crs/OGC/1.3/CRS84
             - type: map
               name: MapScript
-              data: 'PG:host=postgis dbname=postgres user=postgres password=postgres tables=militaer.planningmeasure_punkte(point)'
+              data: 'PG:host=postgis dbname=postgres user=postgres password=postgres tables=militaer.planningmeasure_punkte_graphics(point)'
               options:
                   type: MS_LAYER_POINT
                   layer: PlanningMeasure_Punkte_Graphics

@@ -7,9 +7,10 @@ a collection's `views.ili` (its map VIEWs over the official data model),
 collection gets its own PostgreSQL schema holding exactly what
 `interlis convert-sql` generates from `views.ili` - ili2db's layout (`t_id`,
 `t_basket`, `t_ili_tid`, the `T_ILI2DB_*` tables), one SQL view per VIEW
-that the matching SLD's filters are evaluated on, and one readable
-`<table>_features` view per table, with catalogue keys and German names in
-place of raw references (`--feature-views de`). No hand-written SQL:
+that the matching SLD's filters are evaluated on (ordered by Priority for a
+GRAPHIC with several), and one readable `<table>_features` view per table,
+with catalogue keys and German names in place of raw references
+(`--feature-views de`). No hand-written SQL:
 pygeoapi serves the generated views as they are.
 """
 
@@ -51,7 +52,12 @@ def prepare(name: str, xtf: str) -> tuple[str, dict]:
     schema_sql, data_jsonfg = f"/tmp/{name}_schema.sql", f"/tmp/{name}_data.jsonfg.json"
     run(["interlis", "validate", xtf, "--model", model, *_repos(name)])
     run(
-        ["interlis", "convert-sql", model, *_repos(name), "--feature-views", "de", "-o", schema_sql],
+        # --map-views: a GRAPHIC with several Priority values gets its VIEW's rows ordered by Priority, the only
+        # stacking MapServer honours (it draws features in data order, ignoring SLD FeatureTypeStyle order).
+        [
+            "interlis", "convert-sql", model, *_repos(name), "--feature-views", "de",
+            "--map-views", f"{COLLECTIONS}/{name}/symbology.ili", "-o", schema_sql,
+        ],
         accept_degraded=True,
     )
     run(["interlis", "convert-jsonfg", xtf, "--model", model, *_repos(name), "-o", data_jsonfg])
@@ -491,8 +497,7 @@ def load_sachplan_militaer(cur) -> None:
     The published XTF carries every object but no coordinates (empty Point/
     Surface structures); `data/source-xtf/SPM_V1_4_In_Kraft_LV95_mit_Geometrie.xtf.zip`
     is that XTF completed with the geometries of the same dataset's GDB
-    export, matched by TID (`tools/complete_militaer_xtf.py`; ilivalidator:
-    0 errors). Its own `Object_SPM`/`Facility_SPM` subclasses carry an
+    export, matched by TID (ilivalidator: 0 errors). Its own `Object_SPM`/`Facility_SPM` subclasses carry an
     object/facility number.
     """
     main_xtf = "/tmp/spm_main.xtf"

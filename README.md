@@ -1,90 +1,37 @@
 # ili2ogc pygeoapi demo
 
-A [pygeoapi](https://pygeoapi.io) instance serving real Swiss geodata,
-loaded via [ili2ogc](https://github.com/maxcollombin/ili2ogc), a
-pure-Python INTERLIS 2 toolkit.
-
-## Run
-
-The loader installs [`ili2ogc`](https://pypi.org/project/ili2ogc/) from
-PyPI; nothing else is needed besides Docker.
+A [pygeoapi](https://pygeoapi.io) instance serving Swiss geodata straight
+from their INTERLIS transfers, converted by
+[ili2ogc](https://github.com/geostandards-ch/ili2ogc): OGC API - Features
+(GeoJSON, JSON-FG) and OGC API - Maps, styled by the INTERLIS symbology.
 
 ```bash
 docker compose up --build
 ```
 
-## How it is built
+Then open <http://localhost:5000>. Each dataset is a directory under
+`collections/` (its INTERLIS VIEWs, symbology and signs); `models/` holds
+the official models they import.
 
-`models/` holds the official INTERLIS models only. Each dataset has its own
-directory under `collections/` (`richtplanung` holds both its collections):
+## Data
 
-```
-collections/<name>/
-  views.ili       # map VIEWs over the official data model
-  symbology.ili   # GRAPHICs based on those VIEWs
-  signs.xtf       # their signs (colors, line styles, symbols)
-```
-
-The loader writes no SQL of its own. For each dataset, `interlis
-convert-sql views.ili` generates a PostgreSQL schema laid out like ili2db's
-(`t_id`, `t_basket`, `t_ili_tid`, the `T_ILI2DB_*` tables), plus one SQL
-view per VIEW: its geometry and the attributes the GRAPHIC's rules test,
-references already resolved (`energieform`, `type_id`, ...).
-`--feature-views de` adds a readable `<table>_features` view per table:
-each reference shows the referenced catalogue entry's key and German name
-(`Bundesasylzentrum (BAZ)`) instead of a row number.
-`interlis convert-sld` writes one SLD per GRAPHIC, whose filters test the
-VIEW's attributes by name. Each dataset gets its own PostgreSQL schema,
-named like its directory. pygeoapi serves features from the `_features`
-views (or the table when there is no reference to resolve) and maps from
-the VIEWs.
-
-## Collections
-
-| Collection | Dataset ([geocat.ch](https://www.geocat.ch) record) | Data provider |
+| Collections | Dataset ([geocat.ch](https://www.geocat.ch) record) | Data provider |
 |---|---|---|
-| `richtplanung` | [Richtplanung erneuerbare Energien](https://www.geocat.ch/geonetwork/srv/eng/catalog.search#/metadata/f5c2c313-00bb-43d6-a3a8-7ccb5a099a96) (canton Schaffhausen) | KGK-CGC / [geodienste.ch](https://geodienste.ch) |
-| `richtplanung_punkte` | [Richtplanung erneuerbare Energien](https://www.geocat.ch/geonetwork/srv/eng/catalog.search#/metadata/f5c2c313-00bb-43d6-a3a8-7ccb5a099a96) (canton Schaffhausen), points | KGK-CGC / [geodienste.ch](https://geodienste.ch) |
+| `richtplanung`, `richtplanung_punkte` | [Richtplanung erneuerbare Energien](https://www.geocat.ch/geonetwork/srv/eng/catalog.search#/metadata/f5c2c313-00bb-43d6-a3a8-7ccb5a099a96) (canton Schaffhausen) | KGK-CGC / [geodienste.ch](https://geodienste.ch) |
 | `waldabstandslinien` | [Waldabstandslinien](https://www.geocat.ch/geonetwork/srv/eng/catalog.search#/metadata/a81f0dc0-a795-4035-822c-4c3bf36e0916) (canton Glarus) | KGK-CGC / [geodienste.ch](https://geodienste.ch) |
 | `mainroads` | [Main roads network](https://www.geocat.ch/geonetwork/srv/eng/catalog.search#/metadata/c1333de6-fb91-4b0b-be95-8eab89b05358) | FEDRO |
-| `buildinglines` | [Building lines for motorways](https://www.geocat.ch/geonetwork/srv/eng/catalog.search#/metadata/fce3b347-cc58-4b29-bb87-a35eed4487ea) (30-object sample) | FEDRO |
-| `uebertragungsleitungen` | [Electricity Transmission Lines sectoral plan](https://www.geocat.ch/geonetwork/srv/eng/catalog.search#/metadata/e1134feb-55d7-4b44-8e13-125e983b259b), surfaces | SFOE |
-| `uebertragungsleitungen_linien` | [Electricity Transmission Lines sectoral plan](https://www.geocat.ch/geonetwork/srv/eng/catalog.search#/metadata/e1134feb-55d7-4b44-8e13-125e983b259b), lines ² | SFOE |
-| `uebertragungsleitungen_punkte` | [Electricity Transmission Lines sectoral plan](https://www.geocat.ch/geonetwork/srv/eng/catalog.search#/metadata/e1134feb-55d7-4b44-8e13-125e983b259b), points ² | SFOE |
-| `asyl` | [Sectoral plan for Asylum (SPA)](https://www.geocat.ch/geonetwork/srv/eng/catalog.search#/metadata/23a9027d-37a1-4ba4-b529-54c658540914) | SEM |
-| `militaer` | [Sectoral Plan Military (SPM)](https://www.geocat.ch/geonetwork/srv/eng/catalog.search#/metadata/5263bc47-8723-4c02-988a-4ae0d425099c), surfaces ¹ | armasuisse / DDPS |
-| `militaer_punkte` | [Sectoral Plan Military (SPM)](https://www.geocat.ch/geonetwork/srv/eng/catalog.search#/metadata/5263bc47-8723-4c02-988a-4ae0d425099c), points ¹ ² | armasuisse / DDPS |
+| `buildinglines` | [Building lines for motorways](https://www.geocat.ch/geonetwork/srv/eng/catalog.search#/metadata/fce3b347-cc58-4b29-bb87-a35eed4487ea) (sample) | FEDRO |
+| `uebertragungsleitungen`, `_linien`, `_punkte` | [Electricity Transmission Lines sectoral plan](https://www.geocat.ch/geonetwork/srv/eng/catalog.search#/metadata/e1134feb-55d7-4b44-8e13-125e983b259b) | SFOE |
+| `asyl` | [Sectoral plan for Asylum](https://www.geocat.ch/geonetwork/srv/eng/catalog.search#/metadata/23a9027d-37a1-4ba4-b529-54c658540914) | SEM |
+| `militaer`, `militaer_punkte` | [Sectoral Plan Military](https://www.geocat.ch/geonetwork/srv/eng/catalog.search#/metadata/5263bc47-8723-4c02-988a-4ae0d425099c) ¹ | armasuisse / DDPS |
 
-¹ The published INTERLIS transfer of this dataset carries no coordinates (every point and surface is
-empty), while its File Geodatabase export has them. `data/source-xtf/SPM_V1_4_In_Kraft_LV95_mit_Geometrie.xtf.zip`
-is the published transfer completed with those geometries, matched by TID; `tools/complete_militaer_xtf.py`
-reproduces it and ilivalidator accepts it with no error.
-
-² A sectoral plan's planning measure has a point, a line or a surface; each geometry is its own
-collection, served from a VIEW keeping only the measures that have it (`collections/<name>/views.ili`).
-Their map signatures follow the official SLDs where a native mark can (see each `signs.xtf`).
-
-```bash
-curl "http://localhost:5000/collections/richtplanung/items?f=jsonfg"
-curl "http://localhost:5000/collections/waldabstandslinien/map?bbox=9.0544,47.0937,9.1785,47.1164" -o map.png
-curl "http://localhost:5000/collections/waldabstandslinien/map?bbox=2722621,1217159,2732023,1219842&bbox-crs=http://www.opengis.net/def/crs/EPSG/0/2056" -o map.png
-```
-
-All collections also serve OGC API - Maps (`/map`). Two things
-to get right when requesting one:
-
-- A `bbox` in EPSG:2056 (Swiss metres) must be paired with
-  `bbox-crs=http://www.opengis.net/def/crs/EPSG/0/2056`, or the server
-  reads the numbers as degrees. Without `bbox-crs`, use CRS84 degrees.
-- Ask for a `bbox` close to the collection's own advertised
-  `extent.spatial.bbox` (`/collections/{id}`). These datasets are small
-  — `waldabstandslinien` covers about 9 km — so a Switzerland-wide `bbox`
-  renders their lines below one pixel and the image comes back blank.
+¹ The published transfer carries no coordinates; the one used here is
+completed with the geometries of the dataset's own File Geodatabase
+export, matched by TID.
 
 ## License
 
 Code: MIT (see `LICENSE.md`), the license of [pygeoapi](https://github.com/geopython/pygeoapi).
 
-Data: © the data providers listed under [Collections](#collections) (KGK-CGC / geodienste.ch, FEDRO, SFOE,
-SEM, armasuisse / DDPS). Open use; the source must be provided
+Data: © the data providers above. Open use; the source must be provided
 ([opendata.swiss BY](https://opendata.swiss/en/terms-of-use/#terms_by)).
