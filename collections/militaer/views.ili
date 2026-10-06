@@ -1,0 +1,27 @@
+INTERLIS 2.3;
+
+!! Map views of the militaer collection: each VIEW projects one class with
+!! the geometry its GRAPHIC draws and every attribute its WHERE clauses
+!! test, references flattened. convert-sql turns each into a SQL view the
+!! SLD filters run on as is.
+
+MODEL Militaer_Views (en)
+  AT "mailto:test@example.org"
+  VERSION "2026-10-06" =
+
+  IMPORTS SectoralPlanForMilitaryInfrastructure_LV95_V1_4;
+
+  VIEW TOPIC Views EXTENDS SectoralPlanForMilitaryInfrastructure_LV95_V1_4.SectoralPlanForMilitaryInfrastructure_WithLatestModification =
+
+    VIEW planningmeasure_map
+      PROJECTION OF M ~ BaseModel_SectoralPlans_LV95_V1_4.SectoralPlans_WithLatestModification.PlanningMeasure;
+      =
+      ATTRIBUTE
+        type_id := M -> MeasureType -> Reference -> TypeID;
+        coord_id := M -> CoordinationLevel -> Reference -> CoordID;
+        surface := M -> Surface;
+    END planningmeasure_map;
+
+  END Views;
+
+END Militaer_Views.

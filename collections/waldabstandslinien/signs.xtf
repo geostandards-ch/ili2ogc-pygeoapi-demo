@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Sign data for symbology.ili. Colors sourced from the real
+     official WMS legend each dataset is actually rendered with - the exact
+     source of each color is noted next to it. Not a geocat.ch-published SLD/QML
+     (none was found for any of these datasets): reverse-engineered by
+     sampling the legend swatch pixels of each dataset's own live WMS. -->
+
+<ili:transfer xmlns:ili="http://www.interlis.ch/xtf/2.4/INTERLIS"
+  xmlns="http://www.interlis.ch/xtf/2.4/StandardSymbology"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <ili:headersection>
+    <ili:models>
+      <ili:model>Waldabstandslinien_Symbology</ili:model>
+    </ili:models>
+    <ili:sender>ili2ogc-pygeoapi-demo</ili:sender>
+    <ili:comment>Line color for waldabstandslinien, sourced from the dataset's own real WMS legend</ili:comment>
+  </ili:headersection>
+
+  <ili:datasection>
+    <StandardSigns ili:bid="Signs00000001">
+      <!-- Kanton Glarus WMS (wms.geo.gl.ch), layer
+           ch.gl.planning.oereb_waldabstandslinien, GetLegendGraphic:
+           dashed #00FF00. -->
+      <Color ili:tid="1">
+        <Name>gl_oereb_waldabstandslinie_green</Name>
+        <L>87.7</L>
+        <C>119.8</C>
+        <H>136.02</H>
+        <T>1.0</T>
+      </Color>
+
+      <LineStyle_Solid ili:tid="41">
+        <Name>WaldGreen_Solid</Name>
+        <Color ili:ref="1"></Color>
+      </LineStyle_Solid>
+
+      <PolylineSign ili:tid="101">
+        <ili:Name>WaldGreen</ili:Name>
+        <Style ili:ref="41">
+          <PolylineSignLineStyleAssoc>
+            <Offset>0.0</Offset>
+          </PolylineSignLineStyleAssoc>
+        </Style>
+      </PolylineSign>
+
+    </StandardSigns>
+  </ili:datasection>
+</ili:transfer>

@@ -1,0 +1,36 @@
+INTERLIS 2.3;
+
+!! Map views of the richtplanung collection: each VIEW projects one class with
+!! the geometry its GRAPHIC draws and every attribute its WHERE clauses
+!! test, references flattened. convert-sql turns each into a SQL view the
+!! SLD filters run on as is.
+
+MODEL Richtplanung_Views (en)
+  AT "mailto:test@example.org"
+  VERSION "2026-10-06" =
+
+  IMPORTS RichtplanungErneuerbareEnergien_V1;
+
+  VIEW TOPIC Views EXTENDS RichtplanungErneuerbareEnergien_V1.Objekte =
+
+    VIEW flaeche_map
+      PROJECTION OF F ~ RichtplanungErneuerbareEnergien_V1.Objekte.Flaeche;
+      =
+      ATTRIBUTE
+        objektart := F -> Objektart;
+        energieform := F -> Energieform -> Reference -> Energieform;
+        geometrie := F -> Geometrie;
+    END flaeche_map;
+
+    VIEW punkt_map
+      PROJECTION OF P ~ RichtplanungErneuerbareEnergien_V1.Objekte.Punkt;
+      =
+      ATTRIBUTE
+        objektart := P -> Objektart;
+        energieform := P -> Energieform -> Reference -> Energieform;
+        geometrie := P -> Geometrie;
+    END punkt_map;
+
+  END Views;
+
+END Richtplanung_Views.

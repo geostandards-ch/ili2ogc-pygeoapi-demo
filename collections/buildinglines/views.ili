@@ -1,0 +1,25 @@
+INTERLIS 2.3;
+
+!! Map views of the buildinglines collection: each VIEW projects one class with
+!! the geometry its GRAPHIC draws and every attribute its WHERE clauses
+!! test, references flattened. convert-sql turns each into a SQL view the
+!! SLD filters run on as is.
+
+MODEL BuildingLines_Views (en)
+  AT "mailto:test@example.org"
+  VERSION "2026-10-06" =
+
+  IMPORTS BuildingLinesForMotorways_V2_2;
+
+  VIEW TOPIC Views EXTENDS BuildingLinesForMotorways_V2_2.BuildingLines =
+
+    VIEW buildingline_map
+      PROJECTION OF B ~ BuildingLinesForMotorways_V2_2.BuildingLines.BuildingLine;
+      =
+      ATTRIBUTE
+        geometry := B -> Geometry;
+    END buildingline_map;
+
+  END Views;
+
+END BuildingLines_Views.

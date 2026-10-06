@@ -6,49 +6,49 @@ INTERLIS 2.4;
 !! marks (unlike Facility/PlanningMeasure point/line, which use se:Mark
 !! constructs pycartosym's SLD writer does not yet support).
 !! PlanningMeasure.Surface is a MultiSurface STRUCTURE
-!! (a BAG of Surface); Geometry := Surface -> Surfaces -> Surface chains
+!! (a BAG of Surface); Geometry := surface -> Surfaces -> Surface chains
 !! through it via the association-path operator (INTERLIS refman:
 !! ObjectOrAttributePath = PathEl {'->' PathEl}, valid "von der aktuellen
-!! Struktur aus", not just across associations). MeasureType/
-!! CoordinationLevel are REFERENCE TO (EXTERNAL) catalogue items - the
-!! WHERE clauses chain into them the same way.
+!! Struktur aus", not just across associations). The MeasureType/
+!! CoordinationLevel catalogue keys the WHERE clauses test are flattened
+!! by the VIEW (type_id, coord_id).
 
-MODEL SachplanUebertragungsleitungen (en)
+MODEL Uebertragungsleitungen_Symbology (en)
   AT "mailto:test@example.org"
-  VERSION "2026-09-13" =
+  VERSION "2026-10-06" =
 
   IMPORTS StandardSymbology;
-  IMPORTS TransmissionLinesSectoralPlan_V1_4;
+  IMPORTS Uebertragungsleitungen_Views;
 
   SIGN BASKET Signs ~ StandardSymbology.StandardSigns
     OBJECTS OF SurfaceSign: CorridorFestsetzung, KorridorZwischenergebnis, GebietFestsetzung;
 
   TOPIC Graphics =
-    DEPENDS ON BaseModel_SectoralPlans_LV95_V1_4.SectoralPlans_WithLatestModification;
+    DEPENDS ON Uebertragungsleitungen_Views.Views;
 
     GRAPHIC PlanningMeasure_Graphics
-      BASED ON BaseModel_SectoralPlans_LV95_V1_4.SectoralPlans_WithLatestModification.PlanningMeasure =
+      BASED ON Uebertragungsleitungen_Views.Views.planningmeasure_map =
 
       CorridorFestsetzungRule OF StandardSymbology.StandardSigns.SurfaceSign:
-        WHERE (MeasureType -> Reference -> TypeID == "mt2") AND (CoordinationLevel -> Reference -> CoordID == 1) (
+        WHERE (type_id == "mt2") AND (coord_id == 1) (
           Sign := {CorridorFestsetzung};
-          Geometry := Surface -> Surfaces -> Surface;
+          Geometry := surface -> Surfaces -> Surface;
           Priority := 1);
 
       KorridorZwischenergebnisRule OF StandardSymbology.StandardSigns.SurfaceSign:
-        WHERE (MeasureType -> Reference -> TypeID == "mt2") AND (CoordinationLevel -> Reference -> CoordID == 2) (
+        WHERE (type_id == "mt2") AND (coord_id == 2) (
           Sign := {KorridorZwischenergebnis};
-          Geometry := Surface -> Surfaces -> Surface;
+          Geometry := surface -> Surfaces -> Surface;
           Priority := 2);
 
       GebietFestsetzungRule OF StandardSymbology.StandardSigns.SurfaceSign:
-        WHERE (MeasureType -> Reference -> TypeID == "mt3") AND (CoordinationLevel -> Reference -> CoordID == 1) (
+        WHERE (type_id == "mt3") AND (coord_id == 1) (
           Sign := {GebietFestsetzung};
-          Geometry := Surface -> Surfaces -> Surface;
+          Geometry := surface -> Surfaces -> Surface;
           Priority := 3);
 
     END PlanningMeasure_Graphics;
 
   END Graphics;
 
-END SachplanUebertragungsleitungen.
+END Uebertragungsleitungen_Symbology.

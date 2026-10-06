@@ -1,0 +1,30 @@
+INTERLIS 2.4;
+
+!! Line color sampled from the dataset's own WMS legend (see signs.xtf).
+
+MODEL MainRoads_Symbology (en)
+  AT "mailto:test@example.org"
+  VERSION "2026-10-06" =
+
+  IMPORTS StandardSymbology;
+  IMPORTS MainRoads_Views;
+
+  SIGN BASKET Signs ~ StandardSymbology.StandardSigns
+    OBJECTS OF PolylineSign: RoadsBrown;
+
+  TOPIC Graphics =
+    DEPENDS ON MainRoads_Views.Views;
+
+    GRAPHIC Roads_Graphics
+      BASED ON MainRoads_Views.Views.roadsegment_map =
+
+      RoadsRule OF StandardSymbology.StandardSigns.PolylineSign: (
+          Sign := {RoadsBrown};
+          Geometry := geometry;
+          Priority := 100);
+
+    END Roads_Graphics;
+
+  END Graphics;
+
+END MainRoads_Symbology.

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- Sign data for models/SachplanAsyl.ili. Marks, fills and sizes copied
+<!-- Sign data for symbology.ili. Marks, fills and sizes copied
      from the real official SLD ("exemples supplémentaires démo
      pygeoapi/SLD Sachpläne/SP Asyl/spa_sp_asyl_facilities_kraft_point.sld"):
      diamond (Bundesasylzentrum, Infrastruktur zur Bewältigung von
@@ -16,7 +16,7 @@
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <ili:headersection>
     <ili:models>
-      <ili:model>SachplanAsyl</ili:model>
+      <ili:model>Asyl_Symbology</ili:model>
     </ili:models>
     <ili:sender>ili2ogc-pygeoapi-demo</ili:sender>
     <ili:comment>Point marks for Sachplan Asyl Facility, sourced from the real SLD</ili:comment>

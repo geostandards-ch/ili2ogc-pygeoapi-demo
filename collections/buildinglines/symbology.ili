@@ -1,0 +1,30 @@
+INTERLIS 2.4;
+
+!! Line color sampled from the dataset's own WMS legend (see signs.xtf).
+
+MODEL BuildingLines_Symbology (en)
+  AT "mailto:test@example.org"
+  VERSION "2026-10-06" =
+
+  IMPORTS StandardSymbology;
+  IMPORTS BuildingLines_Views;
+
+  SIGN BASKET Signs ~ StandardSymbology.StandardSigns
+    OBJECTS OF PolylineSign: BuildingLinesGreen;
+
+  TOPIC Graphics =
+    DEPENDS ON BuildingLines_Views.Views;
+
+    GRAPHIC BuildingLines_Graphics
+      BASED ON BuildingLines_Views.Views.buildingline_map =
+
+      BuildingLinesRule OF StandardSymbology.StandardSigns.PolylineSign: (
+          Sign := {BuildingLinesGreen};
+          Geometry := geometry;
+          Priority := 100);
+
+    END BuildingLines_Graphics;
+
+  END Graphics;
+
+END BuildingLines_Symbology.

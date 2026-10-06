@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Sign data for symbology.ili. Colors sourced from the real
+     official WMS legend each dataset is actually rendered with - the exact
+     source of each color is noted next to it. Not a geocat.ch-published SLD/QML
+     (none was found for any of these datasets): reverse-engineered by
+     sampling the legend swatch pixels of each dataset's own live WMS. -->
+
+<ili:transfer xmlns:ili="http://www.interlis.ch/xtf/2.4/INTERLIS"
+  xmlns="http://www.interlis.ch/xtf/2.4/StandardSymbology"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <ili:headersection>
+    <ili:models>
+      <ili:model>MainRoads_Symbology</ili:model>
+    </ili:models>
+    <ili:sender>ili2ogc-pygeoapi-demo</ili:sender>
+    <ili:comment>Line color for mainroads, sourced from the dataset's own real WMS legend</ili:comment>
+  </ili:headersection>
+
+  <ili:datasection>
+    <StandardSigns ili:bid="Signs00000001">
+      <!-- geo.admin.ch WMS (wms.geo.admin.ch), layer
+           ch.astra.hauptstrassennetz, legend image: #A2680C. -->
+      <Color ili:tid="2">
+        <Name>astra_hauptstrassennetz_brown</Name>
+        <L>49.0</L>
+        <C>56.3</C>
+        <H>72.72</H>
+        <T>1.0</T>
+      </Color>
+
+      <LineStyle_Solid ili:tid="42">
+        <Name>RoadsBrown_Solid</Name>
+        <Color ili:ref="2"></Color>
+      </LineStyle_Solid>
+
+      <PolylineSign ili:tid="102">
+        <ili:Name>RoadsBrown</ili:Name>
+        <Style ili:ref="42">
+          <PolylineSignLineStyleAssoc>
+            <Offset>0.0</Offset>
+          </PolylineSignLineStyleAssoc>
+        </Style>
+      </PolylineSign>
+
+    </StandardSigns>
+  </ili:datasection>
+</ili:transfer>

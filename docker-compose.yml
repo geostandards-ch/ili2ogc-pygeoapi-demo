@@ -15,6 +15,7 @@ services:
     build: ./loader
     volumes:
       - ./models:/models:ro
+      - ./collections:/collections:ro
       - ./data:/data
       - styles:/styles
     environment:

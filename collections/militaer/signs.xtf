@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- Sign data for models/SachplanMilitaer.ili, from the real official SLD
+<!-- Sign data for symbology.ili, from the real official SLD
      ("exemples supplémentaires démo pygeoapi/SLD Sachpläne/SP Militär/
      spm_sp_militaer_planningmeasure_kraft.sld"): fills, border colours,
      widths and the 9/4 dash of each MeasureType/CoordinationLevel rule.
@@ -16,7 +16,7 @@
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <ili:headersection>
     <ili:models>
-      <ili:model>SachplanMilitaer</ili:model>
+      <ili:model>Militaer_Symbology</ili:model>
     </ili:models>
     <ili:sender>ili2ogc-pygeoapi-demo</ili:sender>
     <ili:comment>PlanningMeasure surfaces of Sachplan Militaer, sourced from the real SLD</ili:comment>

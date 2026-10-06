@@ -1,0 +1,66 @@
+INTERLIS 2.4;
+
+!! Flaeche_Graphics reproduces geodienste.ch's windenergie_flaechen SLD.
+!! Its "Richtplaninhalt" rule carries no filter in that export; it is
+!! rebuilt here as the 4 Richtplaninhalt sub-values. Its "Ausgangslage"
+!! rule also tests the Energieform catalogue text (the BFE catalogue is
+!! merged into the transfer). Its 2 "Ausschlussgebiet" rules are not
+!! reproduced: no Ausschlussgebiet object in the SH data.
+!! Punkt_Graphics follows the wasserkraft_punkte layer's legend (all SH
+!! points are Wasserkraft): a filled blue square for Richtplaninhalt, a
+!! cyan outline for Ausgangslage. Colors: see signs.xtf.
+
+MODEL Richtplanung_Symbology (en)
+  AT "mailto:test@example.org"
+  VERSION "2026-10-06" =
+
+  IMPORTS StandardSymbology;
+  IMPORTS Richtplanung_Views;
+
+  SIGN BASKET Signs ~ StandardSymbology.StandardSigns
+    OBJECTS OF SurfaceSign: RichtplaninhaltPurple, AusgangslageWhite;
+    OBJECTS OF SymbolSign: WasserkraftRichtplaninhaltBlue, WasserkraftAusgangslageCyan;
+
+  TOPIC Graphics =
+    DEPENDS ON Richtplanung_Views.Views;
+
+    GRAPHIC Flaeche_Graphics
+      BASED ON Richtplanung_Views.Views.flaeche_map =
+
+      RichtplaninhaltRule OF StandardSymbology.StandardSigns.SurfaceSign:
+        WHERE (objektart == #Richtplaninhalt.Vororientierung) OR (objektart == #Richtplaninhalt.Zwischenergebnis)
+          OR (objektart == #Richtplaninhalt.Festsetzung) OR (objektart == #Richtplaninhalt.Unbekannt) (
+          Sign := {RichtplaninhaltPurple};
+          Geometry := geometrie -> Surfaces -> Surface;
+          Priority := 100);
+
+      AusgangslageRule OF StandardSymbology.StandardSigns.SurfaceSign:
+        WHERE (objektart == #Ausgangslage) AND (energieform == "Windenergie") (
+          Sign := {AusgangslageWhite};
+          Geometry := geometrie -> Surfaces -> Surface;
+          Priority := 101);
+
+    END Flaeche_Graphics;
+
+    GRAPHIC Punkt_Graphics
+      BASED ON Richtplanung_Views.Views.punkt_map =
+
+      WasserkraftRichtplaninhaltRule OF StandardSymbology.StandardSigns.SymbolSign:
+        WHERE ((objektart == #Richtplaninhalt.Vororientierung) OR (objektart == #Richtplaninhalt.Zwischenergebnis)
+          OR (objektart == #Richtplaninhalt.Festsetzung) OR (objektart == #Richtplaninhalt.Unbekannt))
+          AND (energieform == "Wasserkraft") (
+          Sign := {WasserkraftRichtplaninhaltBlue};
+          Geometry := geometrie -> Points -> Point;
+          Priority := 100);
+
+      WasserkraftAusgangslageRule OF StandardSymbology.StandardSigns.SymbolSign:
+        WHERE (objektart == #Ausgangslage) AND (energieform == "Wasserkraft") (
+          Sign := {WasserkraftAusgangslageCyan};
+          Geometry := geometrie -> Points -> Point;
+          Priority := 101);
+
+    END Punkt_Graphics;
+
+  END Graphics;
+
+END Richtplanung_Symbology.

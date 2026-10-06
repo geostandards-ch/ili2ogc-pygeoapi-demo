@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- Sign data for models/DemoSymbology.ili. Colors sourced from the real
+<!-- Sign data for symbology.ili. Colors sourced from the real
      official WMS legend each dataset is actually rendered with - the exact
      source of each color is noted next to it. Not a geocat.ch-published SLD/QML
      (none was found for any of these datasets): reverse-engineered by
@@ -11,48 +11,14 @@
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <ili:headersection>
     <ili:models>
-      <ili:model>DemoSymbology</ili:model>
+      <ili:model>Richtplanung_Symbology</ili:model>
     </ili:models>
     <ili:sender>ili2ogc-pygeoapi-demo</ili:sender>
-    <ili:comment>Line colors for waldabstand_geo/mainroads/buildinglines, sourced from each dataset's own real WMS legend</ili:comment>
+    <ili:comment>Surface and point signs for richtplanung, sourced from geodienste.ch's real WMS styles and legend</ili:comment>
   </ili:headersection>
 
   <ili:datasection>
     <StandardSigns ili:bid="Signs00000001">
-
-      <!-- Kanton Glarus WMS (wms.geo.gl.ch), layer
-           ch.gl.planning.oereb_waldabstandslinien, GetLegendGraphic:
-           dashed #00FF00. -->
-      <Color ili:tid="1">
-        <Name>gl_oereb_waldabstandslinie_green</Name>
-        <L>87.7</L>
-        <C>119.8</C>
-        <H>136.02</H>
-        <T>1.0</T>
-      </Color>
-
-      <!-- geo.admin.ch WMS (wms.geo.admin.ch), layer
-           ch.astra.hauptstrassennetz, legend image: #A2680C. -->
-      <Color ili:tid="2">
-        <Name>astra_hauptstrassennetz_brown</Name>
-        <L>49.0</L>
-        <C>56.3</C>
-        <H>72.72</H>
-        <T>1.0</T>
-      </Color>
-
-      <!-- geo.admin.ch WMS (wms.geo.admin.ch), layer
-           ch.astra.baulinien-nationalstrassen, legend image, "In force"
-           swatch: #00E600 (all 30 real BuildingLine rows in this demo
-           have status=inForce). -->
-      <Color ili:tid="3">
-        <Name>astra_baulinien_inforce_green</Name>
-        <L>79.9</L>
-        <C>110.8</C>
-        <H>136.02</H>
-        <T>1.0</T>
-      </Color>
-
       <!-- geodienste.ch harmonized WMS (wfs.geodienste.ch/
            richtplanung_erneuerbare_energien_v1_0_0), layer
            windenergie_flaechen, real SLD from WMS GetStyles:
@@ -150,52 +116,10 @@
         </Geometry>
       </FontSymbol>
 
-      <LineStyle_Solid ili:tid="41">
-        <Name>WaldGreen_Solid</Name>
-        <Color ili:ref="1"></Color>
-      </LineStyle_Solid>
-
-      <LineStyle_Solid ili:tid="42">
-        <Name>RoadsBrown_Solid</Name>
-        <Color ili:ref="2"></Color>
-      </LineStyle_Solid>
-
-      <LineStyle_Solid ili:tid="43">
-        <Name>BuildingLinesGreen_Solid</Name>
-        <Color ili:ref="3"></Color>
-      </LineStyle_Solid>
-
       <LineStyle_Solid ili:tid="44">
         <Name>RichtplanAusgangslageBorder_Solid</Name>
         <Color ili:ref="6"></Color>
       </LineStyle_Solid>
-
-      <PolylineSign ili:tid="101">
-        <ili:Name>WaldGreen</ili:Name>
-        <Style ili:ref="41">
-          <PolylineSignLineStyleAssoc>
-            <Offset>0.0</Offset>
-          </PolylineSignLineStyleAssoc>
-        </Style>
-      </PolylineSign>
-
-      <PolylineSign ili:tid="102">
-        <ili:Name>RoadsBrown</ili:Name>
-        <Style ili:ref="42">
-          <PolylineSignLineStyleAssoc>
-            <Offset>0.0</Offset>
-          </PolylineSignLineStyleAssoc>
-        </Style>
-      </PolylineSign>
-
-      <PolylineSign ili:tid="103">
-        <ili:Name>BuildingLinesGreen</ili:Name>
-        <Style ili:ref="43">
-          <PolylineSignLineStyleAssoc>
-            <Offset>0.0</Offset>
-          </PolylineSignLineStyleAssoc>
-        </Style>
-      </PolylineSign>
 
       <PolylineSign ili:tid="104">
         <ili:Name>RichtplanAusgangslageBorder</ili:Name>

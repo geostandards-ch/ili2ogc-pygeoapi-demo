@@ -1,33 +1,29 @@
 #!/usr/bin/env python3
-"""Loader: build one PostGIS schema per INTERLIS model via ili2ogc, load real geodata into it, write the styles.
+"""Loader: build one PostGIS schema per collection via ili2ogc, load real geodata into it, write the styles.
 
-Runs once per `docker-compose up`. Each model gets its own PostgreSQL schema
-holding exactly what `interlis convert-sql` generates - ili2db's layout
-(`t_id`, `t_basket`, `t_ili_tid`, the `T_ILI2DB_*` tables), one view per
-symbology GRAPHIC that the matching SLD's filters are evaluated on
-(`--map-views`), and one readable `<table>_features` view per table, with
-catalogue keys and German names in place of raw references
-(`--feature-views de`). No hand-written SQL: pygeoapi serves the generated
-views as they are.
+Runs once per `docker-compose up`. Each `collections/<name>/` directory holds
+a collection's `views.ili` (its map VIEWs over the official data model),
+`symbology.ili` (GRAPHICs based on those VIEWs) and `signs.xtf`. Each
+collection gets its own PostgreSQL schema holding exactly what
+`interlis convert-sql` generates from `views.ili` - ili2db's layout (`t_id`,
+`t_basket`, `t_ili_tid`, the `T_ILI2DB_*` tables), one SQL view per VIEW
+that the matching SLD's filters are evaluated on, and one readable
+`<table>_features` view per table, with catalogue keys and German names in
+place of raw references (`--feature-views de`). No hand-written SQL:
+pygeoapi serves the generated views as they are.
 """
 
 import json
 import os
+import re
 import shutil
 import subprocess
 import xml.etree.ElementTree as ET
 import zipfile
 
 REPO = "/models"
+COLLECTIONS = "/collections"
 SOURCE_XTF_DIR = "/data/source-xtf"
-SYMBOLOGY_MODEL = f"{REPO}/DemoSymbology.ili"
-SYMBOLOGY_XTF = "/data/symbology.xtf"
-SUEL_SYMBOLOGY_MODEL = f"{REPO}/SachplanUebertragungsleitungen.ili"
-SUEL_SYMBOLOGY_XTF = "/data/symbology_uebertragungsleitungen.xtf"
-SPA_SYMBOLOGY_MODEL = f"{REPO}/SachplanAsyl.ili"
-SPA_SYMBOLOGY_XTF = "/data/symbology_asyl.xtf"
-SPM_SYMBOLOGY_MODEL = f"{REPO}/SachplanMilitaer.ili"
-SPM_SYMBOLOGY_XTF = "/data/symbology_militaer.xtf"
 _ILI23_NS = "http://www.interlis.ch/INTERLIS2.3"
 
 
@@ -39,25 +35,35 @@ def run(cmd: list[str], accept_degraded: bool = False) -> None:
         raise subprocess.CalledProcessError(returncode, cmd)
 
 
-def prepare(model: str, xtf: str, symbology: str, name: str, materialize: str | None = None) -> tuple[str, dict]:
-    """Validate the transfer, generate its schema (with the GRAPHIC map views) and its JSON-FG.
+def _repos(name: str) -> list[str]:
+    """The official models plus the collection's own directory (its views.ili, imported by symbology.ili)."""
+    return ["--repo", REPO, "--repo", f"{COLLECTIONS}/{name}"]
 
-    `convert-sql` exits 2 (completed, notes only) on these models: e.g. CHBase lines admit arcs
-    the linear columns can't hold, which `Dataset.geometry` strokes on load as the note asks.
+
+def prepare(name: str, xtf: str) -> tuple[str, dict]:
+    """Validate the transfer, generate the collection's schema (with its map views) and its JSON-FG.
+
+    `views.ili` EXTENDS the data topic, so every class of the data model gets its table, not only the
+    projected ones. `convert-sql` exits 2 (completed, notes only) on these models: e.g. CHBase lines admit
+    arcs the linear columns can't hold, which `Dataset.geometry` strokes on load as the note asks.
     """
+    model = f"{COLLECTIONS}/{name}/views.ili"
     schema_sql, data_jsonfg = f"/tmp/{name}_schema.sql", f"/tmp/{name}_data.jsonfg.json"
-    run(["interlis", "validate", xtf, "--model", model, "--repo", REPO])
+    run(["interlis", "validate", xtf, "--model", model, *_repos(name)])
     run(
-        # --map-views: one view per GRAPHIC for its SLD; --feature-views: readable views for the features API.
-        [
-            "interlis", "convert-sql", model, "--repo", REPO, "--map-views", symbology, "--feature-views", "de",
-            "-o", schema_sql,
-        ],
+        ["interlis", "convert-sql", model, *_repos(name), "--feature-views", "de", "-o", schema_sql],
         accept_degraded=True,
     )
-    run(["interlis", "convert-jsonfg", xtf, "--model", model, "--repo", REPO, "-o", data_jsonfg])
-    if materialize:
-        run(["interlis", "write-xtf", model, xtf, "--repo", REPO, "--merge-with-source", "-o", materialize])
+    run(["interlis", "convert-jsonfg", xtf, "--model", model, *_repos(name), "-o", data_jsonfg])
+    with open(model) as f:
+        views = re.findall(r"^\s*VIEW (\w+)$", f.read(), re.M)
+    for view in views:
+        run(
+            [
+                "interlis", "write-xtf", model, xtf, *_repos(name), "--view", view, "--merge-with-source",
+                "-o", f"/data/{view}.materialized.xtf",
+            ]
+        )
     with open(data_jsonfg) as f:
         features = json.load(f)["features"]
     by_type: dict[str, list[dict]] = {}
@@ -221,7 +227,6 @@ def _merge_ili23_baskets(main_path: str, extra_paths: list[str], out_path: str) 
 
 def load_richtplanung(cur) -> None:
     """`RichtplanungErneuerbareEnergien_V1` (real SH data: Flaeche and Punkt) with the BFE Energieform catalogue."""
-    model = f"{REPO}/RichtplanungErneuerbareEnergien_V1_d_01.ili"
     xtf = "/tmp/richtplanung_source.xtf"
     # Sources: https://geodienste.ch/downloads/interlis/richtplanung_erneuerbare_energien/SH/RichtplanungErneuerbareEnergien_V1_SH.xtf
     # and https://models.geo.admin.ch/BFE/RichtplanungErneuerbareEnergien_Katalog.xml
@@ -230,7 +235,7 @@ def load_richtplanung(cur) -> None:
         [f"{SOURCE_XTF_DIR}/RichtplanungErneuerbareEnergien_Katalog.xml"],
         xtf,
     )
-    schema_sql, by_type = prepare(model, xtf, SYMBOLOGY_MODEL, "richtplanung", "/data/view_flaeche.materialized.xtf")
+    schema_sql, by_type = prepare("richtplanung", xtf)
     ds = Dataset(cur, "richtplanung", schema_sql, xtf)
     for feat in by_type.get("Energieform", []):
         ds.insert("energieform", feat, energieform=feat["properties"]["Energieform"])
@@ -272,13 +277,10 @@ def load_richtplanung(cur) -> None:
 
 def load_waldabstandslinien(cur) -> None:
     """`Waldabstandslinien_V1_2` (real GL data)."""
-    model = f"{REPO}/Waldabstandslinien_V1_2_d.ili"
     # Source: https://www.geodienste.ch/downloads/interlis/npl_waldabstandslinien/GL/ch_np_wal_v1_2.xtf
     xtf = "/tmp/waldabstandslinien_source.xtf"
     shutil.copy(f"{SOURCE_XTF_DIR}/ch_np_wal_v1_2.xtf", xtf)
-    schema_sql, by_type = prepare(
-        model, xtf, SYMBOLOGY_MODEL, "waldabstandslinien", "/data/view_waldabstand_linie.materialized.xtf"
-    )
+    schema_sql, by_type = prepare("waldabstandslinien", xtf)
     ds = Dataset(cur, "waldabstandslinien", schema_sql, xtf)
     for feat in by_type.get("Typ", []):
         p = feat["properties"]
@@ -308,14 +310,13 @@ def load_waldabstandslinien(cur) -> None:
 
 def load_mainroads(cur) -> None:
     """`MainRoads_LV95_V1_1` (real Swiss-wide data); the source is a ZIP."""
-    model = f"{REPO}/MainRoads_LV95_V1_1_d.ili"
     # Source: https://data.geo.admin.ch/ch.astra.hauptstrassennetz/hauptstrassennetz/hauptstrassennetz_2056.xtf.zip
     xtf = "/tmp/mainroads_source.xtf"
     with zipfile.ZipFile(f"{SOURCE_XTF_DIR}/hauptstrassennetz_2056.xtf.zip") as zf:
         (xtf_member,) = [n for n in zf.namelist() if n.endswith(".xtf")]
         with zf.open(xtf_member) as src, open(xtf, "wb") as dst:
             dst.write(src.read())
-    schema_sql, by_type = prepare(model, xtf, SYMBOLOGY_MODEL, "mainroads", "/data/view_roadsegment.materialized.xtf")
+    schema_sql, by_type = prepare("mainroads", xtf)
     ds = Dataset(cur, "mainroads", schema_sql, xtf)
     for feat in by_type.get("RoadSegment", []):
         p = feat["properties"]
@@ -338,11 +339,8 @@ def load_buildinglinesformotorways(cur) -> None:
     and 15 with arcs (full source: https://data.geo.admin.ch/ch.astra.baulinien-nationalstrassen).
     The arcs are stroked into the linear column; GeoJSON has no curves anyway.
     """
-    model = f"{REPO}/BuildingLinesForMotorways_V2_2_d.ili"
     xtf = "/data/buildingline_sample_source.xtf"
-    schema_sql, by_type = prepare(
-        model, xtf, SYMBOLOGY_MODEL, "buildinglines", "/data/view_buildingline.materialized.xtf"
-    )
+    schema_sql, by_type = prepare("buildinglines", xtf)
     ds = Dataset(cur, "buildinglines", schema_sql, xtf)
     for feat in by_type.get("BuildingLine", []):
         p = feat["properties"]
@@ -380,19 +378,15 @@ def _mod_info(p: dict) -> dict:
     }
 
 
-def _load_sectoral_plan(
-    cur, schema: str, model: str, xtf: str, symbology: str, suffix: str, subclasses: dict | None = None
-) -> None:
+def _load_sectoral_plan(cur, schema: str, xtf: str, subclasses: dict | None = None) -> None:
     """A `BaseModel_SectoralPlans_V1_4` transfer: catalogues, SectoralPlan, Object, Facility, PlanningMeasure.
 
-    `suffix` is `_lv95` when the conversion also holds the base model's LV03
-    variant (convert-sql then names each table after its model). `subclasses`
-    maps a theme's own Object/Facility subclass (feature type) to its table
+    `subclasses` maps a theme's own Object/Facility subclass (feature type) to its table
     stem and own columns, e.g. Sachplan Militaer's `Facility_SPM`.
     """
-    schema_sql, by_type = prepare(model, xtf, symbology, schema)
+    schema_sql, by_type = prepare(schema, xtf)
     ds = Dataset(cur, schema, schema_sql, xtf)
-    plan, obj, facility, measure = (f"{t}{suffix}" for t in ("sectoralplan", "object", "facility", "planningmeasure"))
+    plan, obj, facility, measure = "sectoralplan", "object", "facility", "planningmeasure"
     point, line = (lambda p: _parts(p.get("Point"), "Points", "Point")), (lambda p: _parts(p.get("Line"), "Lines", "Line"))
 
     def features_of(base_type: str, base_table: str):
@@ -401,7 +395,7 @@ def _load_sectoral_plan(
         for feature_type, (base, stem, own) in (subclasses or {}).items():
             if base == base_type:
                 for f in by_type.get(feature_type, []):
-                    yield f, f"{stem}{suffix}", {c: f["properties"].get(prop) for c, prop in own.items()}
+                    yield f, stem, {c: f["properties"].get(prop) for c, prop in own.items()}
 
     for feature_type, table, id_column, prop in _SECTORAL_PLAN_CATALOGUES:
         for feat in by_type.get(feature_type, []):
@@ -452,7 +446,6 @@ def _load_sectoral_plan(
 
 def load_sachplan_uebertragungsleitungen(cur) -> None:
     """`TransmissionLinesSectoralPlan_V1_4` (Sachplan Übertragungsleitungen, real BFE data) and its 3 catalogues."""
-    model = f"{REPO}/TransmissionLinesSectoralPlan_V1_4.ili"
     main_xtf = "/tmp/suel_main.xtf"
     catalogues = ["/tmp/suel_measuretype.xml", "/tmp/suel_facilitykind.xml", "/tmp/suel_shared.xml"]
     merged_xtf = "/data/sachplan_uebertragungsleitungen.merged.xtf"
@@ -471,7 +464,7 @@ def load_sachplan_uebertragungsleitungen(cur) -> None:
                 dst.write(src.read())
 
     _merge_ili23_baskets(main_xtf, catalogues, merged_xtf)
-    _load_sectoral_plan(cur, "uebertragungsleitungen", model, merged_xtf, SUEL_SYMBOLOGY_MODEL, suffix="")
+    _load_sectoral_plan(cur, "uebertragungsleitungen", merged_xtf)
 
 
 def load_sachplan_asyl(cur) -> None:
@@ -481,7 +474,6 @@ def load_sachplan_asyl(cur) -> None:
     cross-Sachplan catalogue (FacilityStatus) is the same file
     Übertragungsleitungen ships, read from its archive.
     """
-    model = f"{REPO}/SectoralPlanForAsylum_V1_4.ili"
     main_xtf = "/tmp/spa_main.xtf"
     shared_catalogue = "/tmp/spa_shared_catalogue.xml"
     merged_xtf = "/data/sachplan_asyl.merged.xtf"
@@ -499,7 +491,7 @@ def load_sachplan_asyl(cur) -> None:
     _merge_ili23_baskets(
         main_xtf, [f"{SOURCE_XTF_DIR}/SectoralPlanForAsylum_Catalogues_V1_4.xml", shared_catalogue], merged_xtf
     )
-    _load_sectoral_plan(cur, "asyl", model, merged_xtf, SPA_SYMBOLOGY_MODEL, suffix="_lv95")
+    _load_sectoral_plan(cur, "asyl", merged_xtf)
 
 
 def load_sachplan_militaer(cur) -> None:
@@ -512,7 +504,6 @@ def load_sachplan_militaer(cur) -> None:
     0 errors). Its own `Object_SPM`/`Facility_SPM` subclasses carry an
     object/facility number.
     """
-    model = f"{REPO}/SectoralPlanForMilitaryInfrastructure_V1_4.ili"
     main_xtf = "/tmp/spm_main.xtf"
     shared_catalogue = "/tmp/spm_shared_catalogue.xml"
     merged_xtf = "/data/sachplan_militaer.merged.xtf"
@@ -536,10 +527,7 @@ def load_sachplan_militaer(cur) -> None:
     _load_sectoral_plan(
         cur,
         "militaer",
-        model,
         merged_xtf,
-        SPM_SYMBOLOGY_MODEL,
-        suffix="_lv95",
         subclasses={
             "Object_SPM": ("Object", "object_spm", {"objectnumber_spm": "ObjectNumber_SPM"}),
             "Facility_SPM": ("Facility", "facility_spm", {"facilitynumber_spm": "FacilityNumber_SPM"}),
@@ -548,33 +536,20 @@ def load_sachplan_militaer(cur) -> None:
 
 
 def build_styles() -> None:
-    """Write one .sld per symbology GRAPHIC for pygeoapi's OGC API - Maps providers."""
+    """Write one .sld per GRAPHIC of each collection's symbology, for pygeoapi's OGC API - Maps providers."""
     os.makedirs("/styles", exist_ok=True)
-    for model, sign_xtf, graphic, filename in [
-        (SYMBOLOGY_MODEL, SYMBOLOGY_XTF, "Waldabstand_Graphics", "waldabstand.sld"),
-        (SYMBOLOGY_MODEL, SYMBOLOGY_XTF, "Roads_Graphics", "roads.sld"),
-        (SYMBOLOGY_MODEL, SYMBOLOGY_XTF, "BuildingLines_Graphics", "buildinglines.sld"),
-        (SYMBOLOGY_MODEL, SYMBOLOGY_XTF, "Flaeche_Graphics", "flaeche.sld"),
-        (SUEL_SYMBOLOGY_MODEL, SUEL_SYMBOLOGY_XTF, "PlanningMeasure_Graphics", "sachplan_uebertragungsleitungen.sld"),
-        (SPA_SYMBOLOGY_MODEL, SPA_SYMBOLOGY_XTF, "Facility_Graphics", "sachplan_asyl.sld"),
-        (SPM_SYMBOLOGY_MODEL, SPM_SYMBOLOGY_XTF, "PlanningMeasure_Graphics", "sachplan_militaer.sld"),
-        (SYMBOLOGY_MODEL, SYMBOLOGY_XTF, "Punkt_Graphics", "richtplanung_punkte.sld"),
-    ]:
-        run(
-            [
-                "interlis",
-                "convert-sld",
-                model,
-                "--repo",
-                REPO,
-                "--sign-xtf",
-                sign_xtf,
-                "--graphic",
-                graphic,
-                "-o",
-                f"/styles/{filename}",
-            ]
-        )
+    for name in sorted(os.listdir(COLLECTIONS)):
+        symbology = f"{COLLECTIONS}/{name}/symbology.ili"
+        with open(symbology) as f:
+            graphics = re.findall(r"^\s*GRAPHIC (\w+)", f.read(), re.M)
+        for graphic in graphics:
+            run(
+                [
+                    "interlis", "convert-sld", symbology, *_repos(name),
+                    "--sign-xtf", f"{COLLECTIONS}/{name}/signs.xtf", "--graphic", graphic,
+                    "-o", f"/styles/{name}_{graphic.lower()}.sld",
+                ]
+            )
 
 
 def main() -> None:

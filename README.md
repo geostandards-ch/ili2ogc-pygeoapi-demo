@@ -15,18 +15,29 @@ docker compose up --build
 
 ## How it is built
 
+`models/` holds the official INTERLIS models only. Each dataset has its own
+directory under `collections/` (`richtplanung` holds both its collections):
+
+```
+collections/<name>/
+  views.ili       # map VIEWs over the official data model
+  symbology.ili   # GRAPHICs based on those VIEWs
+  signs.xtf       # their signs (colors, line styles, symbols)
+```
+
 The loader writes no SQL of its own. For each dataset, `interlis
-convert-sql` generates a PostgreSQL schema laid out like ili2db's
-(`t_id`, `t_basket`, `t_ili_tid`, the `T_ILI2DB_*` tables), plus, with
-`--map-views`, one view per symbology `GRAPHIC` exposing the attributes
-its SLD filters test (`FacilityKind.Reference.KindID`, ...).
+convert-sql views.ili` generates a PostgreSQL schema laid out like ili2db's
+(`t_id`, `t_basket`, `t_ili_tid`, the `T_ILI2DB_*` tables), plus one SQL
+view per VIEW: its geometry and the attributes the GRAPHIC's rules test,
+references already resolved (`energieform`, `type_id`, ...).
 `--feature-views de` adds a readable `<table>_features` view per table:
 each reference shows the referenced catalogue entry's key and German name
 (`Bundesasylzentrum (BAZ)`) instead of a row number.
-`interlis convert-sld` writes the SLDs. Each dataset gets its own
-PostgreSQL schema, named like its collection. pygeoapi serves features from
-the `_features` views (or the table when there is no reference to resolve)
-and maps from the GRAPHIC views.
+`interlis convert-sld` writes one SLD per GRAPHIC, whose filters test the
+VIEW's attributes by name. Each dataset gets its own PostgreSQL schema,
+named like its directory. pygeoapi serves features from the `_features`
+views (or the table when there is no reference to resolve) and maps from
+the VIEWs.
 
 ## Collections
 

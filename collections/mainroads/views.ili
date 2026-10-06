@@ -1,0 +1,25 @@
+INTERLIS 2.3;
+
+!! Map views of the mainroads collection: each VIEW projects one class with
+!! the geometry its GRAPHIC draws and every attribute its WHERE clauses
+!! test, references flattened. convert-sql turns each into a SQL view the
+!! SLD filters run on as is.
+
+MODEL MainRoads_Views (en)
+  AT "mailto:test@example.org"
+  VERSION "2026-10-06" =
+
+  IMPORTS MainRoads_LV95_V1_1;
+
+  VIEW TOPIC Views EXTENDS MainRoads_LV95_V1_1.MainRoads =
+
+    VIEW roadsegment_map
+      PROJECTION OF R ~ MainRoads_LV95_V1_1.MainRoads.RoadSegment;
+      =
+      ATTRIBUTE
+        geometry := R -> Geometry;
+    END roadsegment_map;
+
+  END Views;
+
+END MainRoads_Views.

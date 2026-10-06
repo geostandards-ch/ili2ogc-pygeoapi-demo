@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- Sign data for models/SachplanUebertragungsleitungen.ili. Colors and
+<!-- Sign data for symbology.ili. Colors and
      dash patterns copied from the real official SLD
      ("exemples supplémentaires démo pygeoapi/SLD Sachpläne/SP
      Übertragungsleitungen/suel_sp_uebertragungsleitungen_planningmeasure_surface.sld"):
@@ -14,7 +14,7 @@
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <ili:headersection>
     <ili:models>
-      <ili:model>SachplanUebertragungsleitungen</ili:model>
+      <ili:model>Uebertragungsleitungen_Symbology</ili:model>
     </ili:models>
     <ili:sender>ili2ogc-pygeoapi-demo</ili:sender>
     <ili:comment>Border-only surface signs for Sachplan Übertragungsleitungen PlanningMeasure, sourced from the real SLD</ili:comment>
