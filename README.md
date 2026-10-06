@@ -62,7 +62,7 @@ reproduces it and ilivalidator accepts it with no error.
 
 ² A sectoral plan's planning measure has a point, a line or a surface; each geometry is its own
 collection, served from a VIEW keeping only the measures that have it (`collections/<name>/views.ili`).
-These collections serve features only: no map signature is defined for them yet.
+Their map signatures follow the official SLDs where a native mark can (see each `signs.xtf`).
 
 ```bash
 curl "http://localhost:5000/collections/richtplanung/items?f=jsonfg"
@@ -70,7 +70,7 @@ curl "http://localhost:5000/collections/waldabstandslinien/map?bbox=9.0544,47.09
 curl "http://localhost:5000/collections/waldabstandslinien/map?bbox=2722621,1217159,2732023,1219842&bbox-crs=http://www.opengis.net/def/crs/EPSG/0/2056" -o map.png
 ```
 
-All collections but the ² ones also serve OGC API - Maps (`/map`). Two things
+All collections also serve OGC API - Maps (`/map`). Two things
 to get right when requesting one:
 
 - A `bbox` in EPSG:2056 (Swiss metres) must be paired with

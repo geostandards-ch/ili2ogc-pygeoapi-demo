@@ -1,17 +1,17 @@
 INTERLIS 2.4;
 
 !! Cartographic signature for the "Sachplan Uebertragungsleitungen" (SUEL,
-!! Geobasisdatensatz 94.1) PlanningMeasure surface theme - the only one of
-!! this Sachplan's 4 SLDs using border-only line symbolizers, no point
-!! marks (unlike Facility/PlanningMeasure point/line, which use se:Mark
-!! constructs pycartosym's SLD writer does not yet support).
-!! PlanningMeasure.Surface is a MultiSurface STRUCTURE
-!! (a BAG of Surface); Geometry := surface -> Surfaces -> Surface chains
-!! through it via the association-path operator (INTERLIS refman:
-!! ObjectOrAttributePath = PathEl {'->' PathEl}, valid "von der aktuellen
-!! Struktur aus", not just across associations). The MeasureType/
-!! CoordinationLevel catalogue keys the WHERE clauses test are flattened
-!! by the VIEW (type_id, coord_id).
+!! Geobasisdatensatz 94.1) PlanningMeasure surfaces, lines and points,
+!! after the real official SLDs (suel_sp_uebertragungsleitungen_
+!! planningmeasure_{surface,line,point}.sld): border-only dashed surfaces,
+!! a blue line, a yellow circle. What those SLDs draw with WESP font glyphs
+!! is reproduced as far as a native mark allows - see signs.xtf.
+!! The geometries are MultiSurface/MultiLine/MultiPoint STRUCTUREs, reached
+!! with the association-path operator (surface -> Surfaces -> Surface;
+!! INTERLIS refman: ObjectOrAttributePath = PathEl {'->' PathEl}, valid
+!! "von der aktuellen Struktur aus"). The MeasureType/CoordinationLevel
+!! catalogue keys the WHERE clauses test are flattened by the VIEWs
+!! (type_id, coord_id).
 
 MODEL Uebertragungsleitungen_Symbology (en)
   AT "mailto:test@example.org"
@@ -22,6 +22,8 @@ MODEL Uebertragungsleitungen_Symbology (en)
 
   SIGN BASKET Signs ~ StandardSymbology.StandardSigns
     OBJECTS OF SurfaceSign: CorridorFestsetzung, KorridorZwischenergebnis, GebietFestsetzung;
+    OBJECTS OF PolylineSign: LeitungAufhebung;
+    OBJECTS OF SymbolSign: EndpunktVororientierung;
 
   TOPIC Graphics =
     DEPENDS ON Uebertragungsleitungen_Views.Views;
@@ -48,6 +50,28 @@ MODEL Uebertragungsleitungen_Symbology (en)
           Priority := 3);
 
     END PlanningMeasure_Graphics;
+
+    GRAPHIC PlanningMeasure_Linien_Graphics
+      BASED ON Uebertragungsleitungen_Views.Views.planningmeasure_linien =
+
+      LeitungAufhebungRule OF StandardSymbology.StandardSigns.PolylineSign:
+        WHERE type_id == "mt4" (
+          Sign := {LeitungAufhebung};
+          Geometry := line -> Lines -> Line;
+          Priority := 1);
+
+    END PlanningMeasure_Linien_Graphics;
+
+    GRAPHIC PlanningMeasure_Punkte_Graphics
+      BASED ON Uebertragungsleitungen_Views.Views.planningmeasure_punkte =
+
+      EndpunktVororientierungRule OF StandardSymbology.StandardSigns.SymbolSign:
+        WHERE (type_id == "mt1") AND (coord_id == 3) (
+          Sign := {EndpunktVororientierung};
+          Geometry := point -> Points -> Point;
+          Priority := 1);
+
+    END PlanningMeasure_Punkte_Graphics;
 
   END Graphics;
 

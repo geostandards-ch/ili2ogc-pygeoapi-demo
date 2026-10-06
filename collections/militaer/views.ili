@@ -35,6 +35,7 @@ MODEL Militaer_Views (en)
         modinfo_validfrom := M -> ModInfo -> ValidFrom;
         modinfo_validuntil := M -> ModInfo -> ValidUntil;
         modinfo_latestmodification := M -> ModInfo -> LatestModification;
+        facility_name := M -> Facility -> Name;
         surface := M -> Surface;
     END planningmeasure_flaechen;
 
@@ -55,6 +56,7 @@ MODEL Militaer_Views (en)
         modinfo_validfrom := M -> ModInfo -> ValidFrom;
         modinfo_validuntil := M -> ModInfo -> ValidUntil;
         modinfo_latestmodification := M -> ModInfo -> LatestModification;
+        facility_name := M -> Facility -> Name;
         point := M -> Point;
     END planningmeasure_punkte;
 

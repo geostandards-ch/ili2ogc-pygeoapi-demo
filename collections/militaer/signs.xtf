@@ -19,7 +19,7 @@
       <ili:model>Militaer_Symbology</ili:model>
     </ili:models>
     <ili:sender>ili2ogc-pygeoapi-demo</ili:sender>
-    <ili:comment>PlanningMeasure surfaces of Sachplan Militaer, sourced from the real SLD</ili:comment>
+    <ili:comment>PlanningMeasure surfaces and points of Sachplan Militaer, sourced from the real SLD and the SPM documentation</ili:comment>
   </ili:headersection>
 
   <ili:datasection>
@@ -314,10 +314,6 @@
           </PolylineSignLineStyleAssoc>
         </Style>
       </PolylineSign>
-      <SurfaceSign ili:tid="400">
-        <ili:Name>StandortfestlegungFestsetzung</ili:Name>
-        <FillColor ili:ref="1"></FillColor>
-      </SurfaceSign>
       <SurfaceSign ili:tid="401">
         <ili:Name>AnlageperimeterFestsetzung</ili:Name>
         <FillColor ili:ref="1"></FillColor>
@@ -373,6 +369,117 @@
         <ili:Name>Laerm55Vororientierung</ili:Name>
         <Border ili:ref="312"></Border>
       </SurfaceSign>
+
+      <!-- Point-modelled 32-M-1 measures (Standortfestlegung): the SPM
+           documentation (§6.2.2) draws them as a filled circle (WESP glyph
+           81), 40 % transparent, colored by CoordinationLevel, a few points
+           larger than the facility symbols (size 15 in
+           spm_sp_militaer_facility_kraft.sld). The official planning-measure
+           SLD instead fills a buffer around them (#e39fa7). -->
+      <Color ili:tid="13"><!-- #e2001a, 40 % transparent -->
+        <Name>spm_e2001a_t60</Name>
+        <L>47.2908</L>
+        <C>90.3322</C>
+        <H>35.6614</H>
+        <T>0.6</T>
+      </Color>
+      <Color ili:tid="14"><!-- #ee7e22, 40 % transparent -->
+        <Name>spm_ee7e22_t60</Name>
+        <L>64.3326</L>
+        <C>74.1218</C>
+        <H>59.5163</H>
+        <T>0.6</T>
+      </Color>
+      <Color ili:tid="15"><!-- #ffed00, 40 % transparent -->
+        <Name>spm_ffed00_t60</Name>
+        <L>92.4973</L>
+        <C>92.0191</C>
+        <H>98.0447</H>
+        <T>0.6</T>
+      </Color>
+      <Font ili:tid="500">
+        <Name>SachplanMilitaerMarks</Name>
+        <Internal>true</Internal>
+        <Type>symbol</Type>
+      </Font>
+      <FontSymbol ili:tid="510">
+        <Name>Circle_Festsetzung</Name>
+        <Font ili:ref="500"></Font>
+        <Geometry>
+          <FontSymbol_Surface>
+            <FillColor ili:ref="13"></FillColor>
+            <Geometry>
+              <SURFACE>
+                <BOUNDARY>
+                  <POLYLINE>
+                  <COORD><C1>0.5</C1><C2>0</C2></COORD>
+                  <ARC><C1>-0.5</C1><C2>0</C2><A1>0</A1><A2>0.5</A2><R>0.5</R></ARC>
+                  <ARC><C1>0.5</C1><C2>0</C2><A1>0</A1><A2>-0.5</A2><R>0.5</R></ARC>
+                  </POLYLINE>
+                </BOUNDARY>
+              </SURFACE>
+            </Geometry>
+          </FontSymbol_Surface>
+        </Geometry>
+      </FontSymbol>
+      <FontSymbol ili:tid="511">
+        <Name>Circle_Zwischenergebnis</Name>
+        <Font ili:ref="500"></Font>
+        <Geometry>
+          <FontSymbol_Surface>
+            <FillColor ili:ref="14"></FillColor>
+            <Geometry>
+              <SURFACE>
+                <BOUNDARY>
+                  <POLYLINE>
+                  <COORD><C1>0.5</C1><C2>0</C2></COORD>
+                  <ARC><C1>-0.5</C1><C2>0</C2><A1>0</A1><A2>0.5</A2><R>0.5</R></ARC>
+                  <ARC><C1>0.5</C1><C2>0</C2><A1>0</A1><A2>-0.5</A2><R>0.5</R></ARC>
+                  </POLYLINE>
+                </BOUNDARY>
+              </SURFACE>
+            </Geometry>
+          </FontSymbol_Surface>
+        </Geometry>
+      </FontSymbol>
+      <FontSymbol ili:tid="512">
+        <Name>Circle_Vororientierung</Name>
+        <Font ili:ref="500"></Font>
+        <Geometry>
+          <FontSymbol_Surface>
+            <FillColor ili:ref="15"></FillColor>
+            <Geometry>
+              <SURFACE>
+                <BOUNDARY>
+                  <POLYLINE>
+                  <COORD><C1>0.5</C1><C2>0</C2></COORD>
+                  <ARC><C1>-0.5</C1><C2>0</C2><A1>0</A1><A2>0.5</A2><R>0.5</R></ARC>
+                  <ARC><C1>0.5</C1><C2>0</C2><A1>0</A1><A2>-0.5</A2><R>0.5</R></ARC>
+                  </POLYLINE>
+                </BOUNDARY>
+              </SURFACE>
+            </Geometry>
+          </FontSymbol_Surface>
+        </Geometry>
+      </FontSymbol>
+      <SymbolSign ili:tid="520">
+        <ili:Name>StandortfestlegungFestsetzung</ili:Name>
+        <Color ili:ref="13"></Color>
+        <Symbol ili:ref="510"></Symbol>
+        <Scale>18</Scale>
+      </SymbolSign>
+      <SymbolSign ili:tid="521">
+        <ili:Name>StandortfestlegungZwischenergebnis</ili:Name>
+        <Color ili:ref="14"></Color>
+        <Symbol ili:ref="511"></Symbol>
+        <Scale>18</Scale>
+      </SymbolSign>
+      <SymbolSign ili:tid="522">
+        <ili:Name>StandortfestlegungVororientierung</ili:Name>
+        <Color ili:ref="15"></Color>
+        <Symbol ili:ref="512"></Symbol>
+        <Scale>18</Scale>
+      </SymbolSign>
 
     </StandardSigns>
   </ili:datasection>

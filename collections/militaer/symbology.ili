@@ -5,8 +5,10 @@ INTERLIS 2.4;
 !! (spm_sp_militaer_planningmeasure_kraft.sld): one rule per measure type
 !! (MeasureType catalogue, TypeID 32-M-*) and coordination level (shared
 !! CoordinationLevel catalogue, CoordID 1..3). The point-modelled 32-M-1
-!! measures and the facilities are drawn in the official maps with glyphs
-!! of the WESP TrueType font, not redistributable here - not reproduced.
+!! measures (Standortfestlegung) have their own GRAPHIC: a filled circle per
+!! coordination level, after the SPM documentation (signs.xtf). The
+!! facilities, drawn with glyphs of the WESP TrueType font (not
+!! redistributable), are not reproduced.
 
 MODEL Militaer_Symbology (en)
   AT "mailto:test@example.org"
@@ -16,19 +18,14 @@ MODEL Militaer_Symbology (en)
   IMPORTS Militaer_Views;
 
   SIGN BASKET Signs ~ StandardSymbology.StandardSigns
-    OBJECTS OF SurfaceSign: StandortfestlegungFestsetzung, AnlageperimeterFestsetzung, AnlageperimeterZwischenergebnis, AnlageperimeterVororientierung, HindernisbegrenzungFestsetzung, HindernisbegrenzungZwischenergebnis, LaermbelastungFestsetzung, KonsultationsbereichFestsetzung, Laerm60Festsetzung, Laerm60Zwischenergebnis, Laerm60Vororientierung, Laerm55Festsetzung, Laerm55Zwischenergebnis, Laerm55Vororientierung;
+    OBJECTS OF SurfaceSign: AnlageperimeterFestsetzung, AnlageperimeterZwischenergebnis, AnlageperimeterVororientierung, HindernisbegrenzungFestsetzung, HindernisbegrenzungZwischenergebnis, LaermbelastungFestsetzung, KonsultationsbereichFestsetzung, Laerm60Festsetzung, Laerm60Zwischenergebnis, Laerm60Vororientierung, Laerm55Festsetzung, Laerm55Zwischenergebnis, Laerm55Vororientierung;
+    OBJECTS OF SymbolSign: StandortfestlegungFestsetzung, StandortfestlegungZwischenergebnis, StandortfestlegungVororientierung;
 
   TOPIC Graphics =
     DEPENDS ON Militaer_Views.Views;
 
     GRAPHIC PlanningMeasure_Graphics
       BASED ON Militaer_Views.Views.planningmeasure_flaechen =
-
-      StandortfestlegungFestsetzungRule OF StandardSymbology.StandardSigns.SurfaceSign:
-        WHERE (type_id == "32-M-1") AND (coord_id == 1) (
-          Sign := {StandortfestlegungFestsetzung};
-          Geometry := surface -> Surfaces -> Surface;
-          Priority := 1);
 
       AnlageperimeterFestsetzungRule OF StandardSymbology.StandardSigns.SurfaceSign:
         WHERE (type_id == "32-M-2") AND (coord_id == 1) (
@@ -109,6 +106,29 @@ MODEL Militaer_Symbology (en)
           Priority := 14);
 
     END PlanningMeasure_Graphics;
+
+    GRAPHIC PlanningMeasure_Punkte_Graphics
+      BASED ON Militaer_Views.Views.planningmeasure_punkte =
+
+      StandortfestlegungFestsetzungRule OF StandardSymbology.StandardSigns.SymbolSign:
+        WHERE (type_id == "32-M-1") AND (coord_id == 1) (
+          Sign := {StandortfestlegungFestsetzung};
+          Geometry := point -> Points -> Point;
+          Priority := 1);
+
+      StandortfestlegungZwischenergebnisRule OF StandardSymbology.StandardSigns.SymbolSign:
+        WHERE (type_id == "32-M-1") AND (coord_id == 2) (
+          Sign := {StandortfestlegungZwischenergebnis};
+          Geometry := point -> Points -> Point;
+          Priority := 2);
+
+      StandortfestlegungVororientierungRule OF StandardSymbology.StandardSigns.SymbolSign:
+        WHERE (type_id == "32-M-1") AND (coord_id == 3) (
+          Sign := {StandortfestlegungVororientierung};
+          Geometry := point -> Points -> Point;
+          Priority := 3);
+
+    END PlanningMeasure_Punkte_Graphics;
 
   END Graphics;
 
