@@ -14,7 +14,6 @@ services:
   loader:
     build: ./loader
     volumes:
-      - ./models:/models:ro
       - ./collections:/collections:ro
       - ./data:/data:ro
       - styles:/styles

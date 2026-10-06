@@ -138,13 +138,10 @@
       <!-- Points (suel_sp_uebertragungsleitungen_planningmeasure_point.sld,
            mt1/cl3, the only point rule): a #ffed00 WESP glyph 81 (a filled
            circle, per the SPM documentation's glyph table) of size 15. Its
-           second, grey #828282 glyph 58 of size 10 is left out: its shape is
-           not documented here and the WESP font is not redistributable.
-           Lines (..._planningmeasure_line.sld, mt4): a #0066cc line of
-           width 4, round joins and caps. Its WESP glyph 101 ("Aufhebung"
-           cross) repeated along the line every 25 px is left out:
-           StandardSymbology has no sign for a symbol repeated along a
-           line that convert-sld writes as an SE GraphicStroke. -->
+           second, grey #828282 glyph 58 of size 10 is a block arrow: only
+           its head is drawn (below). Lines (..._planningmeasure_line.sld,
+           mt4): a #0066cc line of width 4, round joins and caps, plus the
+           repeated glyph 101 X (below). -->
       <Color ili:tid="3"><!-- #ffed00 -->
         <Name>suel_vororientierung_yellow</Name>
         <L>92.4973</L>
@@ -202,6 +199,140 @@
         <Color ili:ref="3"></Color>
         <Symbol ili:ref="51"></Symbol>
         <Scale>15</Scale>
+      </SymbolSign>
+
+      <!-- The WESP glyphs these SLDs use, redrawn as native marks (glyph
+           shapes read from the WESP font's own outlines): glyph 101 is an X,
+           repeated along the mt4 lines every 25 px after its own 18
+           (LineStyle_Pattern, PLength 43), colored by coordination level;
+           glyph 58 is a right-pointing block arrow, of which the head
+           (a triangle turned 90 degrees) is drawn on the mt1 points. -->
+      <Color ili:tid="5"><!-- #828282 -->
+        <Name>suel_pfeil_grey</Name>
+        <L>54.3668</L>
+        <C>0.0085</C>
+        <H>301.9781</H>
+        <T>1.0</T>
+      </Color>
+      <FontSymbol ili:tid="53">
+        <Name>X</Name>
+        <Font ili:ref="50"></Font>
+        <Geometry>
+          <FontSymbol_Surface>
+            <FillColor ili:ref="1"></FillColor>
+            <Geometry>
+              <SURFACE>
+                <BOUNDARY>
+                  <POLYLINE>
+                  <COORD><C1>-0.235702</C1><C2>0.471405</C2></COORD>
+                  <COORD><C1>0.000000</C1><C2>0.235702</C2></COORD>
+                  <COORD><C1>0.235702</C1><C2>0.471405</C2></COORD>
+                  <COORD><C1>0.471405</C1><C2>0.235702</C2></COORD>
+                  <COORD><C1>0.235702</C1><C2>-0.000000</C2></COORD>
+                  <COORD><C1>0.471405</C1><C2>-0.235702</C2></COORD>
+                  <COORD><C1>0.235702</C1><C2>-0.471405</C2></COORD>
+                  <COORD><C1>-0.000000</C1><C2>-0.235702</C2></COORD>
+                  <COORD><C1>-0.235702</C1><C2>-0.471405</C2></COORD>
+                  <COORD><C1>-0.471405</C1><C2>-0.235702</C2></COORD>
+                  <COORD><C1>-0.235702</C1><C2>0.000000</C2></COORD>
+                  <COORD><C1>-0.471405</C1><C2>0.235702</C2></COORD>
+                  <COORD><C1>-0.235702</C1><C2>0.471405</C2></COORD>
+                  </POLYLINE>
+                </BOUNDARY>
+              </SURFACE>
+            </Geometry>
+          </FontSymbol_Surface>
+        </Geometry>
+      </FontSymbol>
+      <FontSymbol ili:tid="54">
+        <Name>Pfeilspitze</Name>
+        <Font ili:ref="50"></Font>
+        <Geometry>
+          <FontSymbol_Surface>
+            <FillColor ili:ref="5"></FillColor>
+            <Geometry>
+              <SURFACE>
+                <BOUNDARY>
+                  <POLYLINE>
+                  <COORD><C1>0.500000</C1><C2>-0.000000</C2></COORD>
+                  <COORD><C1>-0.500000</C1><C2>0.500000</C2></COORD>
+                  <COORD><C1>-0.500000</C1><C2>-0.500000</C2></COORD>
+                  <COORD><C1>0.500000</C1><C2>-0.000000</C2></COORD>
+                  </POLYLINE>
+                </BOUNDARY>
+              </SURFACE>
+            </Geometry>
+          </FontSymbol_Surface>
+        </Geometry>
+      </FontSymbol>
+      <LineStyle_Pattern ili:tid="24">
+        <Name>Kreuze_Festsetzung</Name>
+        <PLength>43</PLength>
+        <Symbols>
+          <Pattern_Symbol>
+            <FontSymbRef ili:ref="53"></FontSymbRef>
+            <ColorRef ili:ref="1"></ColorRef>
+            <Scale>18</Scale>
+            <Dist>0</Dist>
+            <Offset>0</Offset>
+          </Pattern_Symbol>
+        </Symbols>
+      </LineStyle_Pattern>
+      <PolylineSign ili:tid="34">
+        <ili:Name>AufhebungFestsetzung</ili:Name>
+        <Style ili:ref="24">
+          <PolylineSignLineStyleAssoc>
+            <Offset>0.0</Offset>
+          </PolylineSignLineStyleAssoc>
+        </Style>
+      </PolylineSign>
+      <LineStyle_Pattern ili:tid="25">
+        <Name>Kreuze_Zwischenergebnis</Name>
+        <PLength>43</PLength>
+        <Symbols>
+          <Pattern_Symbol>
+            <FontSymbRef ili:ref="53"></FontSymbRef>
+            <ColorRef ili:ref="2"></ColorRef>
+            <Scale>18</Scale>
+            <Dist>0</Dist>
+            <Offset>0</Offset>
+          </Pattern_Symbol>
+        </Symbols>
+      </LineStyle_Pattern>
+      <PolylineSign ili:tid="35">
+        <ili:Name>AufhebungZwischenergebnis</ili:Name>
+        <Style ili:ref="25">
+          <PolylineSignLineStyleAssoc>
+            <Offset>0.0</Offset>
+          </PolylineSignLineStyleAssoc>
+        </Style>
+      </PolylineSign>
+      <LineStyle_Pattern ili:tid="26">
+        <Name>Kreuze_Vororientierung</Name>
+        <PLength>43</PLength>
+        <Symbols>
+          <Pattern_Symbol>
+            <FontSymbRef ili:ref="53"></FontSymbRef>
+            <ColorRef ili:ref="3"></ColorRef>
+            <Scale>18</Scale>
+            <Dist>0</Dist>
+            <Offset>0</Offset>
+          </Pattern_Symbol>
+        </Symbols>
+      </LineStyle_Pattern>
+      <PolylineSign ili:tid="36">
+        <ili:Name>AufhebungVororientierung</ili:Name>
+        <Style ili:ref="26">
+          <PolylineSignLineStyleAssoc>
+            <Offset>0.0</Offset>
+          </PolylineSignLineStyleAssoc>
+        </Style>
+      </PolylineSign>
+      <SymbolSign ili:tid="55">
+        <ili:Name>Pfeilspitze</ili:Name>
+        <Color ili:ref="5"></Color>
+        <Symbol ili:ref="54"></Symbol>
+        <Scale>10</Scale>
       </SymbolSign>
 
     </StandardSigns>

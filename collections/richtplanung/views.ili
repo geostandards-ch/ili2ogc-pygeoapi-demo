@@ -1,35 +1,49 @@
 INTERLIS 2.3;
 
-!! Map views of the richtplanung collection: each VIEW projects one class with
-!! the geometry its GRAPHIC draws and every attribute its WHERE clauses
-!! test, references flattened. convert-sql turns each into a SQL view the
-!! SLD filters run on as is.
+!! Views of the richtplanung collection: what its feature collection serves and
+!! its map is drawn from - the geometry, the attributes, references
+!! resolved to the referenced object's attributes, a multilingual text as
+!! one column per language. convert-sql turns each VIEW into a SQL view.
 
 MODEL Richtplanung_Views (en)
   AT "mailto:test@example.org"
-  VERSION "2026-10-06" =
+  VERSION "2026-10-07" =
 
   IMPORTS RichtplanungErneuerbareEnergien_V1;
 
   VIEW TOPIC Views EXTENDS RichtplanungErneuerbareEnergien_V1.Objekte =
 
-    VIEW flaeche_map
+    VIEW flaechen
       PROJECTION OF F ~ RichtplanungErneuerbareEnergien_V1.Objekte.Flaeche;
       =
       ATTRIBUTE
+        objektbezeichnung := F -> Objektbezeichnung;
+        beschrieb := F -> Beschrieb;
         objektart := F -> Objektart;
         energieform := F -> Energieform -> Reference -> Energieform;
+        genehmigungsdatum := F -> Genehmigungsdatum;
+        beschlussdatumkanton := F -> BeschlussdatumKanton;
+        kanton := F -> Kanton;
+        weblink := F -> Weblink;
+        bemerkungen := F -> Bemerkungen;
         geometrie := F -> Geometrie;
-    END flaeche_map;
+    END flaechen;
 
-    VIEW punkt_map
+    VIEW punkte
       PROJECTION OF P ~ RichtplanungErneuerbareEnergien_V1.Objekte.Punkt;
       =
       ATTRIBUTE
+        objektbezeichnung := P -> Objektbezeichnung;
+        beschrieb := P -> Beschrieb;
         objektart := P -> Objektart;
         energieform := P -> Energieform -> Reference -> Energieform;
+        genehmigungsdatum := P -> Genehmigungsdatum;
+        beschlussdatumkanton := P -> BeschlussdatumKanton;
+        kanton := P -> Kanton;
+        weblink := P -> Weblink;
+        bemerkungen := P -> Bemerkungen;
         geometrie := P -> Geometrie;
-    END punkt_map;
+    END punkte;
 
   END Views;
 

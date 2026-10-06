@@ -16,7 +16,7 @@ MODEL Waldabstandslinien_Symbology (en)
     DEPENDS ON Waldabstandslinien_Views.Views;
 
     GRAPHIC Waldabstand_Graphics
-      BASED ON Waldabstandslinien_Views.Views.waldabstand_linie_map =
+      BASED ON Waldabstandslinien_Views.Views.linien =
 
       WaldabstandRule OF StandardSymbology.StandardSigns.PolylineSign: (
           Sign := {WaldGreen};

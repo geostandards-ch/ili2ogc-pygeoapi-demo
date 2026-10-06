@@ -123,8 +123,8 @@ resources:
                   search_path: [richtplanung, public]
               id_field: t_ili_tid
               geom_field: geometrie
-              table: flaeche_features
-              properties: [objektbezeichnung, beschrieb, objektart, energieform_reference_tid, energieform_reference_energieform, genehmigungsdatum, beschlussdatumkanton, kanton, weblink, bemerkungen]
+              table: flaechen
+              properties: [objektbezeichnung, beschrieb, objektart, energieform, genehmigungsdatum, beschlussdatumkanton, kanton, weblink, bemerkungen]
               storage_crs: http://www.opengis.net/def/crs/EPSG/0/2056
               crs:
                   - http://www.opengis.net/def/crs/EPSG/0/2056
@@ -216,15 +216,15 @@ resources:
                   search_path: [waldabstandslinien, public]
               id_field: t_ili_tid
               geom_field: geometrie
-              table: waldabstand_linie_features
-              properties: [publiziertab, publiziertbis, rechtsstatus, bemerkungen, wal_tid, wal_code, wal_bezeichnung, wal_abkuerzung, wal_verbindlichkeit, wal_bemerkungen]
+              table: linien
+              properties: [publiziertab, publiziertbis, rechtsstatus, bemerkungen, typ_code, typ_bezeichnung, typ_abkuerzung, typ_verbindlichkeit]
               storage_crs: http://www.opengis.net/def/crs/EPSG/0/2056
               crs:
                   - http://www.opengis.net/def/crs/EPSG/0/2056
                   - http://www.opengis.net/def/crs/OGC/1.3/CRS84
             - type: map
               name: MapScript
-              data: 'PG:host=postgis dbname=postgres user=postgres password=postgres tables=waldabstandslinien.waldabstand_linie_map(geometrie)'
+              data: 'PG:host=postgis dbname=postgres user=postgres password=postgres tables=waldabstandslinien.linien(geometrie)'
               options:
                   type: MS_LAYER_LINE
                   layer: Waldabstand_Graphics
@@ -313,7 +313,7 @@ resources:
                   search_path: [mainroads, public]
               id_field: t_ili_tid
               geom_field: geometry
-              table: roadsegment
+              table: roadsegments
               properties: [canton, roadnumber, segmentdescription]
               storage_crs: http://www.opengis.net/def/crs/EPSG/0/2056
               crs:
@@ -321,7 +321,7 @@ resources:
                   - http://www.opengis.net/def/crs/OGC/1.3/CRS84
             - type: map
               name: MapScript
-              data: 'PG:host=postgis dbname=postgres user=postgres password=postgres tables=mainroads.roadsegment_map(geometry)'
+              data: 'PG:host=postgis dbname=postgres user=postgres password=postgres tables=mainroads.roadsegments(geometry)'
               options:
                   type: MS_LAYER_LINE
                   layer: Roads_Graphics
@@ -393,7 +393,7 @@ resources:
                   search_path: [buildinglines, public]
               id_field: t_ili_tid
               geom_field: geometry
-              table: buildingline
+              table: buildinglines
               properties: [status, approvaldate, approvingauthority, planningapprovalname, publicationdatefrom, publicationdateto, weblink]
               storage_crs: http://www.opengis.net/def/crs/EPSG/0/2056
               crs:
@@ -401,7 +401,7 @@ resources:
                   - http://www.opengis.net/def/crs/OGC/1.3/CRS84
             - type: map
               name: MapScript
-              data: 'PG:host=postgis dbname=postgres user=postgres password=postgres tables=buildinglines.buildingline_map(geometry)'
+              data: 'PG:host=postgis dbname=postgres user=postgres password=postgres tables=buildinglines.buildinglines(geometry)'
               options:
                   type: MS_LAYER_LINE
                   layer: BuildingLines_Graphics
@@ -559,7 +559,7 @@ resources:
                   - http://www.opengis.net/def/crs/OGC/1.3/CRS84
             - type: map
               name: MapScript
-              data: 'PG:host=postgis dbname=postgres user=postgres password=postgres tables=uebertragungsleitungen.planningmeasure_linien(line)'
+              data: 'PG:host=postgis dbname=postgres user=postgres password=postgres tables=uebertragungsleitungen.planningmeasure_linien_graphics(line)'
               options:
                   type: MS_LAYER_LINE
                   layer: PlanningMeasure_Linien_Graphics
@@ -638,7 +638,7 @@ resources:
                   - http://www.opengis.net/def/crs/OGC/1.3/CRS84
             - type: map
               name: MapScript
-              data: 'PG:host=postgis dbname=postgres user=postgres password=postgres tables=uebertragungsleitungen.planningmeasure_punkte(point)'
+              data: 'PG:host=postgis dbname=postgres user=postgres password=postgres tables=uebertragungsleitungen.planningmeasure_punkte_graphics(point)'
               options:
                   type: MS_LAYER_POINT
                   layer: PlanningMeasure_Punkte_Graphics
@@ -719,9 +719,8 @@ resources:
                   search_path: [asyl, public]
               id_field: t_ili_tid
               geom_field: point
-              table: facility_features
-              # Readable columns only; the other geometry columns are left out (one geometry per feature).
-              properties: [name, description, facilitykind_reference_kindid, facilitykind_reference_name, facilitystatus_reference_statusid, facilitystatus_reference_name, symbolori, modinfo_validfrom, modinfo_validuntil, modinfo_latestmodification, object_tid, object_name]
+              table: facility_punkte
+              properties: [name, name_de, name_en, name_fr, name_it, name_rm, description, description_de, description_en, description_fr, description_it, description_rm, kind_id, kind_name, kind_name_de, kind_name_en, kind_name_fr, kind_name_it, kind_name_rm, status_id, status_name, status_name_de, status_name_en, status_name_fr, status_name_it, status_name_rm, symbolori, modinfo_validfrom, modinfo_validuntil, modinfo_latestmodification, object_name, object_name_de, object_name_en, object_name_fr, object_name_it, object_name_rm]
               storage_crs: http://www.opengis.net/def/crs/EPSG/0/2056
               crs:
                   - http://www.opengis.net/def/crs/EPSG/0/2056
@@ -815,8 +814,8 @@ resources:
                   search_path: [richtplanung, public]
               id_field: t_ili_tid
               geom_field: geometrie
-              table: punkt_features
-              properties: [objektbezeichnung, beschrieb, objektart, energieform_reference_tid, energieform_reference_energieform, genehmigungsdatum, beschlussdatumkanton, kanton, weblink, bemerkungen]
+              table: punkte
+              properties: [objektbezeichnung, beschrieb, objektart, energieform, genehmigungsdatum, beschlussdatumkanton, kanton, weblink, bemerkungen]
               storage_crs: http://www.opengis.net/def/crs/EPSG/0/2056
               crs:
                   - http://www.opengis.net/def/crs/EPSG/0/2056

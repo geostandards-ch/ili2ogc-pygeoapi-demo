@@ -16,7 +16,7 @@ MODEL MainRoads_Symbology (en)
     DEPENDS ON MainRoads_Views.Views;
 
     GRAPHIC Roads_Graphics
-      BASED ON MainRoads_Views.Views.roadsegment_map =
+      BASED ON MainRoads_Views.Views.roadsegments =
 
       RoadsRule OF StandardSymbology.StandardSigns.PolylineSign: (
           Sign := {RoadsBrown};

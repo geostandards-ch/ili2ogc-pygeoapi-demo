@@ -25,7 +25,7 @@ MODEL Asyl_Symbology (en)
     DEPENDS ON Asyl_Views.Views;
 
     GRAPHIC Facility_Graphics
-      BASED ON Asyl_Views.Views.facility_map =
+      BASED ON Asyl_Views.Views.facility_punkte =
 
       BazBestehendRule OF StandardSymbology.StandardSigns.SymbolSign:
         WHERE (kind_id == "198-F-01") AND (status_id == 1) (

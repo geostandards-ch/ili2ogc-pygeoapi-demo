@@ -25,7 +25,7 @@ MODEL Richtplanung_Symbology (en)
     DEPENDS ON Richtplanung_Views.Views;
 
     GRAPHIC Flaeche_Graphics
-      BASED ON Richtplanung_Views.Views.flaeche_map =
+      BASED ON Richtplanung_Views.Views.flaechen =
 
       RichtplaninhaltRule OF StandardSymbology.StandardSigns.SurfaceSign:
         WHERE (objektart == #Richtplaninhalt.Vororientierung) OR (objektart == #Richtplaninhalt.Zwischenergebnis)
@@ -43,7 +43,7 @@ MODEL Richtplanung_Symbology (en)
     END Flaeche_Graphics;
 
     GRAPHIC Punkt_Graphics
-      BASED ON Richtplanung_Views.Views.punkt_map =
+      BASED ON Richtplanung_Views.Views.punkte =
 
       WasserkraftRichtplaninhaltRule OF StandardSymbology.StandardSigns.SymbolSign:
         WHERE ((objektart == #Richtplaninhalt.Vororientierung) OR (objektart == #Richtplaninhalt.Zwischenergebnis)

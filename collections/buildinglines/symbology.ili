@@ -16,7 +16,7 @@ MODEL BuildingLines_Symbology (en)
     DEPENDS ON BuildingLines_Views.Views;
 
     GRAPHIC BuildingLines_Graphics
-      BASED ON BuildingLines_Views.Views.buildingline_map =
+      BASED ON BuildingLines_Views.Views.buildinglines =
 
       BuildingLinesRule OF StandardSymbology.StandardSigns.PolylineSign: (
           Sign := {BuildingLinesGreen};

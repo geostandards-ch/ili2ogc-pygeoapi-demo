@@ -1,26 +1,36 @@
 INTERLIS 2.3;
 
-!! Map views of the asyl collection: each VIEW projects one class with
-!! the geometry its GRAPHIC draws and every attribute its WHERE clauses
-!! test, references flattened. convert-sql turns each into a SQL view the
-!! SLD filters run on as is.
+!! Views of the asyl collection: what its feature collection serves and
+!! its map is drawn from - the geometry, the attributes, references
+!! resolved to the referenced object's attributes, a multilingual text as
+!! one column per language. convert-sql turns each VIEW into a SQL view.
 
 MODEL Asyl_Views (en)
   AT "mailto:test@example.org"
-  VERSION "2026-10-06" =
+  VERSION "2026-10-07" =
 
   IMPORTS SectoralPlanForAsylum_LV95_V1_4;
 
   VIEW TOPIC Views EXTENDS SectoralPlanForAsylum_LV95_V1_4.SectoralPlanForAsylum_WithLatestModification =
 
-    VIEW facility_map
+    VIEW facility_punkte
       PROJECTION OF F ~ BaseModel_SectoralPlans_LV95_V1_4.SectoralPlans_WithLatestModification.Facility;
+      WHERE DEFINED (F -> Point);
       =
       ATTRIBUTE
+        name := F -> Name;
+        description := F -> Description;
         kind_id := F -> FacilityKind -> Reference -> KindID;
+        kind_name := F -> FacilityKind -> Reference -> Name;
         status_id := F -> FacilityStatus -> Reference -> StatusID;
+        status_name := F -> FacilityStatus -> Reference -> Name;
+        symbolori := F -> SymbolOri;
+        modinfo_validfrom := F -> ModInfo -> ValidFrom;
+        modinfo_validuntil := F -> ModInfo -> ValidUntil;
+        modinfo_latestmodification := F -> ModInfo -> LatestModification;
+        object_name := F -> Object -> Name;
         point := F -> Point;
-    END facility_map;
+    END facility_punkte;
 
   END Views;
 

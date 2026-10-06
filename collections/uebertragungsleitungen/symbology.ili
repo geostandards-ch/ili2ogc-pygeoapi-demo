@@ -22,8 +22,8 @@ MODEL Uebertragungsleitungen_Symbology (en)
 
   SIGN BASKET Signs ~ StandardSymbology.StandardSigns
     OBJECTS OF SurfaceSign: CorridorFestsetzung, KorridorZwischenergebnis, GebietFestsetzung;
-    OBJECTS OF PolylineSign: LeitungAufhebung;
-    OBJECTS OF SymbolSign: EndpunktVororientierung;
+    OBJECTS OF PolylineSign: LeitungAufhebung, AufhebungFestsetzung, AufhebungZwischenergebnis, AufhebungVororientierung;
+    OBJECTS OF SymbolSign: EndpunktVororientierung, Pfeilspitze;
 
   TOPIC Graphics =
     DEPENDS ON Uebertragungsleitungen_Views.Views;
@@ -60,6 +60,24 @@ MODEL Uebertragungsleitungen_Symbology (en)
           Geometry := line -> Lines -> Line;
           Priority := 1);
 
+      AufhebungFestsetzungRule OF StandardSymbology.StandardSigns.PolylineSign:
+        WHERE (type_id == "mt4") AND (coord_id == 1) (
+          Sign := {AufhebungFestsetzung};
+          Geometry := line -> Lines -> Line;
+          Priority := 2);
+
+      AufhebungZwischenergebnisRule OF StandardSymbology.StandardSigns.PolylineSign:
+        WHERE (type_id == "mt4") AND (coord_id == 2) (
+          Sign := {AufhebungZwischenergebnis};
+          Geometry := line -> Lines -> Line;
+          Priority := 2);
+
+      AufhebungVororientierungRule OF StandardSymbology.StandardSigns.PolylineSign:
+        WHERE (type_id == "mt4") AND (coord_id == 3) (
+          Sign := {AufhebungVororientierung};
+          Geometry := line -> Lines -> Line;
+          Priority := 2);
+
     END PlanningMeasure_Linien_Graphics;
 
     GRAPHIC PlanningMeasure_Punkte_Graphics
@@ -70,6 +88,12 @@ MODEL Uebertragungsleitungen_Symbology (en)
           Sign := {EndpunktVororientierung};
           Geometry := point -> Points -> Point;
           Priority := 1);
+
+      PfeilspitzeRule OF StandardSymbology.StandardSigns.SymbolSign:
+        WHERE (type_id == "mt1") AND (coord_id == 3) (
+          Sign := {Pfeilspitze};
+          Geometry := point -> Points -> Point;
+          Priority := 2);
 
     END PlanningMeasure_Punkte_Graphics;
 

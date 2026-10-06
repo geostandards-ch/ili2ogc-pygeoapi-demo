@@ -10,8 +10,8 @@ docker compose up --build
 ```
 
 Then open <http://localhost:5000>. Each dataset is a directory under
-`collections/` (its INTERLIS VIEWs, symbology and signs); `models/` holds
-the official models they import.
+`collections/` (its INTERLIS VIEWs, symbology and signs); the official
+models they import are fetched from the INTERLIS model repositories.
 
 ## Data
 
