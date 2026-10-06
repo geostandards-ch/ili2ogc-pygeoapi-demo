@@ -121,9 +121,10 @@ resources:
                   user: postgres
                   password: postgres
                   search_path: [richtplanung, public]
-              id_field: t_id
+              id_field: t_ili_tid
               geom_field: geometrie
               table: flaeche_features
+              properties: [objektbezeichnung, beschrieb, objektart, energieform_reference_tid, energieform_reference_energieform, genehmigungsdatum, beschlussdatumkanton, kanton, weblink, bemerkungen]
               storage_crs: http://www.opengis.net/def/crs/EPSG/0/2056
               crs:
                   - http://www.opengis.net/def/crs/EPSG/0/2056
@@ -213,9 +214,10 @@ resources:
                   user: postgres
                   password: postgres
                   search_path: [waldabstandslinien, public]
-              id_field: t_id
+              id_field: t_ili_tid
               geom_field: geometrie
               table: waldabstand_linie_features
+              properties: [publiziertab, publiziertbis, rechtsstatus, bemerkungen, wal_tid, wal_code, wal_bezeichnung, wal_abkuerzung, wal_verbindlichkeit, wal_bemerkungen]
               storage_crs: http://www.opengis.net/def/crs/EPSG/0/2056
               crs:
                   - http://www.opengis.net/def/crs/EPSG/0/2056
@@ -309,9 +311,10 @@ resources:
                   user: postgres
                   password: postgres
                   search_path: [mainroads, public]
-              id_field: t_id
+              id_field: t_ili_tid
               geom_field: geometry
               table: roadsegment
+              properties: [canton, roadnumber, segmentdescription]
               storage_crs: http://www.opengis.net/def/crs/EPSG/0/2056
               crs:
                   - http://www.opengis.net/def/crs/EPSG/0/2056
@@ -388,9 +391,10 @@ resources:
                   user: postgres
                   password: postgres
                   search_path: [buildinglines, public]
-              id_field: t_id
+              id_field: t_ili_tid
               geom_field: geometry
               table: buildingline
+              properties: [status, approvaldate, approvingauthority, planningapprovalname, publicationdatefrom, publicationdateto, weblink]
               storage_crs: http://www.opengis.net/def/crs/EPSG/0/2056
               crs:
                   - http://www.opengis.net/def/crs/EPSG/0/2056
@@ -466,11 +470,11 @@ resources:
                   user: postgres
                   password: postgres
                   search_path: [uebertragungsleitungen, public]
-              id_field: t_id
+              id_field: t_ili_tid
               geom_field: surface
               table: planningmeasure_features
               # Readable columns only; the other geometry columns are left out (one geometry per feature).
-              properties: [t_ili_tid, name, measuretype_reference_typeid, measuretype_reference_name, coordinationlevel_reference_coordid, coordinationlevel_reference_name, planningstatus_reference_name, facility_name, facility_transmissionlinesfacility_name, modinfo_validfrom, modinfo_latestmodification]
+              properties: [name, description, measuretype_reference_typeid, measuretype_reference_name, coordinationlevel_reference_coordid, coordinationlevel_reference_name, planningstatus_reference_statusid, planningstatus_reference_name, symbolori, modinfo_validfrom, modinfo_validuntil, modinfo_latestmodification, facility_tid, facility_name, facility_transmissionlinesfacility_tid, facility_transmissionlinesfacility_name]
               storage_crs: http://www.opengis.net/def/crs/EPSG/0/2056
               crs:
                   - http://www.opengis.net/def/crs/EPSG/0/2056
@@ -556,11 +560,11 @@ resources:
                   user: postgres
                   password: postgres
                   search_path: [asyl, public]
-              id_field: t_id
+              id_field: t_ili_tid
               geom_field: point
               table: facility_features
               # Readable columns only; the other geometry columns are left out (one geometry per feature).
-              properties: [t_ili_tid, name, facilitykind_reference_kindid, facilitykind_reference_name, facilitystatus_reference_name, object_name, symbolori, modinfo_validfrom, modinfo_latestmodification]
+              properties: [name, description, facilitykind_reference_kindid, facilitykind_reference_name, facilitystatus_reference_statusid, facilitystatus_reference_name, symbolori, modinfo_validfrom, modinfo_validuntil, modinfo_latestmodification, object_tid, object_name]
               storage_crs: http://www.opengis.net/def/crs/EPSG/0/2056
               crs:
                   - http://www.opengis.net/def/crs/EPSG/0/2056
@@ -652,9 +656,10 @@ resources:
                   user: postgres
                   password: postgres
                   search_path: [richtplanung, public]
-              id_field: t_id
+              id_field: t_ili_tid
               geom_field: geometrie
               table: punkt_features
+              properties: [objektbezeichnung, beschrieb, objektart, energieform_reference_tid, energieform_reference_energieform, genehmigungsdatum, beschlussdatumkanton, kanton, weblink, bemerkungen]
               storage_crs: http://www.opengis.net/def/crs/EPSG/0/2056
               crs:
                   - http://www.opengis.net/def/crs/EPSG/0/2056
@@ -737,11 +742,11 @@ resources:
                   user: postgres
                   password: postgres
                   search_path: [militaer, public]
-              id_field: t_id
+              id_field: t_ili_tid
               geom_field: surface
               table: planningmeasure_features
               # Readable columns only; the other geometry columns are left out (one geometry per feature).
-              properties: [t_ili_tid, name, measuretype_reference_typeid, measuretype_reference_name, coordinationlevel_reference_coordid, coordinationlevel_reference_name, planningstatus_reference_name, facility_facility_spm_name, modinfo_validfrom, modinfo_latestmodification]
+              properties: [name, description, measuretype_reference_typeid, measuretype_reference_name, coordinationlevel_reference_coordid, coordinationlevel_reference_name, planningstatus_reference_statusid, planningstatus_reference_name, symbolori, modinfo_validfrom, modinfo_validuntil, modinfo_latestmodification, facility_tid, facility_name, facility_facility_spm_facilitynumber_spm, facility_facility_spm_name]
               storage_crs: http://www.opengis.net/def/crs/EPSG/0/2056
               crs:
                   - http://www.opengis.net/def/crs/EPSG/0/2056
