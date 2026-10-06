@@ -1,9 +1,11 @@
 INTERLIS 2.3;
 
-!! Map views of the uebertragungsleitungen collection: each VIEW projects one class with
-!! the geometry its GRAPHIC draws and every attribute its WHERE clauses
-!! test, references flattened. convert-sql turns each into a SQL view the
-!! SLD filters run on as is.
+!! Views of the uebertragungsleitungen collection: one VIEW per geometry, since a
+!! PlanningMeasure carries a Point, a Line or a Surface and a feature
+!! service serves one geometry per collection. Each keeps only the
+!! measures that have its geometry, with the catalogue keys and their
+!! names resolved. planningmeasure_flaechen also feeds the map: its
+!! GRAPHIC tests type_id and coord_id.
 
 MODEL Uebertragungsleitungen_Views (en)
   AT "mailto:test@example.org"
@@ -13,14 +15,68 @@ MODEL Uebertragungsleitungen_Views (en)
 
   VIEW TOPIC Views EXTENDS TransmissionLinesSectoralPlan_V1_4.TransmissionLinesSectoralPlan =
 
-    VIEW planningmeasure_map
+    VIEW planningmeasure_flaechen
       PROJECTION OF M ~ BaseModel_SectoralPlans_LV95_V1_4.SectoralPlans_WithLatestModification.PlanningMeasure;
+      WHERE DEFINED (M -> Surface);
       =
       ATTRIBUTE
+        name := M -> Name;
+        description := M -> Description;
         type_id := M -> MeasureType -> Reference -> TypeID;
+        type_name := M -> MeasureType -> Reference -> Name;
         coord_id := M -> CoordinationLevel -> Reference -> CoordID;
+        coord_name := M -> CoordinationLevel -> Reference -> Name;
+        status_id := M -> PlanningStatus -> Reference -> StatusID;
+        status_name := M -> PlanningStatus -> Reference -> Name;
+        symbolori := M -> SymbolOri;
+        modinfo_validfrom := M -> ModInfo -> ValidFrom;
+        modinfo_validuntil := M -> ModInfo -> ValidUntil;
+        modinfo_latestmodification := M -> ModInfo -> LatestModification;
+        facility_name := M -> Facility -> Name;
         surface := M -> Surface;
-    END planningmeasure_map;
+    END planningmeasure_flaechen;
+
+    VIEW planningmeasure_linien
+      PROJECTION OF M ~ BaseModel_SectoralPlans_LV95_V1_4.SectoralPlans_WithLatestModification.PlanningMeasure;
+      WHERE DEFINED (M -> Line);
+      =
+      ATTRIBUTE
+        name := M -> Name;
+        description := M -> Description;
+        type_id := M -> MeasureType -> Reference -> TypeID;
+        type_name := M -> MeasureType -> Reference -> Name;
+        coord_id := M -> CoordinationLevel -> Reference -> CoordID;
+        coord_name := M -> CoordinationLevel -> Reference -> Name;
+        status_id := M -> PlanningStatus -> Reference -> StatusID;
+        status_name := M -> PlanningStatus -> Reference -> Name;
+        symbolori := M -> SymbolOri;
+        modinfo_validfrom := M -> ModInfo -> ValidFrom;
+        modinfo_validuntil := M -> ModInfo -> ValidUntil;
+        modinfo_latestmodification := M -> ModInfo -> LatestModification;
+        facility_name := M -> Facility -> Name;
+        line := M -> Line;
+    END planningmeasure_linien;
+
+    VIEW planningmeasure_punkte
+      PROJECTION OF M ~ BaseModel_SectoralPlans_LV95_V1_4.SectoralPlans_WithLatestModification.PlanningMeasure;
+      WHERE DEFINED (M -> Point);
+      =
+      ATTRIBUTE
+        name := M -> Name;
+        description := M -> Description;
+        type_id := M -> MeasureType -> Reference -> TypeID;
+        type_name := M -> MeasureType -> Reference -> Name;
+        coord_id := M -> CoordinationLevel -> Reference -> CoordID;
+        coord_name := M -> CoordinationLevel -> Reference -> Name;
+        status_id := M -> PlanningStatus -> Reference -> StatusID;
+        status_name := M -> PlanningStatus -> Reference -> Name;
+        symbolori := M -> SymbolOri;
+        modinfo_validfrom := M -> ModInfo -> ValidFrom;
+        modinfo_validuntil := M -> ModInfo -> ValidUntil;
+        modinfo_latestmodification := M -> ModInfo -> LatestModification;
+        facility_name := M -> Facility -> Name;
+        point := M -> Point;
+    END planningmeasure_punkte;
 
   END Views;
 

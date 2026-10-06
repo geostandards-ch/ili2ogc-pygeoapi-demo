@@ -22,7 +22,7 @@ MODEL Militaer_Symbology (en)
     DEPENDS ON Militaer_Views.Views;
 
     GRAPHIC PlanningMeasure_Graphics
-      BASED ON Militaer_Views.Views.planningmeasure_map =
+      BASED ON Militaer_Views.Views.planningmeasure_flaechen =
 
       StandortfestlegungFestsetzungRule OF StandardSymbology.StandardSigns.SurfaceSign:
         WHERE (type_id == "32-M-1") AND (coord_id == 1) (

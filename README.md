@@ -48,14 +48,21 @@ the VIEWs.
 | `waldabstandslinien` | [Waldabstandslinien](https://www.geocat.ch/geonetwork/srv/eng/catalog.search#/metadata/a81f0dc0-a795-4035-822c-4c3bf36e0916) (canton Glarus) | KGK-CGC / [geodienste.ch](https://geodienste.ch) |
 | `mainroads` | [Main roads network](https://www.geocat.ch/geonetwork/srv/eng/catalog.search#/metadata/c1333de6-fb91-4b0b-be95-8eab89b05358) | FEDRO |
 | `buildinglines` | [Building lines for motorways](https://www.geocat.ch/geonetwork/srv/eng/catalog.search#/metadata/fce3b347-cc58-4b29-bb87-a35eed4487ea) (30-object sample) | FEDRO |
-| `uebertragungsleitungen` | [Electricity Transmission Lines sectoral plan](https://www.geocat.ch/geonetwork/srv/eng/catalog.search#/metadata/e1134feb-55d7-4b44-8e13-125e983b259b) | SFOE |
+| `uebertragungsleitungen` | [Electricity Transmission Lines sectoral plan](https://www.geocat.ch/geonetwork/srv/eng/catalog.search#/metadata/e1134feb-55d7-4b44-8e13-125e983b259b), surfaces | SFOE |
+| `uebertragungsleitungen_linien` | [Electricity Transmission Lines sectoral plan](https://www.geocat.ch/geonetwork/srv/eng/catalog.search#/metadata/e1134feb-55d7-4b44-8e13-125e983b259b), lines ² | SFOE |
+| `uebertragungsleitungen_punkte` | [Electricity Transmission Lines sectoral plan](https://www.geocat.ch/geonetwork/srv/eng/catalog.search#/metadata/e1134feb-55d7-4b44-8e13-125e983b259b), points ² | SFOE |
 | `asyl` | [Sectoral plan for Asylum (SPA)](https://www.geocat.ch/geonetwork/srv/eng/catalog.search#/metadata/23a9027d-37a1-4ba4-b529-54c658540914) | SEM |
-| `militaer` | [Sectoral Plan Military (SPM)](https://www.geocat.ch/geonetwork/srv/eng/catalog.search#/metadata/5263bc47-8723-4c02-988a-4ae0d425099c) ¹ | armasuisse / DDPS |
+| `militaer` | [Sectoral Plan Military (SPM)](https://www.geocat.ch/geonetwork/srv/eng/catalog.search#/metadata/5263bc47-8723-4c02-988a-4ae0d425099c), surfaces ¹ | armasuisse / DDPS |
+| `militaer_punkte` | [Sectoral Plan Military (SPM)](https://www.geocat.ch/geonetwork/srv/eng/catalog.search#/metadata/5263bc47-8723-4c02-988a-4ae0d425099c), points ¹ ² | armasuisse / DDPS |
 
 ¹ The published INTERLIS transfer of this dataset carries no coordinates (every point and surface is
 empty), while its File Geodatabase export has them. `data/source-xtf/SPM_V1_4_In_Kraft_LV95_mit_Geometrie.xtf.zip`
 is the published transfer completed with those geometries, matched by TID; `tools/complete_militaer_xtf.py`
 reproduces it and ilivalidator accepts it with no error.
+
+² A sectoral plan's planning measure has a point, a line or a surface; each geometry is its own
+collection, served from a VIEW keeping only the measures that have it (`collections/<name>/views.ili`).
+These collections serve features only: no map signature is defined for them yet.
 
 ```bash
 curl "http://localhost:5000/collections/richtplanung/items?f=jsonfg"
@@ -63,7 +70,7 @@ curl "http://localhost:5000/collections/waldabstandslinien/map?bbox=9.0544,47.09
 curl "http://localhost:5000/collections/waldabstandslinien/map?bbox=2722621,1217159,2732023,1219842&bbox-crs=http://www.opengis.net/def/crs/EPSG/0/2056" -o map.png
 ```
 
-All collections also serve OGC API - Maps (`/map`). Two things
+All collections but the ² ones also serve OGC API - Maps (`/map`). Two things
 to get right when requesting one:
 
 - A `bbox` in EPSG:2056 (Swiss metres) must be paired with

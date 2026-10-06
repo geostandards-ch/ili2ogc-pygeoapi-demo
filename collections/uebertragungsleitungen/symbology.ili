@@ -27,7 +27,7 @@ MODEL Uebertragungsleitungen_Symbology (en)
     DEPENDS ON Uebertragungsleitungen_Views.Views;
 
     GRAPHIC PlanningMeasure_Graphics
-      BASED ON Uebertragungsleitungen_Views.Views.planningmeasure_map =
+      BASED ON Uebertragungsleitungen_Views.Views.planningmeasure_flaechen =
 
       CorridorFestsetzungRule OF StandardSymbology.StandardSigns.SurfaceSign:
         WHERE (type_id == "mt2") AND (coord_id == 1) (
