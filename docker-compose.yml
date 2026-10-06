@@ -16,7 +16,7 @@ services:
     volumes:
       - ./models:/models:ro
       - ./collections:/collections:ro
-      - ./data:/data
+      - ./data:/data:ro
       - styles:/styles
     environment:
       DATABASE_URL: postgresql://postgres:postgres@postgis:5432/postgres

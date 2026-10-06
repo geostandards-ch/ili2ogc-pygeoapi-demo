@@ -1,4 +1,2 @@
-data/*.materialized.xtf
-data/*.merged.xtf
 .venv/
 __pycache__/

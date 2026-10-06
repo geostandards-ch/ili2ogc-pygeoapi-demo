@@ -36,7 +36,7 @@ metadata:
         url: https://github.com/maxcollombin/ili2ogc
     license:
         name: MIT
-        url: https://github.com/maxcollombin/ili2ogc/blob/main/LICENSE
+        url: https://github.com/geostandards-ch/ili2ogc-pygeoapi-demo/blob/main/LICENSE.md
     provider:
         name: GeoStandards.ch
         url: https://www.geostandards.ch

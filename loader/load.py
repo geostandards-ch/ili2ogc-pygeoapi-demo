@@ -55,15 +55,6 @@ def prepare(name: str, xtf: str) -> tuple[str, dict]:
         accept_degraded=True,
     )
     run(["interlis", "convert-jsonfg", xtf, "--model", model, *_repos(name), "-o", data_jsonfg])
-    with open(model) as f:
-        views = re.findall(r"^\s*VIEW (\w+)$", f.read(), re.M)
-    for view in views:
-        run(
-            [
-                "interlis", "write-xtf", model, xtf, *_repos(name), "--view", view, "--merge-with-source",
-                "-o", f"/data/{view}.materialized.xtf",
-            ]
-        )
     with open(data_jsonfg) as f:
         features = json.load(f)["features"]
     by_type: dict[str, list[dict]] = {}
@@ -448,7 +439,7 @@ def load_sachplan_uebertragungsleitungen(cur) -> None:
     """`TransmissionLinesSectoralPlan_V1_4` (Sachplan Übertragungsleitungen, real BFE data) and its 3 catalogues."""
     main_xtf = "/tmp/suel_main.xtf"
     catalogues = ["/tmp/suel_measuretype.xml", "/tmp/suel_facilitykind.xml", "/tmp/suel_shared.xml"]
-    merged_xtf = "/data/sachplan_uebertragungsleitungen.merged.xtf"
+    merged_xtf = "/tmp/sachplan_uebertragungsleitungen.merged.xtf"
 
     # Source: https://data.geo.admin.ch/ch.bfe.sachplan-uebertragungsleitungen_kraft/
     # sachplan-uebertragungsleitungen_kraft/sachplan-uebertragungsleitungen_kraft_2056.xtf.zip
@@ -476,7 +467,7 @@ def load_sachplan_asyl(cur) -> None:
     """
     main_xtf = "/tmp/spa_main.xtf"
     shared_catalogue = "/tmp/spa_shared_catalogue.xml"
-    merged_xtf = "/data/sachplan_asyl.merged.xtf"
+    merged_xtf = "/tmp/sachplan_asyl.merged.xtf"
 
     # Source: https://data.geo.admin.ch/ch.sem.sachplan-asyl_kraft/sachplan-asyl_kraft/sachplan-asyl_kraft_2056.zip
     with zipfile.ZipFile(f"{SOURCE_XTF_DIR}/sachplan-asyl_kraft_2056.zip") as zf:
@@ -506,7 +497,7 @@ def load_sachplan_militaer(cur) -> None:
     """
     main_xtf = "/tmp/spm_main.xtf"
     shared_catalogue = "/tmp/spm_shared_catalogue.xml"
-    merged_xtf = "/data/sachplan_militaer.merged.xtf"
+    merged_xtf = "/tmp/sachplan_militaer.merged.xtf"
 
     # Sources: https://data.geo.admin.ch/ch.vbs.sachplan-infrastruktur-militaer_kraft/
     # sachplan-infrastruktur-militaer_kraft/sachplan-infrastruktur-militaer_kraft_2056.{xtf,gdb}.zip
