@@ -131,7 +131,7 @@ resources:
                   - http://www.opengis.net/def/crs/OGC/1.3/CRS84
             - type: map
               name: MapScript
-              data: 'PG:host=postgis dbname=postgres user=postgres password=postgres tables=richtplanung.flaeche_graphics(geometrie)'
+              data: 'PG:host=postgis dbname=postgres user=postgres password=postgres tables=richtplanung.flaechen(geometrie)'
               options:
                   type: MS_LAYER_POLYGON
                   layer: Flaeche_Graphics
@@ -480,7 +480,7 @@ resources:
                   - http://www.opengis.net/def/crs/OGC/1.3/CRS84
             - type: map
               name: MapScript
-              data: 'PG:host=postgis dbname=postgres user=postgres password=postgres tables=uebertragungsleitungen.planningmeasure_graphics(surface)'
+              data: 'PG:host=postgis dbname=postgres user=postgres password=postgres tables=uebertragungsleitungen.planningmeasure_flaechen(surface)'
               options:
                   type: MS_LAYER_POLYGON
                   layer: PlanningMeasure_Graphics
@@ -559,7 +559,7 @@ resources:
                   - http://www.opengis.net/def/crs/OGC/1.3/CRS84
             - type: map
               name: MapScript
-              data: 'PG:host=postgis dbname=postgres user=postgres password=postgres tables=uebertragungsleitungen.planningmeasure_linien_graphics(line)'
+              data: 'PG:host=postgis dbname=postgres user=postgres password=postgres tables=uebertragungsleitungen.planningmeasure_linien(line)'
               options:
                   type: MS_LAYER_LINE
                   layer: PlanningMeasure_Linien_Graphics
@@ -716,7 +716,7 @@ resources:
                   - http://www.opengis.net/def/crs/OGC/1.3/CRS84
             - type: map
               name: MapScript
-              data: 'PG:host=postgis dbname=postgres user=postgres password=postgres tables=asyl.facility_graphics(point)'
+              data: 'PG:host=postgis dbname=postgres user=postgres password=postgres tables=asyl.facility_punkte(point)'
               options:
                   type: MS_LAYER_POINT
                   layer: Facility_Graphics
@@ -811,7 +811,7 @@ resources:
                   - http://www.opengis.net/def/crs/OGC/1.3/CRS84
             - type: map
               name: MapScript
-              data: 'PG:host=postgis dbname=postgres user=postgres password=postgres tables=richtplanung.punkt_graphics(geometrie)'
+              data: 'PG:host=postgis dbname=postgres user=postgres password=postgres tables=richtplanung.punkte(geometrie)'
               options:
                   type: MS_LAYER_POINT
                   layer: Punkt_Graphics
@@ -897,7 +897,7 @@ resources:
                   - http://www.opengis.net/def/crs/OGC/1.3/CRS84
             - type: map
               name: MapScript
-              data: 'PG:host=postgis dbname=postgres user=postgres password=postgres tables=militaer.planningmeasure_graphics(surface)'
+              data: 'PG:host=postgis dbname=postgres user=postgres password=postgres tables=militaer.planningmeasure_flaechen(surface)'
               options:
                   type: MS_LAYER_POLYGON
                   layer: PlanningMeasure_Graphics
@@ -982,7 +982,7 @@ resources:
                   - http://www.opengis.net/def/crs/OGC/1.3/CRS84
             - type: map
               name: MapScript
-              data: 'PG:host=postgis dbname=postgres user=postgres password=postgres tables=militaer.planningmeasure_punkte_graphics(point)'
+              data: 'PG:host=postgis dbname=postgres user=postgres password=postgres tables=militaer.planningmeasure_punkte(point)'
               options:
                   type: MS_LAYER_POINT
                   layer: PlanningMeasure_Punkte_Graphics

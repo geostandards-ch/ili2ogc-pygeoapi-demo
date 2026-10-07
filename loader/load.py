@@ -72,7 +72,7 @@ def main() -> None:
         views, symbology, repos = f"{home}/views.ili", f"{home}/symbology.ili", ["--repo", MODELS, "--repo", home]
         interlis("fetch-models", views, symbology, "--repo", home, "-o", MODELS)
         interlis("validate", files[0], "--model", views, *repos)
-        interlis("convert-sql", views, *repos, "--symbology", symbology, "-o", f"/tmp/{name}_schema.sql")
+        interlis("convert-sql", views, *repos, "-o", f"/tmp/{name}_schema.sql")
         interlis("import", *files, "--model", views, *repos, "-o", f"/tmp/{name}_data.sql")
         cursor.execute(f"DROP SCHEMA IF EXISTS {name} CASCADE; CREATE SCHEMA {name}; SET search_path TO {name}, public")
         for part in ("schema", "data"):
