@@ -14,6 +14,7 @@ import zipfile
 import psycopg2
 
 COLLECTIONS, MODELS, SOURCES = "/collections", "/tmp/models", "/tmp/sources"
+SHARED = f"{COLLECTIONS}/_shared"  # models the collections share (proposed symbology extension)
 
 # Each collection's transfers: its data first (validated), then the catalogues its references point into.
 TRANSFERS = {
@@ -69,8 +70,8 @@ def main() -> None:
     cursor = connection.cursor()
     for name, transfers in TRANSFERS.items():
         home, files = f"{COLLECTIONS}/{name}", [f"{SOURCES}/{t}" for t in transfers]
-        views, symbology, repos = f"{home}/views.ili", f"{home}/symbology.ili", ["--repo", MODELS, "--repo", home]
-        interlis("fetch-models", views, symbology, "--repo", home, "-o", MODELS)
+        views, symbology, repos = f"{home}/views.ili", f"{home}/symbology.ili", ["--repo", MODELS, "--repo", home, "--repo", SHARED]
+        interlis("fetch-models", views, symbology, "--repo", home, "--repo", SHARED, "-o", MODELS)
         interlis("validate", files[0], "--model", views, *repos)
         interlis("convert-sql", views, *repos, "-o", f"/tmp/{name}_schema.sql")
         interlis("import", *files, "--model", views, *repos, "-o", f"/tmp/{name}_data.sql")

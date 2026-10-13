@@ -639,6 +639,85 @@ resources:
         formatters:
             - name: pygeoapi_plugins.formatter.JSONFG
 
+    uebertragungsleitungen_anlagen:
+        type: collection
+        title:
+            en: "Electricity Transmission Lines sectoral plan (facilities)"
+            de: "Sachplan Übertragungsleitungen (SÜL) (Anlagen)"
+            fr: "Plan sectoriel des lignes de transport d'électricité (PSE) (installations)"
+        description:
+            en: >-
+                Sectoral planning is the federal government’s overlying planning and
+                coordination tool for implementing its spatial planning duties. Projects
+                concerning the construction and expansion of high-voltage power lines at
+                the 220/380 kV level which have a significant spatial and environmental
+                impact normally have to be specified in the Transmission Lines sectoral
+                plan.
+            de: >-
+                Die Sachplanung ist das übergeordnete Planungs- und
+                Koordinationsinstrument des Bundes für die Umsetzung seiner
+                raumplanerischen Aufgaben. Bauvorhaben für den Aus- und Neubau von
+                Hochspannungsleitungen auf der Spannungsebene 220/380 kV, die sich
+                erheblich auf Raum und Umwelt auswirken, müssen in der Regel im Sachplan
+                Übertragungsleitungen (SÜL) festgesetzt werden.
+            fr: >-
+                La planification sectorielle est le principal instrument de
+                planification et de coordination de la Confédération dans la mise en
+                œuvre de ses tâches relatives à l’aménagement du territoire. Les projets
+                d’extension ou de construction de lignes à haute tension (220/380 kV),
+                qui ont des effets importants sur le territoire et l’environnement,
+                doivent en règle générale figurer dans le plan sectoriel des lignes de
+                transport d’électricité (PSE).
+        keywords:
+            en:
+                - "official geodata"
+                - "Switzerland"
+            de:
+                - "Geobasisdaten"
+                - "Schweiz"
+            fr:
+                - "géodonnées de base"
+                - "Suisse"
+        links:
+            - type: text/html
+              rel: describedby
+              title: geocat.ch metadata record
+              href: https://www.geocat.ch/geonetwork/srv/eng/catalog.search#/metadata/e1134feb-55d7-4b44-8e13-125e983b259b
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [5.9803, 45.8321, 9.9063, 47.6603]
+        providers:
+            - type: feature
+              name: PostgreSQL
+              data:
+                  host: postgis
+                  dbname: postgres
+                  user: postgres
+                  password: postgres
+                  search_path: [uebertragungsleitungen, public]
+              id_field: t_ili_tid
+              geom_field: point
+              table: facility_punkte
+              properties: [name, name_de, name_en, name_fr, name_it, name_rm, description, description_de, description_en, description_fr, description_it, description_rm, kind_id, kind_name, kind_name_de, kind_name_en, kind_name_fr, kind_name_it, kind_name_rm, status_id, status_name, status_name_de, status_name_en, status_name_fr, status_name_it, status_name_rm, symbolori, modinfo_validfrom, modinfo_validuntil, modinfo_latestmodification, object_name, object_name_de, object_name_en, object_name_fr, object_name_it, object_name_rm]
+              storage_crs: http://www.opengis.net/def/crs/EPSG/0/2056
+              crs:
+                  - http://www.opengis.net/def/crs/EPSG/0/2056
+                  - http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            - type: map
+              name: MapScript
+              data: 'PG:host=postgis dbname=postgres user=postgres password=postgres tables=uebertragungsleitungen.facility_punkte(point)'
+              options:
+                  type: MS_LAYER_POINT
+                  layer: Facility_Graphics
+                  style: /styles/uebertragungsleitungen_facility_graphics.sld
+                  projection: 2056
+              format:
+                  name: png
+                  mimetype: image/png
+        formatters:
+            - name: pygeoapi_plugins.formatter.JSONFG
+
     asyl:
         type: collection
         title:

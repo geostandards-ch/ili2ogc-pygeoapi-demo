@@ -78,6 +78,26 @@ MODEL Uebertragungsleitungen_Views (en)
         point := M -> Point;
     END planningmeasure_punkte;
 
+
+    VIEW facility_punkte
+      PROJECTION OF F ~ BaseModel_SectoralPlans_LV95_V1_4.SectoralPlans_WithLatestModification.Facility;
+      WHERE DEFINED (F -> Point);
+      =
+      ATTRIBUTE
+        name := F -> Name;
+        description := F -> Description;
+        kind_id := F -> FacilityKind -> Reference -> KindID;
+        kind_name := F -> FacilityKind -> Reference -> Name;
+        status_id := F -> FacilityStatus -> Reference -> StatusID;
+        status_name := F -> FacilityStatus -> Reference -> Name;
+        symbolori := F -> SymbolOri;
+        modinfo_validfrom := F -> ModInfo -> ValidFrom;
+        modinfo_validuntil := F -> ModInfo -> ValidUntil;
+        modinfo_latestmodification := F -> ModInfo -> LatestModification;
+        object_name := F -> Object -> Name;
+        point := F -> Point;
+    END facility_punkte;
+
   END Views;
 
 END Uebertragungsleitungen_Views.

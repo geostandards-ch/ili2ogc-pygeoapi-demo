@@ -10,14 +10,18 @@ INTERLIS 2.4;
 !! facilities, drawn with glyphs of the WESP TrueType font (not
 !! redistributable), are not reproduced.
 
+!! Every rule is drawn from 1:500000 and larger (MaxScaleDenominator): the presentation
+!! definition shared by all sectoral plans shows PlanningMeasure objects only from that
+!! scale on (the scale ranges section of the sectoral plans presentation model).
+
 MODEL Militaer_Symbology (en)
   AT "mailto:test@example.org"
   VERSION "2026-10-06" =
 
-  IMPORTS StandardSymbology;
+  IMPORTS StandardSymbologyScale;
   IMPORTS Militaer_Views;
 
-  SIGN BASKET Signs ~ StandardSymbology.StandardSigns
+  SIGN BASKET Signs ~ StandardSymbologyScale.ScaledSigns
     OBJECTS OF SurfaceSign: AnlageperimeterFestsetzung, AnlageperimeterZwischenergebnis, AnlageperimeterVororientierung, HindernisbegrenzungFestsetzung, HindernisbegrenzungZwischenergebnis, LaermbelastungFestsetzung, KonsultationsbereichFestsetzung, Laerm60Festsetzung, Laerm60Zwischenergebnis, Laerm60Vororientierung, Laerm55Festsetzung, Laerm55Zwischenergebnis, Laerm55Vororientierung;
     OBJECTS OF SymbolSign: StandortfestlegungFestsetzung, StandortfestlegungZwischenergebnis, StandortfestlegungVororientierung;
 
@@ -27,106 +31,122 @@ MODEL Militaer_Symbology (en)
     GRAPHIC PlanningMeasure_Graphics
       BASED ON Militaer_Views.Views.planningmeasure_flaechen =
 
-      AnlageperimeterFestsetzungRule OF StandardSymbology.StandardSigns.SurfaceSign:
+      AnlageperimeterFestsetzungRule OF StandardSymbologyScale.ScaledSigns.SurfaceSign:
         WHERE (type_id == "32-M-2") AND (coord_id == 1) (
           Sign := {AnlageperimeterFestsetzung};
           Geometry := surface -> Surfaces -> Surface;
-          Priority := 2);
+          Priority := 2;
+          MaxScaleDenominator := 500000);
 
-      AnlageperimeterZwischenergebnisRule OF StandardSymbology.StandardSigns.SurfaceSign:
+      AnlageperimeterZwischenergebnisRule OF StandardSymbologyScale.ScaledSigns.SurfaceSign:
         WHERE (type_id == "32-M-2") AND (coord_id == 2) (
           Sign := {AnlageperimeterZwischenergebnis};
           Geometry := surface -> Surfaces -> Surface;
-          Priority := 3);
+          Priority := 3;
+          MaxScaleDenominator := 500000);
 
-      AnlageperimeterVororientierungRule OF StandardSymbology.StandardSigns.SurfaceSign:
+      AnlageperimeterVororientierungRule OF StandardSymbologyScale.ScaledSigns.SurfaceSign:
         WHERE (type_id == "32-M-2") AND (coord_id == 3) (
           Sign := {AnlageperimeterVororientierung};
           Geometry := surface -> Surfaces -> Surface;
-          Priority := 4);
+          Priority := 4;
+          MaxScaleDenominator := 500000);
 
-      HindernisbegrenzungFestsetzungRule OF StandardSymbology.StandardSigns.SurfaceSign:
+      HindernisbegrenzungFestsetzungRule OF StandardSymbologyScale.ScaledSigns.SurfaceSign:
         WHERE (type_id == "32-M-3") AND (coord_id == 1) (
           Sign := {HindernisbegrenzungFestsetzung};
           Geometry := surface -> Surfaces -> Surface;
-          Priority := 5);
+          Priority := 5;
+          MaxScaleDenominator := 500000);
 
-      HindernisbegrenzungZwischenergebnisRule OF StandardSymbology.StandardSigns.SurfaceSign:
+      HindernisbegrenzungZwischenergebnisRule OF StandardSymbologyScale.ScaledSigns.SurfaceSign:
         WHERE (type_id == "32-M-3") AND (coord_id == 2) (
           Sign := {HindernisbegrenzungZwischenergebnis};
           Geometry := surface -> Surfaces -> Surface;
-          Priority := 6);
+          Priority := 6;
+          MaxScaleDenominator := 500000);
 
-      LaermbelastungFestsetzungRule OF StandardSymbology.StandardSigns.SurfaceSign:
+      LaermbelastungFestsetzungRule OF StandardSymbologyScale.ScaledSigns.SurfaceSign:
         WHERE (type_id == "32-M-4") AND (coord_id == 1) (
           Sign := {LaermbelastungFestsetzung};
           Geometry := surface -> Surfaces -> Surface;
-          Priority := 7);
+          Priority := 7;
+          MaxScaleDenominator := 500000);
 
-      KonsultationsbereichFestsetzungRule OF StandardSymbology.StandardSigns.SurfaceSign:
+      KonsultationsbereichFestsetzungRule OF StandardSymbologyScale.ScaledSigns.SurfaceSign:
         WHERE (type_id == "32-M-5") AND (coord_id == 1) (
           Sign := {KonsultationsbereichFestsetzung};
           Geometry := surface -> Surfaces -> Surface;
-          Priority := 8);
+          Priority := 8;
+          MaxScaleDenominator := 500000);
 
-      Laerm60FestsetzungRule OF StandardSymbology.StandardSigns.SurfaceSign:
+      Laerm60FestsetzungRule OF StandardSymbologyScale.ScaledSigns.SurfaceSign:
         WHERE (type_id == "32-M-41") AND (coord_id == 1) (
           Sign := {Laerm60Festsetzung};
           Geometry := surface -> Surfaces -> Surface;
-          Priority := 9);
+          Priority := 9;
+          MaxScaleDenominator := 500000);
 
-      Laerm60ZwischenergebnisRule OF StandardSymbology.StandardSigns.SurfaceSign:
+      Laerm60ZwischenergebnisRule OF StandardSymbologyScale.ScaledSigns.SurfaceSign:
         WHERE (type_id == "32-M-41") AND (coord_id == 2) (
           Sign := {Laerm60Zwischenergebnis};
           Geometry := surface -> Surfaces -> Surface;
-          Priority := 10);
+          Priority := 10;
+          MaxScaleDenominator := 500000);
 
-      Laerm60VororientierungRule OF StandardSymbology.StandardSigns.SurfaceSign:
+      Laerm60VororientierungRule OF StandardSymbologyScale.ScaledSigns.SurfaceSign:
         WHERE (type_id == "32-M-41") AND (coord_id == 3) (
           Sign := {Laerm60Vororientierung};
           Geometry := surface -> Surfaces -> Surface;
-          Priority := 11);
+          Priority := 11;
+          MaxScaleDenominator := 500000);
 
-      Laerm55FestsetzungRule OF StandardSymbology.StandardSigns.SurfaceSign:
+      Laerm55FestsetzungRule OF StandardSymbologyScale.ScaledSigns.SurfaceSign:
         WHERE (type_id == "32-M-42") AND (coord_id == 1) (
           Sign := {Laerm55Festsetzung};
           Geometry := surface -> Surfaces -> Surface;
-          Priority := 12);
+          Priority := 12;
+          MaxScaleDenominator := 500000);
 
-      Laerm55ZwischenergebnisRule OF StandardSymbology.StandardSigns.SurfaceSign:
+      Laerm55ZwischenergebnisRule OF StandardSymbologyScale.ScaledSigns.SurfaceSign:
         WHERE (type_id == "32-M-42") AND (coord_id == 2) (
           Sign := {Laerm55Zwischenergebnis};
           Geometry := surface -> Surfaces -> Surface;
-          Priority := 13);
+          Priority := 13;
+          MaxScaleDenominator := 500000);
 
-      Laerm55VororientierungRule OF StandardSymbology.StandardSigns.SurfaceSign:
+      Laerm55VororientierungRule OF StandardSymbologyScale.ScaledSigns.SurfaceSign:
         WHERE (type_id == "32-M-42") AND (coord_id == 3) (
           Sign := {Laerm55Vororientierung};
           Geometry := surface -> Surfaces -> Surface;
-          Priority := 14);
+          Priority := 14;
+          MaxScaleDenominator := 500000);
 
     END PlanningMeasure_Graphics;
 
     GRAPHIC PlanningMeasure_Punkte_Graphics
       BASED ON Militaer_Views.Views.planningmeasure_punkte =
 
-      StandortfestlegungFestsetzungRule OF StandardSymbology.StandardSigns.SymbolSign:
+      StandortfestlegungFestsetzungRule OF StandardSymbologyScale.ScaledSigns.SymbolSign:
         WHERE (type_id == "32-M-1") AND (coord_id == 1) (
           Sign := {StandortfestlegungFestsetzung};
           Geometry := point -> Points -> Point;
-          Priority := 1);
+          Priority := 1;
+          MaxScaleDenominator := 500000);
 
-      StandortfestlegungZwischenergebnisRule OF StandardSymbology.StandardSigns.SymbolSign:
+      StandortfestlegungZwischenergebnisRule OF StandardSymbologyScale.ScaledSigns.SymbolSign:
         WHERE (type_id == "32-M-1") AND (coord_id == 2) (
           Sign := {StandortfestlegungZwischenergebnis};
           Geometry := point -> Points -> Point;
-          Priority := 2);
+          Priority := 2;
+          MaxScaleDenominator := 500000);
 
-      StandortfestlegungVororientierungRule OF StandardSymbology.StandardSigns.SymbolSign:
+      StandortfestlegungVororientierungRule OF StandardSymbologyScale.ScaledSigns.SymbolSign:
         WHERE (type_id == "32-M-1") AND (coord_id == 3) (
           Sign := {StandortfestlegungVororientierung};
           Geometry := point -> Points -> Point;
-          Priority := 3);
+          Priority := 3;
+          MaxScaleDenominator := 500000);
 
     END PlanningMeasure_Punkte_Graphics;
 

@@ -12,7 +12,7 @@
      HatchSymb. Colours are the LCh equivalents of the SLD's hex. -->
 
 <ili:transfer xmlns:ili="http://www.interlis.ch/xtf/2.4/INTERLIS"
-  xmlns="http://www.interlis.ch/xtf/2.4/StandardSymbology"
+  xmlns="http://www.interlis.ch/xtf/2.4/StandardSymbologyScale"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <ili:headersection>
     <ili:models>
@@ -23,7 +23,7 @@
   </ili:headersection>
 
   <ili:datasection>
-    <StandardSigns ili:bid="Signs00000004">
+    <ScaledSigns ili:bid="Signs00000004">
 
       <Color ili:tid="1"><!-- #e39fa7 -->
         <Name>spm_e39fa7</Name>
@@ -481,6 +481,6 @@
         <Scale>18</Scale>
       </SymbolSign>
 
-    </StandardSigns>
+    </ScaledSigns>
   </ili:datasection>
 </ili:transfer>

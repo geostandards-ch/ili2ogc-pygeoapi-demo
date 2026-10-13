@@ -13,17 +13,22 @@ INTERLIS 2.4;
 !! catalogue keys the WHERE clauses test are flattened by the VIEWs
 !! (type_id, coord_id).
 
+!! Every PlanningMeasure rule is drawn from 1:500000 and larger (MaxScaleDenominator): the
+!! presentation definition shared by all sectoral plans shows PlanningMeasure objects only from
+!! that scale on (the scale ranges section of the sectoral plans presentation model). The
+!! Facility rules have no bound: facilities are shown at every scale.
+
 MODEL Uebertragungsleitungen_Symbology (en)
   AT "mailto:test@example.org"
   VERSION "2026-10-06" =
 
-  IMPORTS StandardSymbology;
+  IMPORTS StandardSymbologyScale;
   IMPORTS Uebertragungsleitungen_Views;
 
-  SIGN BASKET Signs ~ StandardSymbology.StandardSigns
+  SIGN BASKET Signs ~ StandardSymbologyScale.ScaledSigns
     OBJECTS OF SurfaceSign: CorridorFestsetzung, KorridorZwischenergebnis, GebietFestsetzung;
     OBJECTS OF PolylineSign: LeitungAufhebung, AufhebungFestsetzung, AufhebungZwischenergebnis, AufhebungVororientierung;
-    OBJECTS OF SymbolSign: EndpunktVororientierung, Pfeilspitze;
+    OBJECTS OF SymbolSign: EndpunktVororientierung, Pfeilspitze, AnlageNormalNeu, AnlageNormalAnpassung, AnlageNormalAufhebung, AnlageStrategischNeu, AnlageStrategischAnpassung, AnlageStrategischAufhebung;
 
   TOPIC Graphics =
     DEPENDS ON Uebertragungsleitungen_Views.Views;
@@ -31,71 +36,121 @@ MODEL Uebertragungsleitungen_Symbology (en)
     GRAPHIC PlanningMeasure_Graphics
       BASED ON Uebertragungsleitungen_Views.Views.planningmeasure_flaechen =
 
-      CorridorFestsetzungRule OF StandardSymbology.StandardSigns.SurfaceSign:
+      CorridorFestsetzungRule OF StandardSymbologyScale.ScaledSigns.SurfaceSign:
         WHERE (type_id == "mt2") AND (coord_id == 1) (
           Sign := {CorridorFestsetzung};
           Geometry := surface -> Surfaces -> Surface;
-          Priority := 1);
+          Priority := 1;
+          MaxScaleDenominator := 500000);
 
-      KorridorZwischenergebnisRule OF StandardSymbology.StandardSigns.SurfaceSign:
+      KorridorZwischenergebnisRule OF StandardSymbologyScale.ScaledSigns.SurfaceSign:
         WHERE (type_id == "mt2") AND (coord_id == 2) (
           Sign := {KorridorZwischenergebnis};
           Geometry := surface -> Surfaces -> Surface;
-          Priority := 2);
+          Priority := 2;
+          MaxScaleDenominator := 500000);
 
-      GebietFestsetzungRule OF StandardSymbology.StandardSigns.SurfaceSign:
+      GebietFestsetzungRule OF StandardSymbologyScale.ScaledSigns.SurfaceSign:
         WHERE (type_id == "mt3") AND (coord_id == 1) (
           Sign := {GebietFestsetzung};
           Geometry := surface -> Surfaces -> Surface;
-          Priority := 3);
+          Priority := 3;
+          MaxScaleDenominator := 500000);
 
     END PlanningMeasure_Graphics;
 
     GRAPHIC PlanningMeasure_Linien_Graphics
       BASED ON Uebertragungsleitungen_Views.Views.planningmeasure_linien =
 
-      LeitungAufhebungRule OF StandardSymbology.StandardSigns.PolylineSign:
+      LeitungAufhebungRule OF StandardSymbologyScale.ScaledSigns.PolylineSign:
         WHERE type_id == "mt4" (
           Sign := {LeitungAufhebung};
           Geometry := line -> Lines -> Line;
-          Priority := 1);
+          Priority := 1;
+          MaxScaleDenominator := 500000);
 
-      AufhebungFestsetzungRule OF StandardSymbology.StandardSigns.PolylineSign:
+      AufhebungFestsetzungRule OF StandardSymbologyScale.ScaledSigns.PolylineSign:
         WHERE (type_id == "mt4") AND (coord_id == 1) (
           Sign := {AufhebungFestsetzung};
           Geometry := line -> Lines -> Line;
-          Priority := 2);
+          Priority := 2;
+          MaxScaleDenominator := 500000);
 
-      AufhebungZwischenergebnisRule OF StandardSymbology.StandardSigns.PolylineSign:
+      AufhebungZwischenergebnisRule OF StandardSymbologyScale.ScaledSigns.PolylineSign:
         WHERE (type_id == "mt4") AND (coord_id == 2) (
           Sign := {AufhebungZwischenergebnis};
           Geometry := line -> Lines -> Line;
-          Priority := 2);
+          Priority := 2;
+          MaxScaleDenominator := 500000);
 
-      AufhebungVororientierungRule OF StandardSymbology.StandardSigns.PolylineSign:
+      AufhebungVororientierungRule OF StandardSymbologyScale.ScaledSigns.PolylineSign:
         WHERE (type_id == "mt4") AND (coord_id == 3) (
           Sign := {AufhebungVororientierung};
           Geometry := line -> Lines -> Line;
-          Priority := 2);
+          Priority := 2;
+          MaxScaleDenominator := 500000);
 
     END PlanningMeasure_Linien_Graphics;
 
     GRAPHIC PlanningMeasure_Punkte_Graphics
       BASED ON Uebertragungsleitungen_Views.Views.planningmeasure_punkte =
 
-      EndpunktVororientierungRule OF StandardSymbology.StandardSigns.SymbolSign:
+      EndpunktVororientierungRule OF StandardSymbologyScale.ScaledSigns.SymbolSign:
         WHERE (type_id == "mt1") AND (coord_id == 3) (
           Sign := {EndpunktVororientierung};
           Geometry := point -> Points -> Point;
-          Priority := 1);
+          Priority := 1;
+          MaxScaleDenominator := 500000);
 
-      PfeilspitzeRule OF StandardSymbology.StandardSigns.SymbolSign:
+      PfeilspitzeRule OF StandardSymbologyScale.ScaledSigns.SymbolSign:
         WHERE (type_id == "mt1") AND (coord_id == 3) (
           Sign := {Pfeilspitze};
           Geometry := point -> Points -> Point;
-          Priority := 2);
+          Priority := 2;
+          MaxScaleDenominator := 500000);
 
     END PlanningMeasure_Punkte_Graphics;
+
+    GRAPHIC Facility_Graphics
+      BASED ON Uebertragungsleitungen_Views.Views.facility_punkte =
+
+      AnlageNormalNeuRule OF StandardSymbologyScale.ScaledSigns.SymbolSign:
+        WHERE (kind_id == "fk1") AND (status_id == 2) (
+          Sign := {AnlageNormalNeu};
+          Geometry := point -> Points -> Point;
+          Priority := 1);
+
+      AnlageNormalAnpassungRule OF StandardSymbologyScale.ScaledSigns.SymbolSign:
+        WHERE (kind_id == "fk1") AND (status_id == 3) (
+          Sign := {AnlageNormalAnpassung};
+          Geometry := point -> Points -> Point;
+          Priority := 2);
+
+      AnlageNormalAufhebungRule OF StandardSymbologyScale.ScaledSigns.SymbolSign:
+        WHERE (kind_id == "fk1") AND (status_id == 5) (
+          Sign := {AnlageNormalAufhebung};
+          Geometry := point -> Points -> Point;
+          Priority := 3);
+
+      AnlageStrategischNeuRule OF StandardSymbologyScale.ScaledSigns.SymbolSign:
+        WHERE (kind_id == "fk2") AND (status_id == 2) (
+          Sign := {AnlageStrategischNeu};
+          Geometry := point -> Points -> Point;
+          Priority := 4);
+
+      AnlageStrategischAnpassungRule OF StandardSymbologyScale.ScaledSigns.SymbolSign:
+        WHERE (kind_id == "fk2") AND (status_id == 3) (
+          Sign := {AnlageStrategischAnpassung};
+          Geometry := point -> Points -> Point;
+          Priority := 5);
+
+      AnlageStrategischAufhebungRule OF StandardSymbologyScale.ScaledSigns.SymbolSign:
+        WHERE (kind_id == "fk2") AND (status_id == 5) (
+          Sign := {AnlageStrategischAufhebung};
+          Geometry := point -> Points -> Point;
+          Priority := 6);
+
+    END Facility_Graphics;
 
   END Graphics;
 
