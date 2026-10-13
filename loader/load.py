@@ -72,9 +72,9 @@ def main() -> None:
         home, files = f"{COLLECTIONS}/{name}", [f"{SOURCES}/{t}" for t in transfers]
         views, symbology, repos = f"{home}/views.ili", f"{home}/symbology.ili", ["--repo", MODELS, "--repo", home, "--repo", SHARED]
         interlis("fetch-models", views, symbology, "--repo", home, "--repo", SHARED, "-o", MODELS)
-        interlis("validate", files[0], "--model", views, *repos)
+        interlis("validate-xtf", files[0], "--model", views, *repos)
         interlis("convert-sql", views, *repos, "-o", f"/tmp/{name}_schema.sql")
-        interlis("import", *files, "--model", views, *repos, "-o", f"/tmp/{name}_data.sql")
+        interlis("import-xtf", *files, "--model", views, *repos, "-o", f"/tmp/{name}_data.sql")
         cursor.execute(f"DROP SCHEMA IF EXISTS {name} CASCADE; CREATE SCHEMA {name}; SET search_path TO {name}, public")
         for part in ("schema", "data"):
             with open(f"/tmp/{name}_{part}.sql") as sql:
