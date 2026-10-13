@@ -135,17 +135,8 @@
         <Border ili:ref="32"></Border>
       </SurfaceSign>
 
-      <!-- Points (suel_sp_uebertragungsleitungen_planningmeasure_point.sld,
-           mt1/cl3, the only point rule): a filled circle #ffed00 of size 15.
-           Lines (..._planningmeasure_line.sld, mt4): a #0066cc line of width 4,
-           round joins and caps. -->
-      <Color ili:tid="3"><!-- #ffed00 -->
-        <Name>suel_vororientierung_yellow</Name>
-        <L>92.4973</L>
-        <C>92.0191</C>
-        <H>98.0447</H>
-        <T>1.0</T>
-      </Color>
+      <!-- Lines (suel_sp_uebertragungsleitungen_planningmeasure_line.sld, mt4): a #0066cc
+           line of width 4, round joins and caps. -->
       <Color ili:tid="4"><!-- #0066cc -->
         <Name>suel_leitung_blue</Name>
         <L>44.0344</L>
@@ -166,37 +157,6 @@
           </PolylineSignLineStyleAssoc>
         </Style>
       </PolylineSign>
-      <Font ili:tid="50">
-        <Name>SachplanUebertragungsleitungenMarks</Name>
-        <Internal>true</Internal>
-        <Type>symbol</Type>
-      </Font>
-      <FontSymbol ili:tid="51">
-        <Name>Circle_Vororientierung</Name>
-        <Font ili:ref="50"></Font>
-        <Geometry>
-          <FontSymbol_Surface>
-            <FillColor ili:ref="3"></FillColor>
-            <Geometry>
-              <SURFACE>
-                <BOUNDARY>
-                  <POLYLINE>
-                  <COORD><C1>0.5</C1><C2>0</C2></COORD>
-                  <ARC><C1>-0.5</C1><C2>0</C2><A1>0</A1><A2>0.5</A2><R>0.5</R></ARC>
-                  <ARC><C1>0.5</C1><C2>0</C2><A1>0</A1><A2>-0.5</A2><R>0.5</R></ARC>
-                  </POLYLINE>
-                </BOUNDARY>
-              </SURFACE>
-            </Geometry>
-          </FontSymbol_Surface>
-        </Geometry>
-      </FontSymbol>
-      <SymbolSign ili:tid="52">
-        <ili:Name>EndpunktVororientierung</ili:Name>
-        <Color ili:ref="3"></Color>
-        <Symbol ili:ref="51"></Symbol>
-        <Scale>15</Scale>
-      </SymbolSign>
     </ScaledSigns>
   </ili:datasection>
 </ili:transfer>

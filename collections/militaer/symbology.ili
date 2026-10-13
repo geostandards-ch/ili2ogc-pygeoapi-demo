@@ -7,8 +7,7 @@ INTERLIS 2.4;
 !! CoordinationLevel catalogue, CoordID 1..3). The point-modelled 32-M-1
 !! measures (Standortfestlegung) have their own GRAPHIC: a filled circle per
 !! coordination level, after the SPM documentation (signs.xtf). The
-!! facilities, drawn with glyphs of the WESP TrueType font (terms of use
-!! unknown), are not reproduced.
+!! facilities are not reproduced.
 
 !! Every rule is drawn from 1:500000 and larger (MaxScaleDenominator): the presentation
 !! definition shared by all sectoral plans shows PlanningMeasure objects only from that

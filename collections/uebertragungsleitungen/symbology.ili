@@ -1,12 +1,10 @@
 INTERLIS 2.4;
 
 !! Cartographic signature for the "Sachplan Uebertragungsleitungen" (SUEL,
-!! Geobasisdatensatz 94.1) PlanningMeasure surfaces, lines and points,
-!! after the real official SLDs (suel_sp_uebertragungsleitungen_
-!! planningmeasure_{surface,line,point}.sld): border-only dashed surfaces,
-!! a blue line, a yellow circle. The glyphs of the WESP font (terms of use
-!! unknown) are not reproduced.
-!! The geometries are MultiSurface/MultiLine/MultiPoint STRUCTUREs, reached
+!! Geobasisdatensatz 94.1) PlanningMeasure surfaces and lines, after the
+!! real official SLDs (suel_sp_uebertragungsleitungen_planningmeasure_
+!! {surface,line}.sld): border-only dashed surfaces and a blue line.
+!! The geometries are MultiSurface/MultiLine STRUCTUREs, reached
 !! with the association-path operator (surface -> Surfaces -> Surface;
 !! INTERLIS refman: ObjectOrAttributePath = PathEl {'->' PathEl}, valid
 !! "von der aktuellen Struktur aus"). The MeasureType/CoordinationLevel
@@ -27,7 +25,6 @@ MODEL Uebertragungsleitungen_Symbology (en)
   SIGN BASKET Signs ~ StandardSymbologyScale.ScaledSigns
     OBJECTS OF SurfaceSign: CorridorFestsetzung, KorridorZwischenergebnis, GebietFestsetzung;
     OBJECTS OF PolylineSign: LeitungAufhebung;
-    OBJECTS OF SymbolSign: EndpunktVororientierung;
 
   TOPIC Graphics =
     DEPENDS ON Uebertragungsleitungen_Views.Views;
@@ -70,17 +67,6 @@ MODEL Uebertragungsleitungen_Symbology (en)
 
     END PlanningMeasure_Linien_Graphics;
 
-    GRAPHIC PlanningMeasure_Punkte_Graphics
-      BASED ON Uebertragungsleitungen_Views.Views.planningmeasure_punkte =
-
-      EndpunktVororientierungRule OF StandardSymbologyScale.ScaledSigns.SymbolSign:
-        WHERE (type_id == "mt1") AND (coord_id == 3) (
-          Sign := {EndpunktVororientierung};
-          Geometry := point -> Points -> Point;
-          Priority := 1;
-          MaxScaleDenominator := 500000);
-
-    END PlanningMeasure_Punkte_Graphics;
 
   END Graphics;
 
