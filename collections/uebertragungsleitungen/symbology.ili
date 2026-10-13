@@ -4,8 +4,8 @@ INTERLIS 2.4;
 !! Geobasisdatensatz 94.1) PlanningMeasure surfaces, lines and points,
 !! after the real official SLDs (suel_sp_uebertragungsleitungen_
 !! planningmeasure_{surface,line,point}.sld): border-only dashed surfaces,
-!! a blue line, a yellow circle. What those SLDs draw with WESP font glyphs
-!! is reproduced as far as a native mark allows - see signs.xtf.
+!! a blue line, a yellow circle. The glyphs of the WESP font (terms of use
+!! unknown) are not reproduced.
 !! The geometries are MultiSurface/MultiLine/MultiPoint STRUCTUREs, reached
 !! with the association-path operator (surface -> Surfaces -> Surface;
 !! INTERLIS refman: ObjectOrAttributePath = PathEl {'->' PathEl}, valid
@@ -26,8 +26,8 @@ MODEL Uebertragungsleitungen_Symbology (en)
 
   SIGN BASKET Signs ~ StandardSymbologyScale.ScaledSigns
     OBJECTS OF SurfaceSign: CorridorFestsetzung, KorridorZwischenergebnis, GebietFestsetzung;
-    OBJECTS OF PolylineSign: LeitungAufhebung, AufhebungFestsetzung, AufhebungZwischenergebnis, AufhebungVororientierung;
-    OBJECTS OF SymbolSign: EndpunktVororientierung, Pfeilspitze;
+    OBJECTS OF PolylineSign: LeitungAufhebung;
+    OBJECTS OF SymbolSign: EndpunktVororientierung;
 
   TOPIC Graphics =
     DEPENDS ON Uebertragungsleitungen_Views.Views;
@@ -68,27 +68,6 @@ MODEL Uebertragungsleitungen_Symbology (en)
           Priority := 1;
           MaxScaleDenominator := 500000);
 
-      AufhebungFestsetzungRule OF StandardSymbologyScale.ScaledSigns.PolylineSign:
-        WHERE (type_id == "mt4") AND (coord_id == 1) (
-          Sign := {AufhebungFestsetzung};
-          Geometry := line -> Lines -> Line;
-          Priority := 2;
-          MaxScaleDenominator := 500000);
-
-      AufhebungZwischenergebnisRule OF StandardSymbologyScale.ScaledSigns.PolylineSign:
-        WHERE (type_id == "mt4") AND (coord_id == 2) (
-          Sign := {AufhebungZwischenergebnis};
-          Geometry := line -> Lines -> Line;
-          Priority := 2;
-          MaxScaleDenominator := 500000);
-
-      AufhebungVororientierungRule OF StandardSymbologyScale.ScaledSigns.PolylineSign:
-        WHERE (type_id == "mt4") AND (coord_id == 3) (
-          Sign := {AufhebungVororientierung};
-          Geometry := line -> Lines -> Line;
-          Priority := 2;
-          MaxScaleDenominator := 500000);
-
     END PlanningMeasure_Linien_Graphics;
 
     GRAPHIC PlanningMeasure_Punkte_Graphics
@@ -101,15 +80,7 @@ MODEL Uebertragungsleitungen_Symbology (en)
           Priority := 1;
           MaxScaleDenominator := 500000);
 
-      PfeilspitzeRule OF StandardSymbologyScale.ScaledSigns.SymbolSign:
-        WHERE (type_id == "mt1") AND (coord_id == 3) (
-          Sign := {Pfeilspitze};
-          Geometry := point -> Points -> Point;
-          Priority := 2;
-          MaxScaleDenominator := 500000);
-
     END PlanningMeasure_Punkte_Graphics;
-
 
   END Graphics;
 
