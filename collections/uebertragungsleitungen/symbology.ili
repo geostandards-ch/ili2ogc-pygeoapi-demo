@@ -13,10 +13,9 @@ INTERLIS 2.4;
 !! catalogue keys the WHERE clauses test are flattened by the VIEWs
 !! (type_id, coord_id).
 
-!! Every PlanningMeasure rule is drawn from 1:500000 and larger (MaxScaleDenominator): the
-!! presentation definition shared by all sectoral plans shows PlanningMeasure objects only from
-!! that scale on (the scale ranges section of the sectoral plans presentation model). The
-!! Facility rules have no bound: facilities are shown at every scale.
+!! Every rule is drawn from 1:500000 and larger (MaxScaleDenominator): the presentation
+!! definition shared by all sectoral plans shows PlanningMeasure objects only from that scale
+!! on (the scale ranges section of the sectoral plans presentation model).
 
 MODEL Uebertragungsleitungen_Symbology (en)
   AT "mailto:test@example.org"
@@ -28,7 +27,7 @@ MODEL Uebertragungsleitungen_Symbology (en)
   SIGN BASKET Signs ~ StandardSymbologyScale.ScaledSigns
     OBJECTS OF SurfaceSign: CorridorFestsetzung, KorridorZwischenergebnis, GebietFestsetzung;
     OBJECTS OF PolylineSign: LeitungAufhebung, AufhebungFestsetzung, AufhebungZwischenergebnis, AufhebungVororientierung;
-    OBJECTS OF SymbolSign: EndpunktVororientierung, Pfeilspitze, AnlageNormalNeu, AnlageNormalAnpassung, AnlageNormalAufhebung, AnlageStrategischNeu, AnlageStrategischAnpassung, AnlageStrategischAufhebung;
+    OBJECTS OF SymbolSign: EndpunktVororientierung, Pfeilspitze;
 
   TOPIC Graphics =
     DEPENDS ON Uebertragungsleitungen_Views.Views;
@@ -111,46 +110,6 @@ MODEL Uebertragungsleitungen_Symbology (en)
 
     END PlanningMeasure_Punkte_Graphics;
 
-    GRAPHIC Facility_Graphics
-      BASED ON Uebertragungsleitungen_Views.Views.facility_punkte =
-
-      AnlageNormalNeuRule OF StandardSymbologyScale.ScaledSigns.SymbolSign:
-        WHERE (kind_id == "fk1") AND (status_id == 2) (
-          Sign := {AnlageNormalNeu};
-          Geometry := point -> Points -> Point;
-          Priority := 1);
-
-      AnlageNormalAnpassungRule OF StandardSymbologyScale.ScaledSigns.SymbolSign:
-        WHERE (kind_id == "fk1") AND (status_id == 3) (
-          Sign := {AnlageNormalAnpassung};
-          Geometry := point -> Points -> Point;
-          Priority := 2);
-
-      AnlageNormalAufhebungRule OF StandardSymbologyScale.ScaledSigns.SymbolSign:
-        WHERE (kind_id == "fk1") AND (status_id == 5) (
-          Sign := {AnlageNormalAufhebung};
-          Geometry := point -> Points -> Point;
-          Priority := 3);
-
-      AnlageStrategischNeuRule OF StandardSymbologyScale.ScaledSigns.SymbolSign:
-        WHERE (kind_id == "fk2") AND (status_id == 2) (
-          Sign := {AnlageStrategischNeu};
-          Geometry := point -> Points -> Point;
-          Priority := 4);
-
-      AnlageStrategischAnpassungRule OF StandardSymbologyScale.ScaledSigns.SymbolSign:
-        WHERE (kind_id == "fk2") AND (status_id == 3) (
-          Sign := {AnlageStrategischAnpassung};
-          Geometry := point -> Points -> Point;
-          Priority := 5);
-
-      AnlageStrategischAufhebungRule OF StandardSymbologyScale.ScaledSigns.SymbolSign:
-        WHERE (kind_id == "fk2") AND (status_id == 5) (
-          Sign := {AnlageStrategischAufhebung};
-          Geometry := point -> Points -> Point;
-          Priority := 6);
-
-    END Facility_Graphics;
 
   END Graphics;
 
